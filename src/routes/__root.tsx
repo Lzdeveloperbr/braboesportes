@@ -80,19 +80,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Brabo Esporte Clube" },
+      { title: "Painel | Brabo Esporte Clube" },
       {
         name: "description",
-        content: "App oficial do Brabo Esporte Clube: elenco, jogos, treinos e avisos.",
+        content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos.",
       },
       { name: "author", content: "Brabo Esporte Clube" },
-      { property: "og:title", content: "Brabo Esporte Clube" },
+      { property: "og:title", content: "Painel | Brabo Esporte Clube" },
       {
         property: "og:description",
-        content: "App oficial do Brabo Esporte Clube: elenco, jogos, treinos e avisos.",
+        content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Painel | Brabo Esporte Clube" },
+      { name: "twitter:description", content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fc7c1ee9-c755-4bae-9374-2a9e83609491/id-preview-80ed67a2--90df5ae0-ec0d-4168-861c-cf8c1aafc842.lovable.app-1785422147884.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fc7c1ee9-c755-4bae-9374-2a9e83609491/id-preview-80ed67a2--90df5ae0-ec0d-4168-861c-cf8c1aafc842.lovable.app-1785422147884.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

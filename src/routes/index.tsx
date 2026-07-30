@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Painel | Brabo Esporte Clube" },
       {
         property: "og:description",
-        content: "Acompanhe jogos, treinos, elenco e avisos do Brabo Esporte Clube.",
+        content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos.",
       },
     ],
   }),
