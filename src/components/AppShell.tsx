@@ -2,17 +2,19 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import {
   CalendarDays,
+  ClipboardList,
   Dumbbell,
   LayoutDashboard,
   LogOut,
   Megaphone,
   Users,
+  Wallet,
 } from "lucide-react";
 
-import { BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ROLE_LABEL, useAuth } from "@/hooks/useAuth";
+import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -20,8 +22,11 @@ const NAV = [
   { to: "/elenco", label: "Elenco", icon: Users },
   { to: "/jogos", label: "Jogos", icon: CalendarDays },
   { to: "/treinos", label: "Treinos", icon: Dumbbell },
+  { to: "/escalacao", label: "Escalação", icon: ClipboardList },
+  { to: "/financeiro", label: "Financeiro", icon: Wallet },
   { to: "/avisos", label: "Avisos", icon: Megaphone },
 ] as const;
+
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, roles, loading, signOut } = useAuth();
