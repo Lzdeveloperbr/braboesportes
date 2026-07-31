@@ -53,7 +53,7 @@ export const Route = createFileRoute("/elenco")({
   component: Elenco,
 });
 
-const CATEGORIAS = ["Todas", "Sub-15", "Sub-17", "Sub-20", "Adulto"] as const;
+const FILTROS = ["Todas", ...CATEGORIAS] as const;
 
 function Elenco() {
   const { isPresident } = useAuth();
@@ -280,7 +280,7 @@ function NewPlayerDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Sub-15", "Sub-17", "Sub-20", "Adulto"].map((c) => (
+                  {CATEGORIAS.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

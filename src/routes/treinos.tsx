@@ -27,6 +27,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { CATEGORIAS } from "@/lib/brand";
 import { formatDate, trainingsQuery, type Training } from "@/lib/club";
 
 export const Route = createFileRoute("/treinos")({
@@ -180,7 +181,7 @@ function NewTrainingDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Sub-15", "Sub-17", "Sub-20", "Adulto"].map((c) => (
+                  {CATEGORIAS.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>
