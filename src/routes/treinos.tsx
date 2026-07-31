@@ -82,6 +82,7 @@ function Treinos() {
                   </div>
                 </div>
                 {t.notes && <p className="mt-2 text-sm text-muted-foreground">{t.notes}</p>}
+                <AttendanceControls training={t} />
               </CardContent>
             </Card>
           ))}
