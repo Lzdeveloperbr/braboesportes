@@ -183,9 +183,7 @@ function AuthPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="presidente">Presidente / Administrador</SelectItem>
-                        <SelectItem value="treinador">Treinador</SelectItem>
                         <SelectItem value="jogador">Jogador</SelectItem>
-                        <SelectItem value="responsavel">Responsável</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
