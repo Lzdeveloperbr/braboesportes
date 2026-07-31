@@ -76,7 +76,7 @@ function Elenco() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {CATEGORIAS.map((c) => (
+          {FILTROS.map((c) => (
             <Button
               key={c}
               size="sm"
