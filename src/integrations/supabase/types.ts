@@ -38,6 +38,101 @@ export type Database = {
         }
         Relationships: []
       }
+      evaluations: {
+        Row: {
+          attitude: number
+          comment: string | null
+          created_at: string
+          defending: number
+          evaluated_on: string
+          finishing: number
+          id: string
+          passing: number
+          physical: number
+          player_id: string
+          speed: number
+          technique: number
+        }
+        Insert: {
+          attitude?: number
+          comment?: string | null
+          created_at?: string
+          defending?: number
+          evaluated_on?: string
+          finishing?: number
+          id?: string
+          passing?: number
+          physical?: number
+          player_id: string
+          speed?: number
+          technique?: number
+        }
+        Update: {
+          attitude?: number
+          comment?: string | null
+          created_at?: string
+          defending?: number
+          evaluated_on?: string
+          finishing?: number
+          id?: string
+          passing?: number
+          physical?: number
+          player_id?: string
+          speed?: number
+          technique?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evaluations_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      match_lineups: {
+        Row: {
+          created_at: string
+          id: string
+          match_id: string
+          player_id: string
+          slot: string
+          spot: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          match_id: string
+          player_id: string
+          slot?: string
+          spot?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          match_id?: string
+          player_id?: string
+          slot?: string
+          spot?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_lineups_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_lineups_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       matches: {
         Row: {
           categoria: Database["public"]["Enums"]["categoria"]
@@ -82,6 +177,53 @@ export type Database = {
           venue?: string | null
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          due_date: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          player_id: string
+          reference_month: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          player_id: string
+          reference_month: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          player_id?: string
+          reference_month?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       players: {
         Row: {
@@ -194,6 +336,51 @@ export type Database = {
         }
         Relationships: []
       }
+      training_attendance: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          player_id: string
+          status: string
+          training_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          player_id: string
+          status?: string
+          training_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          player_id?: string
+          status?: string
+          training_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_attendance_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_attendance_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trainings: {
         Row: {
           categoria: Database["public"]["Enums"]["categoria"]
@@ -259,6 +446,7 @@ export type Database = {
       }
       is_president: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      owns_player: { Args: { _player_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "presidente" | "treinador" | "jogador" | "responsavel"
