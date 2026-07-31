@@ -25,7 +25,7 @@ export const Route = createFileRoute("/auth")({
       { title: "Entrar | Brabo Esporte Clube" },
       {
         name: "description",
-        content: "Acesse o app do Brabo Esporte Clube como presidente, treinador, jogador ou responsável.",
+        content: "Acesso restrito: presidente administra o clube e jogadores acompanham suas informações.",
       },
       { property: "og:title", content: "Entrar | Brabo Esporte Clube" },
       {
