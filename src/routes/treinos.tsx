@@ -50,7 +50,7 @@ export const Route = createFileRoute("/treinos")({
 const TIPOS = ["Técnico", "Tático", "Físico", "Finalização", "Bola parada"];
 
 function Treinos() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: trainings = [] } = useQuery(trainingsQuery);
 
   return (
@@ -61,7 +61,7 @@ function Treinos() {
             <h1 className="font-display text-3xl tracking-wide">Treinos</h1>
             <p className="text-sm text-muted-foreground">Planejamento da semana</p>
           </div>
-          {isStaff && <NewTrainingDialog />}
+          {isPresident && <NewTrainingDialog />}
         </div>
 
         <div className="space-y-3">

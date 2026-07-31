@@ -48,7 +48,7 @@ export const Route = createFileRoute("/jogos")({
 });
 
 function Jogos() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: matches = [] } = useQuery(matchesQuery);
   const now = Date.now();
   const upcoming = matches.filter((m) => new Date(m.match_date).getTime() > now);
@@ -65,7 +65,7 @@ function Jogos() {
             <h1 className="font-display text-3xl tracking-wide">Jogos</h1>
             <p className="text-sm text-muted-foreground">Calendário e resultados</p>
           </div>
-          {isStaff && <NewMatchDialog />}
+          {isPresident && <NewMatchDialog />}
         </div>
 
         <Tabs defaultValue="proximos">

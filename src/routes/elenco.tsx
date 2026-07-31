@@ -56,7 +56,7 @@ export const Route = createFileRoute("/elenco")({
 const CATEGORIAS = ["Todas", "Sub-15", "Sub-17", "Sub-20", "Adulto"] as const;
 
 function Elenco() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: players = [] } = useQuery(playersQuery);
   const [categoria, setCategoria] = useState<string>("Todas");
   const [selected, setSelected] = useState<Player | null>(null);
@@ -71,7 +71,7 @@ function Elenco() {
             <h1 className="font-display text-3xl tracking-wide">Elenco</h1>
             <p className="text-sm text-muted-foreground">{list.length} atletas</p>
           </div>
-          {isStaff && <NewPlayerDialog />}
+          {isPresident && <NewPlayerDialog />}
         </div>
 
         <div className="flex flex-wrap gap-2">
