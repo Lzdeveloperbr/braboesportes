@@ -97,7 +97,7 @@ function AuthPage() {
             alt="Escudo do Brabo Esporte Clube"
             width={1024}
             height={1024}
-            className="h-28 w-28 mix-blend-screen drop-shadow-2xl"
+            className="h-28 w-28 drop-shadow-2xl"
           />
           <h1 className="mt-3 font-display text-4xl tracking-wide">Brabo Esporte Clube</h1>
           <p className="text-sm text-muted-foreground">Gestão completa do clube na palma da mão</p>
