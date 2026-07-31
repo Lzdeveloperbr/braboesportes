@@ -15,6 +15,7 @@ type AuthState = {
   session: Session | null;
   user: User | null;
   roles: AppRole[];
+  isPresident: boolean;
   isStaff: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
