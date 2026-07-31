@@ -15,6 +15,7 @@ type AuthState = {
   session: Session | null;
   user: User | null;
   roles: AppRole[];
+  isPresident: boolean;
   isStaff: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
@@ -63,7 +64,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session,
     user: session?.user ?? null,
     roles,
-    isStaff: roles.includes("presidente") || roles.includes("treinador"),
+    isPresident: roles.includes("presidente"),
+    isStaff: roles.includes("presidente"),
     loading,
     signOut: async () => {
       await supabase.auth.signOut();

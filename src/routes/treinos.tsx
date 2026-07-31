@@ -27,6 +27,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { CATEGORIAS } from "@/lib/brand";
 import { formatDate, trainingsQuery, type Training } from "@/lib/club";
 
 export const Route = createFileRoute("/treinos")({
@@ -50,7 +51,7 @@ export const Route = createFileRoute("/treinos")({
 const TIPOS = ["Técnico", "Tático", "Físico", "Finalização", "Bola parada"];
 
 function Treinos() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: trainings = [] } = useQuery(trainingsQuery);
 
   return (
@@ -61,7 +62,7 @@ function Treinos() {
             <h1 className="font-display text-3xl tracking-wide">Treinos</h1>
             <p className="text-sm text-muted-foreground">Planejamento da semana</p>
           </div>
-          {isStaff && <NewTrainingDialog />}
+          {isPresident && <NewTrainingDialog />}
         </div>
 
         <div className="space-y-3">
@@ -180,7 +181,7 @@ function NewTrainingDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Sub-15", "Sub-17", "Sub-20", "Adulto"].map((c) => (
+                  {CATEGORIAS.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

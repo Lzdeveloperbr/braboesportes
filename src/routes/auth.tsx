@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import logo from "@/assets/brabo-logo.png";
+import { BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/auth")({
       { title: "Entrar | Brabo Esporte Clube" },
       {
         name: "description",
-        content: "Acesse o app do Brabo Esporte Clube como presidente, treinador, jogador ou responsável.",
+        content: "Acesso restrito: presidente administra o clube e jogadores acompanham suas informações.",
       },
       { property: "og:title", content: "Entrar | Brabo Esporte Clube" },
       {
@@ -93,7 +93,7 @@ function AuthPage() {
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
           <img
-            src={logo}
+            src={BRAND.crest}
             alt="Escudo do Brabo Esporte Clube"
             width={1024}
             height={1024}
@@ -183,9 +183,7 @@ function AuthPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="presidente">Presidente / Administrador</SelectItem>
-                        <SelectItem value="treinador">Treinador</SelectItem>
                         <SelectItem value="jogador">Jogador</SelectItem>
-                        <SelectItem value="responsavel">Responsável</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

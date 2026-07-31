@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { CATEGORIAS } from "@/lib/brand";
 import { age, overall, playersQuery, type Player } from "@/lib/club";
 
 export const Route = createFileRoute("/elenco")({
@@ -53,10 +54,10 @@ export const Route = createFileRoute("/elenco")({
   component: Elenco,
 });
 
-const CATEGORIAS = ["Todas", "Sub-15", "Sub-17", "Sub-20", "Adulto"] as const;
+const FILTROS = ["Todas", ...CATEGORIAS] as const;
 
 function Elenco() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: players = [] } = useQuery(playersQuery);
   const [categoria, setCategoria] = useState<string>("Todas");
   const [selected, setSelected] = useState<Player | null>(null);
@@ -71,7 +72,7 @@ function Elenco() {
             <h1 className="font-display text-3xl tracking-wide">Elenco</h1>
             <p className="text-sm text-muted-foreground">{list.length} atletas</p>
           </div>
-          {isStaff && <NewPlayerDialog />}
+          {isPresident && <NewPlayerDialog />}
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -280,7 +281,7 @@ function NewPlayerDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Sub-15", "Sub-17", "Sub-20", "Adulto"].map((c) => (
+                  {CATEGORIAS.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

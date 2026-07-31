@@ -42,7 +42,7 @@ export const Route = createFileRoute("/avisos")({
 });
 
 function Avisos() {
-  const { isStaff } = useAuth();
+  const { isPresident } = useAuth();
   const { data: announcements = [] } = useQuery(announcementsQuery);
 
   return (
@@ -53,7 +53,7 @@ function Avisos() {
             <h1 className="font-display text-3xl tracking-wide">Avisos</h1>
             <p className="text-sm text-muted-foreground">Comunicação oficial do clube</p>
           </div>
-          {isStaff && <NewAnnouncementDialog />}
+          {isPresident && <NewAnnouncementDialog />}
         </div>
 
         <div className="space-y-3">
