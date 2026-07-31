@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center surface-pitch">
-        <img src={logo} alt="Brabo Esporte Clube" className="h-24 w-24 animate-pulse" />
+        <img src={BRAND.crest} alt="Brabo Esporte Clube" className="h-24 w-24 animate-pulse" />
       </div>
     );
   }
@@ -44,7 +44,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen surface-pitch pb-24 md:pb-0">
       <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-          <img src={logo} alt="Escudo do Brabo Esporte Clube" className="h-10 w-10" />
+          <img src={BRAND.crest} alt="Escudo do Brabo Esporte Clube" className="h-10 w-10" />
           <div className="min-w-0 flex-1">
             <p className="font-display text-lg leading-none tracking-wide">Brabo E.C.</p>
             <p className="truncate text-xs text-muted-foreground">
