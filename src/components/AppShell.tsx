@@ -2,17 +2,19 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import {
   CalendarDays,
+  ClipboardList,
   Dumbbell,
   LayoutDashboard,
   LogOut,
   Megaphone,
   Users,
+  Wallet,
 } from "lucide-react";
 
-import { BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ROLE_LABEL, useAuth } from "@/hooks/useAuth";
+import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -20,8 +22,11 @@ const NAV = [
   { to: "/elenco", label: "Elenco", icon: Users },
   { to: "/jogos", label: "Jogos", icon: CalendarDays },
   { to: "/treinos", label: "Treinos", icon: Dumbbell },
+  { to: "/escalacao", label: "Escalação", icon: ClipboardList },
+  { to: "/financeiro", label: "Financeiro", icon: Wallet },
   { to: "/avisos", label: "Avisos", icon: Megaphone },
 ] as const;
+
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, roles, loading, signOut } = useAuth();
@@ -57,7 +62,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
+                  "rounded-md px-2.5 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
                   pathname === item.to && "bg-primary/15 text-primary",
                 )}
               >
@@ -79,7 +84,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
 
       <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border/60 bg-background/95 backdrop-blur md:hidden">
-        <div className="grid grid-cols-5">
+        <div className="flex overflow-x-auto">
           {NAV.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.to;
@@ -88,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex flex-col items-center gap-1 py-2 text-[11px] text-muted-foreground",
+                  "flex min-w-[72px] flex-1 flex-col items-center gap-1 py-2 text-[11px] text-muted-foreground",
                   active && "text-primary",
                 )}
               >
@@ -99,6 +104,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           })}
         </div>
       </nav>
+
     </div>
   );
 }

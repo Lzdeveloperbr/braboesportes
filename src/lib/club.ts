@@ -5,6 +5,10 @@ export type Player = Tables<"players">;
 export type Match = Tables<"matches">;
 export type Training = Tables<"trainings">;
 export type Announcement = Tables<"announcements">;
+export type Attendance = Tables<"training_attendance">;
+export type Payment = Tables<"payments">;
+export type Evaluation = Tables<"evaluations">;
+export type Lineup = Tables<"match_lineups">;
 
 export const playersQuery = {
   queryKey: ["players"],
@@ -55,9 +59,57 @@ export const announcementsQuery = {
   },
 };
 
+export const attendanceQuery = {
+  queryKey: ["training_attendance"],
+  queryFn: async (): Promise<Attendance[]> => {
+    const { data, error } = await supabase.from("training_attendance").select("*");
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const paymentsQuery = {
+  queryKey: ["payments"],
+  queryFn: async (): Promise<Payment[]> => {
+    const { data, error } = await supabase
+      .from("payments")
+      .select("*")
+      .order("reference_month", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const evaluationsQuery = {
+  queryKey: ["evaluations"],
+  queryFn: async (): Promise<Evaluation[]> => {
+    const { data, error } = await supabase
+      .from("evaluations")
+      .select("*")
+      .order("evaluated_on", { ascending: true });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const lineupsQuery = {
+  queryKey: ["match_lineups"],
+  queryFn: async (): Promise<Lineup[]> => {
+    const { data, error } = await supabase.from("match_lineups").select("*");
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
 export function overall(p: Player) {
   return Math.round(
     (p.speed + p.technique + p.finishing + p.passing + p.defending + p.physical) / 6,
+  );
+}
+
+export function evaluationOverall(e: Evaluation) {
+  return Math.round(
+    (e.speed + e.technique + e.finishing + e.passing + e.defending + e.physical + e.attitude) / 7,
   );
 }
 
@@ -76,3 +128,36 @@ export function formatDate(iso: string) {
     minute: "2-digit",
   });
 }
+
+export function formatDay(iso: string) {
+  return new Date(iso + (iso.length === 10 ? "T12:00:00" : "")).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+export function formatMoney(value: number) {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+export function monthLabel(iso: string) {
+  return new Date(iso + "T12:00:00").toLocaleDateString("pt-BR", {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export const ATTENDANCE_STATUS = ["presente", "duvida", "ausente"] as const;
+export const ATTENDANCE_LABEL: Record<string, string> = {
+  presente: "Presente",
+  duvida: "Dúvida",
+  ausente: "Ausente",
+};
+
+export const PAYMENT_STATUS = ["pendente", "pago", "atrasado"] as const;
+export const PAYMENT_LABEL: Record<string, string> = {
+  pendente: "Pendente",
+  pago: "Pago",
+  atrasado: "Atrasado",
+};

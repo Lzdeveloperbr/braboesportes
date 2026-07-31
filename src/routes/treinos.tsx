@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { AttendanceControls } from "@/components/AttendanceControls";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -82,6 +83,7 @@ function Treinos() {
                   </div>
                 </div>
                 {t.notes && <p className="mt-2 text-sm text-muted-foreground">{t.notes}</p>}
+                <AttendanceControls training={t} />
               </CardContent>
             </Card>
           ))}
