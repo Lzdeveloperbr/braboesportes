@@ -9,7 +9,7 @@ import {
   Users,
 } from "lucide-react";
 
-import logo from "@/assets/brabo-logo.png";
+import { BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ROLE_LABEL, useAuth } from "@/hooks/useAuth";
