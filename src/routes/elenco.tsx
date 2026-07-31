@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { CATEGORIAS } from "@/lib/brand";
 import { age, overall, playersQuery, type Player } from "@/lib/club";
 
 export const Route = createFileRoute("/elenco")({
