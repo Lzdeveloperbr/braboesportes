@@ -257,11 +257,19 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_president: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "presidente" | "treinador" | "jogador" | "responsavel"
-      categoria: "Sub-15" | "Sub-17" | "Sub-20" | "Adulto"
+      categoria:
+        | "Sub-9"
+        | "Sub-11"
+        | "Sub-13"
+        | "Sub-15"
+        | "Sub-17"
+        | "Sub-20"
+        | "Adulto"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -390,7 +398,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["presidente", "treinador", "jogador", "responsavel"],
-      categoria: ["Sub-15", "Sub-17", "Sub-20", "Adulto"],
+      categoria: [
+        "Sub-9",
+        "Sub-11",
+        "Sub-13",
+        "Sub-15",
+        "Sub-17",
+        "Sub-20",
+        "Adulto",
+      ],
     },
   },
 } as const
