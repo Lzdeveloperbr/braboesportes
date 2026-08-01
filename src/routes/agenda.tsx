@@ -31,7 +31,7 @@ export const Route = createFileRoute("/agenda")({
       },
     ],
   }),
-  component: Agenda;
+  component: Agenda,
 });
 
 type Evento =
