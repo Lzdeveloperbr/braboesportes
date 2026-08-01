@@ -67,7 +67,7 @@ function AuthPage() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { full_name: fullName, role },
+        data: { full_name: fullName },
       },
     });
     setBusy(false);
@@ -78,6 +78,7 @@ function AuthPage() {
     }
     navigate({ to: "/" });
   }
+
 
   async function google() {
     const result = await lovable.auth.signInWithOAuth("google", {
