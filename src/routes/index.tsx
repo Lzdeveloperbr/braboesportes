@@ -201,6 +201,12 @@ function Dashboard() {
               {ranking.map((p, i) => (
                 <div key={p.id} className="flex items-center gap-3">
                   <span className="w-5 font-display text-lg text-muted-foreground">{i + 1}</span>
+                  <PlayerAvatar
+                    path={p.photo_url}
+                    name={p.full_name}
+                    shirt={p.shirt_number}
+                    className="h-9 w-9 text-base"
+                  />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{p.full_name}</p>
                     <p className="text-xs text-muted-foreground">
@@ -210,6 +216,10 @@ function Dashboard() {
                   <span className="font-display text-xl text-accent">{overall(p)}</span>
                 </div>
               ))}
+              {ranking.length === 0 && (
+                <p className="text-sm text-muted-foreground">Nenhum atleta cadastrado ainda.</p>
+              )}
+
               <Link to="/elenco" className="inline-block pt-1 text-sm text-primary hover:underline">
                 Ver elenco completo
               </Link>
