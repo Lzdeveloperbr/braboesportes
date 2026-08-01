@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   LogOut,
   Megaphone,
+  UserCircle2,
   Users,
   Wallet,
 } from "lucide-react";
@@ -19,13 +20,16 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Painel", icon: LayoutDashboard },
+  { to: "/agenda", label: "Agenda", icon: CalendarDays },
   { to: "/elenco", label: "Elenco", icon: Users },
   { to: "/jogos", label: "Jogos", icon: CalendarDays },
   { to: "/treinos", label: "Treinos", icon: Dumbbell },
   { to: "/escalacao", label: "Escalação", icon: ClipboardList },
   { to: "/financeiro", label: "Financeiro", icon: Wallet },
   { to: "/avisos", label: "Avisos", icon: Megaphone },
+  { to: "/perfil", label: "Perfil", icon: UserCircle2 },
 ] as const;
+
 
 
 export function AppShell({ children }: { children: ReactNode }) {
