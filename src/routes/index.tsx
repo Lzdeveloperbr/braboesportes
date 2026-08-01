@@ -1,13 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarDays, Dumbbell, Goal, Megaphone, Trophy, Users } from "lucide-react";
+import {
+  CalendarDays,
+  CheckCircle2,
+  Dumbbell,
+  Goal,
+  Handshake,
+  Megaphone,
+  RectangleVertical,
+  Trophy,
+  UserX,
+  Users,
+} from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
+import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { StatCard } from "@/components/StatCard";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   announcementsQuery,
+  attendanceQuery,
   formatDate,
   matchesQuery,
   overall,
@@ -22,12 +35,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos.",
+          "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, presenças, gols, assistências, cartões e avisos.",
       },
       { property: "og:title", content: "Painel | Brabo Esporte Clube" },
       {
         property: "og:description",
-        content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, resultados, ranking de atletas e avisos.",
+        content: "Painel do Brabo Esporte Clube com próximo jogo, próximo treino, estatísticas e avisos.",
       },
     ],
   }),
@@ -39,6 +52,7 @@ function Dashboard() {
   const matches = useQuery(matchesQuery);
   const trainings = useQuery(trainingsQuery);
   const announcements = useQuery(announcementsQuery);
+  const attendance = useQuery(attendanceQuery);
 
   const now = Date.now();
   const all = matches.data ?? [];
@@ -51,13 +65,19 @@ function Dashboard() {
     (t) => new Date(t.training_date).getTime() > now,
   );
 
-  const ranking = (players.data ?? [])
+  const roster = players.data ?? [];
+  const ranking = roster
     .slice()
     .sort((a, b) => overall(b) - overall(a))
     .slice(0, 5);
 
   const wins = played.filter((m) => (m.goals_for ?? 0) > (m.goals_against ?? 0)).length;
-  const goals = (players.data ?? []).reduce((s, p) => s + p.goals, 0);
+  const goals = roster.reduce((s, p) => s + p.goals, 0);
+  const assists = roster.reduce((s, p) => s + p.assists, 0);
+  const cards = roster.reduce((s, p) => s + p.yellow_cards + p.red_cards, 0);
+  const rows = attendance.data ?? [];
+  const presencas = rows.filter((a) => a.status === "presente").length;
+  const faltas = rows.filter((a) => a.status === "ausente").length;
 
   return (
     <AppShell>
@@ -68,11 +88,16 @@ function Dashboard() {
         </section>
 
         <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <StatCard label="Atletas" value={players.data?.length ?? 0} icon={Users} />
+          <StatCard label="Atletas" value={roster.length} icon={Users} />
           <StatCard label="Vitórias" value={wins} hint={`${played.length} jogos`} icon={Trophy} />
-          <StatCard label="Gols marcados" value={goals} icon={Goal} />
           <StatCard label="Treinos" value={trainings.data?.length ?? 0} icon={Dumbbell} />
+          <StatCard label="Presenças" value={presencas} icon={CheckCircle2} />
+          <StatCard label="Faltas" value={faltas} icon={UserX} />
+          <StatCard label="Gols" value={goals} icon={Goal} />
+          <StatCard label="Assistências" value={assists} icon={Handshake} />
+          <StatCard label="Cartões" value={cards} icon={RectangleVertical} />
         </section>
+
 
         <section className="grid gap-4 lg:grid-cols-2">
           <Card className="overflow-hidden border-border/60 bg-card/80 shadow-elevated">
@@ -176,6 +201,12 @@ function Dashboard() {
               {ranking.map((p, i) => (
                 <div key={p.id} className="flex items-center gap-3">
                   <span className="w-5 font-display text-lg text-muted-foreground">{i + 1}</span>
+                  <PlayerAvatar
+                    path={p.photo_url}
+                    name={p.full_name}
+                    shirt={p.shirt_number}
+                    className="h-9 w-9 text-base"
+                  />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{p.full_name}</p>
                     <p className="text-xs text-muted-foreground">
@@ -185,6 +216,10 @@ function Dashboard() {
                   <span className="font-display text-xl text-accent">{overall(p)}</span>
                 </div>
               ))}
+              {ranking.length === 0 && (
+                <p className="text-sm text-muted-foreground">Nenhum atleta cadastrado ainda.</p>
+              )}
+
               <Link to="/elenco" className="inline-block pt-1 text-sm text-primary hover:underline">
                 Ver elenco completo
               </Link>

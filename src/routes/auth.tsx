@@ -7,15 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth, type AppRole } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
@@ -43,7 +36,6 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [role, setRole] = useState<AppRole>("jogador");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -67,7 +59,7 @@ function AuthPage() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { full_name: fullName, role },
+        data: { full_name: fullName },
       },
     });
     setBusy(false);
@@ -78,6 +70,7 @@ function AuthPage() {
     }
     navigate({ to: "/" });
   }
+
 
   async function google() {
     const result = await lovable.auth.signInWithOAuth("google", {
@@ -175,18 +168,11 @@ function AuthPage() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Perfil de acesso</Label>
-                    <Select value={role} onValueChange={(v) => setRole(v as AppRole)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="presidente">Presidente / Administrador</SelectItem>
-                        <SelectItem value="jogador">Jogador</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Novas contas entram como jogador. A administração do clube é exclusiva do
+                    presidente.
+                  </p>
+
                   <Button type="submit" className="w-full" disabled={busy}>
                     Criar conta
                   </Button>
