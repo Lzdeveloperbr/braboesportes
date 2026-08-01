@@ -176,18 +176,11 @@ function AuthPage() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Perfil de acesso</Label>
-                    <Select value={role} onValueChange={(v) => setRole(v as AppRole)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="presidente">Presidente / Administrador</SelectItem>
-                        <SelectItem value="jogador">Jogador</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Novas contas entram como jogador. A administração do clube é exclusiva do
+                    presidente.
+                  </p>
+
                   <Button type="submit" className="w-full" disabled={busy}>
                     Criar conta
                   </Button>
