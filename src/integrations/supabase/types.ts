@@ -230,14 +230,17 @@ export type Database = {
           assists: number
           birth_date: string | null
           categoria: Database["public"]["Enums"]["categoria"]
+          cpf: string | null
           created_at: string
           defending: number
           dominant_foot: string
+          email: string | null
           finishing: number
           full_name: string
           goals: number
           height_cm: number | null
           id: string
+          joined_on: string | null
           matches_played: number
           passing: number
           phone: string | null
@@ -247,6 +250,7 @@ export type Database = {
           red_cards: number
           shirt_number: number | null
           speed: number
+          status: string
           technique: number
           updated_at: string
           user_id: string | null
@@ -257,14 +261,17 @@ export type Database = {
           assists?: number
           birth_date?: string | null
           categoria?: Database["public"]["Enums"]["categoria"]
+          cpf?: string | null
           created_at?: string
           defending?: number
           dominant_foot?: string
+          email?: string | null
           finishing?: number
           full_name: string
           goals?: number
           height_cm?: number | null
           id?: string
+          joined_on?: string | null
           matches_played?: number
           passing?: number
           phone?: string | null
@@ -274,6 +281,7 @@ export type Database = {
           red_cards?: number
           shirt_number?: number | null
           speed?: number
+          status?: string
           technique?: number
           updated_at?: string
           user_id?: string | null
@@ -284,14 +292,17 @@ export type Database = {
           assists?: number
           birth_date?: string | null
           categoria?: Database["public"]["Enums"]["categoria"]
+          cpf?: string | null
           created_at?: string
           defending?: number
           dominant_foot?: string
+          email?: string | null
           finishing?: number
           full_name?: string
           goals?: number
           height_cm?: number | null
           id?: string
+          joined_on?: string | null
           matches_played?: number
           passing?: number
           phone?: string | null
@@ -301,6 +312,7 @@ export type Database = {
           red_cards?: number
           shirt_number?: number | null
           speed?: number
+          status?: string
           technique?: number
           updated_at?: string
           user_id?: string | null
