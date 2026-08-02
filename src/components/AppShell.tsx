@@ -39,12 +39,7 @@ const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] =
   { to: "/estatisticas", label: "Estatísticas", icon: BarChart3, access: "all" },
   { to: "/escalacao", label: "Escalação", icon: ClipboardList, access: "staff" },
   { to: "/financeiro", label: "Financeiro", icon: Wallet, access: "admin" },
-  { to: "/patrocinadores", label: "Patrocínios", icon: Handshake, access: "all" },
-  { to: "/documentos", label: "Documentos", icon: FileText, access: "all" },
   { to: "/avisos", label: "Avisos", icon: Megaphone, access: "all" },
-  { to: "/assistente", label: "Assistente IA", icon: Sparkles, access: "staff" },
-  { to: "/usuarios", label: "Usuários", icon: ShieldCheck, access: "admin" },
-  { to: "/configuracoes", label: "Configurações", icon: Settings, access: "president" },
   { to: "/perfil", label: "Perfil", icon: UserCircle2, access: "all" },
 ];
 
