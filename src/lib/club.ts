@@ -9,6 +9,13 @@ export type Attendance = Tables<"training_attendance">;
 export type Payment = Tables<"payments">;
 export type Evaluation = Tables<"evaluations">;
 export type Lineup = Tables<"match_lineups">;
+export type Sponsor = Tables<"sponsors">;
+export type ClubDocument = Tables<"documents">;
+export type MatchStat = Tables<"match_stats">;
+export type FinanceEntry = Tables<"finance_entries">;
+export type Injury = Tables<"injuries">;
+export type ClubSettings = Tables<"club_settings">;
+export type AuditEntry = Tables<"audit_log">;
 
 export const playersQuery = {
   queryKey: ["players"],
@@ -101,6 +108,85 @@ export const lineupsQuery = {
   },
 };
 
+export const sponsorsQuery = {
+  queryKey: ["sponsors"],
+  queryFn: async (): Promise<Sponsor[]> => {
+    const { data, error } = await supabase
+      .from("sponsors")
+      .select("*")
+      .order("amount", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const documentsQuery = {
+  queryKey: ["documents"],
+  queryFn: async (): Promise<ClubDocument[]> => {
+    const { data, error } = await supabase
+      .from("documents")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const matchStatsQuery = {
+  queryKey: ["match_stats"],
+  queryFn: async (): Promise<MatchStat[]> => {
+    const { data, error } = await supabase.from("match_stats").select("*");
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const financeQuery = {
+  queryKey: ["finance_entries"],
+  queryFn: async (): Promise<FinanceEntry[]> => {
+    const { data, error } = await supabase
+      .from("finance_entries")
+      .select("*")
+      .order("entry_date", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const injuriesQuery = {
+  queryKey: ["injuries"],
+  queryFn: async (): Promise<Injury[]> => {
+    const { data, error } = await supabase
+      .from("injuries")
+      .select("*")
+      .order("started_on", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const clubSettingsQuery = {
+  queryKey: ["club_settings"],
+  queryFn: async (): Promise<ClubSettings | null> => {
+    const { data, error } = await supabase.from("club_settings").select("*").limit(1).maybeSingle();
+    if (error) throw error;
+    return data;
+  },
+};
+
+export const auditQuery = {
+  queryKey: ["audit_log"],
+  queryFn: async (): Promise<AuditEntry[]> => {
+    const { data, error } = await supabase
+      .from("audit_log")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
 export function overall(p: Player) {
   return Math.round(
     (p.speed + p.technique + p.finishing + p.passing + p.defending + p.physical) / 6,
@@ -161,3 +247,70 @@ export const PAYMENT_LABEL: Record<string, string> = {
   pago: "Pago",
   atrasado: "Atrasado",
 };
+
+export const SPONSOR_TIERS = ["master", "ouro", "prata", "apoio"] as const;
+export const SPONSOR_TIER_LABEL: Record<string, string> = {
+  master: "Master",
+  ouro: "Ouro",
+  prata: "Prata",
+  apoio: "Apoio",
+};
+
+export const DOC_TYPES = ["contrato", "exame", "atestado", "autorizacao", "outro"] as const;
+export const DOC_TYPE_LABEL: Record<string, string> = {
+  contrato: "Contrato",
+  exame: "Exame médico",
+  atestado: "Atestado",
+  autorizacao: "Autorização",
+  outro: "Outro",
+};
+
+export const FINANCE_KINDS = ["receita", "despesa"] as const;
+export const FINANCE_CATEGORIES = [
+  "mensalidade",
+  "patrocinio",
+  "material",
+  "arbitragem",
+  "transporte",
+  "inscricao",
+  "geral",
+] as const;
+export const FINANCE_CATEGORY_LABEL: Record<string, string> = {
+  mensalidade: "Mensalidade",
+  patrocinio: "Patrocínio",
+  material: "Material",
+  arbitragem: "Arbitragem",
+  transporte: "Transporte",
+  inscricao: "Inscrição",
+  geral: "Geral",
+};
+
+export const INJURY_SEVERITY = ["leve", "moderada", "grave"] as const;
+export const INJURY_STATUS = ["em_tratamento", "recuperado"] as const;
+export const INJURY_STATUS_LABEL: Record<string, string> = {
+  em_tratamento: "Em tratamento",
+  recuperado: "Recuperado",
+};
+
+export const FORMATIONS: Record<string, { label: string; rows: number[] }> = {
+  "4-3-3": { label: "4-3-3", rows: [1, 4, 3, 3] },
+  "4-4-2": { label: "4-4-2", rows: [1, 4, 4, 2] },
+  "3-5-2": { label: "3-5-2", rows: [1, 3, 5, 2] },
+  "4-2-3-1": { label: "4-2-3-1", rows: [1, 4, 2, 3, 1] },
+  "5-3-2": { label: "5-3-2", rows: [1, 5, 3, 2] },
+};
+
+/** Posições no campo (%) para cada formação, do goleiro ao ataque. */
+export function formationSlots(formation: string) {
+  const rows = FORMATIONS[formation]?.rows ?? FORMATIONS["4-3-3"].rows;
+  const slots: { x: number; y: number }[] = [];
+  const lines = rows.length;
+  rows.forEach((count, lineIndex) => {
+    const y = 92 - (lineIndex * 80) / (lines - 1 || 1);
+    for (let i = 0; i < count; i++) {
+      const x = ((i + 1) * 100) / (count + 1);
+      slots.push({ x, y });
+    }
+  });
+  return slots;
+}
