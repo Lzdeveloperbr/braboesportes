@@ -38,6 +38,131 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string
+          details: Json | null
+          entity: string
+          entity_id: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity: string
+          entity_id?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity?: string
+          entity_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      club_settings: {
+        Row: {
+          city: string | null
+          club_name: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          crest_url: string | null
+          founded_year: number | null
+          id: string
+          instagram: string | null
+          monthly_fee: number
+          singleton: boolean
+          stadium: string | null
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          club_name?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          crest_url?: string | null
+          founded_year?: number | null
+          id?: string
+          instagram?: string | null
+          monthly_fee?: number
+          singleton?: boolean
+          stadium?: string | null
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          club_name?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          crest_url?: string | null
+          founded_year?: number | null
+          id?: string
+          instagram?: string | null
+          monthly_fee?: number
+          singleton?: boolean
+          stadium?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          created_at: string
+          doc_type: string
+          expires_on: string | null
+          file_path: string
+          id: string
+          player_id: string | null
+          title: string
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          doc_type?: string
+          expires_on?: string | null
+          file_path: string
+          id?: string
+          player_id?: string | null
+          title: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          doc_type?: string
+          expires_on?: string | null
+          file_path?: string
+          id?: string
+          player_id?: string | null
+          title?: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       evaluations: {
         Row: {
           attitude: number
@@ -91,6 +216,126 @@ export type Database = {
           },
         ]
       }
+      finance_entries: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          description: string
+          entry_date: string
+          id: string
+          kind: string
+          sponsor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          description: string
+          entry_date?: string
+          id?: string
+          kind?: string
+          sponsor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          description?: string
+          entry_date?: string
+          id?: string
+          kind?: string
+          sponsor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finance_entries_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "sponsors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      guardians: {
+        Row: {
+          created_at: string
+          id: string
+          player_id: string
+          relationship: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          player_id: string
+          relationship?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          player_id?: string
+          relationship?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guardians_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      injuries: {
+        Row: {
+          created_at: string
+          description: string
+          expected_return: string | null
+          id: string
+          player_id: string
+          severity: string
+          started_on: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          expected_return?: string | null
+          id?: string
+          player_id: string
+          severity?: string
+          started_on?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          expected_return?: string | null
+          id?: string
+          player_id?: string
+          severity?: string
+          started_on?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "injuries_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       match_lineups: {
         Row: {
           created_at: string
@@ -126,6 +371,78 @@ export type Database = {
           },
           {
             foreignKeyName: "match_lineups_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      match_stats: {
+        Row: {
+          assists: number
+          created_at: string
+          goals: number
+          id: string
+          match_id: string
+          minutes: number
+          mvp: boolean
+          passes: number
+          player_id: string
+          rating: number
+          red_cards: number
+          saves: number
+          shots: number
+          tackles: number
+          updated_at: string
+          yellow_cards: number
+        }
+        Insert: {
+          assists?: number
+          created_at?: string
+          goals?: number
+          id?: string
+          match_id: string
+          minutes?: number
+          mvp?: boolean
+          passes?: number
+          player_id: string
+          rating?: number
+          red_cards?: number
+          saves?: number
+          shots?: number
+          tackles?: number
+          updated_at?: string
+          yellow_cards?: number
+        }
+        Update: {
+          assists?: number
+          created_at?: string
+          goals?: number
+          id?: string
+          match_id?: string
+          minutes?: number
+          mvp?: boolean
+          passes?: number
+          player_id?: string
+          rating?: number
+          red_cards?: number
+          saves?: number
+          shots?: number
+          tackles?: number
+          updated_at?: string
+          yellow_cards?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_stats_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_stats_player_id_fkey"
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "players"
@@ -227,6 +544,7 @@ export type Database = {
       }
       players: {
         Row: {
+          address: string | null
           assists: number
           birth_date: string | null
           categoria: Database["public"]["Enums"]["categoria"]
@@ -239,15 +557,18 @@ export type Database = {
           full_name: string
           goals: number
           height_cm: number | null
+          history: string | null
           id: string
           joined_on: string | null
           matches_played: number
+          notes: string | null
           passing: number
           phone: string | null
           photo_url: string | null
           physical: number
           position: string
           red_cards: number
+          rg: string | null
           shirt_number: number | null
           speed: number
           status: string
@@ -258,6 +579,7 @@ export type Database = {
           yellow_cards: number
         }
         Insert: {
+          address?: string | null
           assists?: number
           birth_date?: string | null
           categoria?: Database["public"]["Enums"]["categoria"]
@@ -270,15 +592,18 @@ export type Database = {
           full_name: string
           goals?: number
           height_cm?: number | null
+          history?: string | null
           id?: string
           joined_on?: string | null
           matches_played?: number
+          notes?: string | null
           passing?: number
           phone?: string | null
           photo_url?: string | null
           physical?: number
           position?: string
           red_cards?: number
+          rg?: string | null
           shirt_number?: number | null
           speed?: number
           status?: string
@@ -289,6 +614,7 @@ export type Database = {
           yellow_cards?: number
         }
         Update: {
+          address?: string | null
           assists?: number
           birth_date?: string | null
           categoria?: Database["public"]["Enums"]["categoria"]
@@ -301,15 +627,18 @@ export type Database = {
           full_name?: string
           goals?: number
           height_cm?: number | null
+          history?: string | null
           id?: string
           joined_on?: string | null
           matches_played?: number
+          notes?: string | null
           passing?: number
           phone?: string | null
           photo_url?: string | null
           physical?: number
           position?: string
           red_cards?: number
+          rg?: string | null
           shirt_number?: number | null
           speed?: number
           status?: string
@@ -348,10 +677,54 @@ export type Database = {
         }
         Relationships: []
       }
+      sponsors: {
+        Row: {
+          active: boolean
+          amount: number
+          created_at: string
+          ends_on: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          starts_on: string | null
+          tier: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          active?: boolean
+          amount?: number
+          created_at?: string
+          ends_on?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          starts_on?: string | null
+          tier?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          active?: boolean
+          amount?: number
+          created_at?: string
+          ends_on?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          starts_on?: string | null
+          tier?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       training_attendance: {
         Row: {
+          checked_in_at: string | null
           created_at: string
           id: string
+          method: string
           note: string | null
           player_id: string
           status: string
@@ -359,8 +732,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          checked_in_at?: string | null
           created_at?: string
           id?: string
+          method?: string
           note?: string | null
           player_id: string
           status?: string
@@ -368,8 +743,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          checked_in_at?: string | null
           created_at?: string
           id?: string
+          method?: string
           note?: string | null
           player_id?: string
           status?: string
@@ -396,30 +773,45 @@ export type Database = {
       trainings: {
         Row: {
           categoria: Database["public"]["Enums"]["categoria"]
+          checkin_code: string | null
+          checkin_expires_at: string | null
           created_at: string
+          exercises: string | null
           id: string
+          load_level: number
           location: string | null
           notes: string | null
+          status: string
           title: string
           training_date: string
           training_type: string
         }
         Insert: {
           categoria?: Database["public"]["Enums"]["categoria"]
+          checkin_code?: string | null
+          checkin_expires_at?: string | null
           created_at?: string
+          exercises?: string | null
           id?: string
+          load_level?: number
           location?: string | null
           notes?: string | null
+          status?: string
           title: string
           training_date: string
           training_type?: string
         }
         Update: {
           categoria?: Database["public"]["Enums"]["categoria"]
+          checkin_code?: string | null
+          checkin_expires_at?: string | null
           created_at?: string
+          exercises?: string | null
           id?: string
+          load_level?: number
           location?: string | null
           notes?: string | null
+          status?: string
           title?: string
           training_date?: string
           training_type?: string
@@ -456,12 +848,19 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_president: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       owns_player: { Args: { _player_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "presidente" | "treinador" | "jogador" | "responsavel"
+      app_role:
+        | "presidente"
+        | "treinador"
+        | "jogador"
+        | "responsavel"
+        | "admin"
+        | "comissao"
       categoria:
         | "Sub-9"
         | "Sub-11"
@@ -597,7 +996,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["presidente", "treinador", "jogador", "responsavel"],
+      app_role: [
+        "presidente",
+        "treinador",
+        "jogador",
+        "responsavel",
+        "admin",
+        "comissao",
+      ],
       categoria: [
         "Sub-9",
         "Sub-11",
