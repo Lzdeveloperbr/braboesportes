@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisosRouteImport } from './routes/avisos'
 import { Route as ElencoRouteImport } from './routes/elenco'
 import { Route as EscalacaoRouteImport } from './routes/escalacao'
+import { Route as EstatisticasRouteImport } from './routes/estatisticas'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as JogosRouteImport } from './routes/jogos'
 import { Route as PerfilRouteImport } from './routes/perfil'
@@ -50,6 +51,11 @@ const EscalacaoRoute = EscalacaoRouteImport.update({
   path: '/escalacao',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EstatisticasRoute = EstatisticasRouteImport.update({
+  id: '/estatisticas',
+  path: '/estatisticas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceiroRoute = FinanceiroRouteImport.update({
   id: '/financeiro',
   path: '/financeiro',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/avisos': typeof AvisosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
+  '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
   '/perfil': typeof PerfilRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/avisos': typeof AvisosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
+  '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
   '/perfil': typeof PerfilRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/avisos': typeof AvisosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
+  '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
   '/perfil': typeof PerfilRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/avisos'
     | '/elenco'
     | '/escalacao'
+    | '/estatisticas'
     | '/financeiro'
     | '/jogos'
     | '/perfil'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/avisos'
     | '/elenco'
     | '/escalacao'
+    | '/estatisticas'
     | '/financeiro'
     | '/jogos'
     | '/perfil'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/avisos'
     | '/elenco'
     | '/escalacao'
+    | '/estatisticas'
     | '/financeiro'
     | '/jogos'
     | '/perfil'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   AvisosRoute: typeof AvisosRoute
   ElencoRoute: typeof ElencoRoute
   EscalacaoRoute: typeof EscalacaoRoute
+  EstatisticasRoute: typeof EstatisticasRoute
   FinanceiroRoute: typeof FinanceiroRoute
   JogosRoute: typeof JogosRoute
   PerfilRoute: typeof PerfilRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EscalacaoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/estatisticas': {
+      id: '/estatisticas'
+      path: '/estatisticas'
+      fullPath: '/estatisticas'
+      preLoaderRoute: typeof EstatisticasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/financeiro': {
       id: '/financeiro'
       path: '/financeiro'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   AvisosRoute: AvisosRoute,
   ElencoRoute: ElencoRoute,
   EscalacaoRoute: EscalacaoRoute,
+  EstatisticasRoute: EstatisticasRoute,
   FinanceiroRoute: FinanceiroRoute,
   JogosRoute: JogosRoute,
   PerfilRoute: PerfilRoute,
@@ -250,13 +271,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

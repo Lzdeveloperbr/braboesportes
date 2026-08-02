@@ -1,21 +1,21 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session, User } from "@supabase/supabase-js";
+import { primaryRole, ROLE_LABEL, type AppRole } from "@/lib/roles";
 
-export type AppRole = "presidente" | "treinador" | "jogador" | "responsavel";
-
-export const ROLE_LABEL: Record<AppRole, string> = {
-  presidente: "Presidente",
-  treinador: "Treinador",
-  jogador: "Jogador",
-  responsavel: "Responsável",
-};
+export type { AppRole };
+export { ROLE_LABEL };
 
 type AuthState = {
   session: Session | null;
   user: User | null;
   roles: AppRole[];
+  role: AppRole;
+  /** Presidente: controle total. */
   isPresident: boolean;
+  /** Presidente ou administrador: gestão do clube. */
+  isAdmin: boolean;
+  /** Presidente, admin, comissão ou treinador. */
   isStaff: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
@@ -60,17 +60,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [userId]);
 
-  const value: AuthState = {
-    session,
-    user: session?.user ?? null,
-    roles,
-    isPresident: roles.includes("presidente"),
-    isStaff: roles.includes("presidente"),
-    loading,
-    signOut: async () => {
-      await supabase.auth.signOut();
-    },
-  };
+  const value = useMemo<AuthState>(() => {
+    const isPresident = roles.includes("presidente");
+    const isAdmin = isPresident || roles.includes("admin");
+    const isStaff = isAdmin || roles.includes("comissao") || roles.includes("treinador");
+    return {
+      session,
+      user: session?.user ?? null,
+      roles,
+      role: primaryRole(roles),
+      isPresident,
+      isAdmin,
+      isStaff,
+      loading,
+      signOut: async () => {
+        await supabase.auth.signOut();
+      },
+    };
+  }, [session, roles, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
