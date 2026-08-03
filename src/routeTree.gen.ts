@@ -11,13 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AssistenteRouteImport } from './routes/assistente'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisosRouteImport } from './routes/avisos'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as DocumentosRouteImport } from './routes/documentos'
 import { Route as ElencoRouteImport } from './routes/elenco'
 import { Route as EscalacaoRouteImport } from './routes/escalacao'
 import { Route as EstatisticasRouteImport } from './routes/estatisticas'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as JogosRouteImport } from './routes/jogos'
+import { Route as MedicoRouteImport } from './routes/medico'
+import { Route as PatrociniosRouteImport } from './routes/patrocinios'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as TreinosRouteImport } from './routes/treinos'
 
@@ -31,6 +36,11 @@ const AgendaRoute = AgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistenteRoute = AssistenteRouteImport.update({
+  id: '/assistente',
+  path: '/assistente',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -39,6 +49,16 @@ const AuthRoute = AuthRouteImport.update({
 const AvisosRoute = AvisosRouteImport.update({
   id: '/avisos',
   path: '/avisos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentosRoute = DocumentosRouteImport.update({
+  id: '/documentos',
+  path: '/documentos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ElencoRoute = ElencoRouteImport.update({
@@ -66,6 +86,16 @@ const JogosRoute = JogosRouteImport.update({
   path: '/jogos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MedicoRoute = MedicoRouteImport.update({
+  id: '/medico',
+  path: '/medico',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatrociniosRoute = PatrociniosRouteImport.update({
+  id: '/patrocinios',
+  path: '/patrocinios',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PerfilRoute = PerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -80,26 +110,36 @@ const TreinosRoute = TreinosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
+  '/medico': typeof MedicoRoute
+  '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
   '/treinos': typeof TreinosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
+  '/medico': typeof MedicoRoute
+  '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
   '/treinos': typeof TreinosRoute
 }
@@ -107,13 +147,18 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
   '/jogos': typeof JogosRoute
+  '/medico': typeof MedicoRoute
+  '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
   '/treinos': typeof TreinosRoute
 }
@@ -122,39 +167,54 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agenda'
+    | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/configuracoes'
+    | '/documentos'
     | '/elenco'
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
     | '/jogos'
+    | '/medico'
+    | '/patrocinios'
     | '/perfil'
     | '/treinos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agenda'
+    | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/configuracoes'
+    | '/documentos'
     | '/elenco'
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
     | '/jogos'
+    | '/medico'
+    | '/patrocinios'
     | '/perfil'
     | '/treinos'
   id:
     | '__root__'
     | '/'
     | '/agenda'
+    | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/configuracoes'
+    | '/documentos'
     | '/elenco'
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
     | '/jogos'
+    | '/medico'
+    | '/patrocinios'
     | '/perfil'
     | '/treinos'
   fileRoutesById: FileRoutesById
@@ -162,13 +222,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendaRoute: typeof AgendaRoute
+  AssistenteRoute: typeof AssistenteRoute
   AuthRoute: typeof AuthRoute
   AvisosRoute: typeof AvisosRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
+  DocumentosRoute: typeof DocumentosRoute
   ElencoRoute: typeof ElencoRoute
   EscalacaoRoute: typeof EscalacaoRoute
   EstatisticasRoute: typeof EstatisticasRoute
   FinanceiroRoute: typeof FinanceiroRoute
   JogosRoute: typeof JogosRoute
+  MedicoRoute: typeof MedicoRoute
+  PatrociniosRoute: typeof PatrociniosRoute
   PerfilRoute: typeof PerfilRoute
   TreinosRoute: typeof TreinosRoute
 }
@@ -189,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgendaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistente': {
+      id: '/assistente'
+      path: '/assistente'
+      fullPath: '/assistente'
+      preLoaderRoute: typeof AssistenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -201,6 +273,20 @@ declare module '@tanstack/react-router' {
       path: '/avisos'
       fullPath: '/avisos'
       preLoaderRoute: typeof AvisosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentos': {
+      id: '/documentos'
+      path: '/documentos'
+      fullPath: '/documentos'
+      preLoaderRoute: typeof DocumentosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/elenco': {
@@ -238,6 +324,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JogosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/medico': {
+      id: '/medico'
+      path: '/medico'
+      fullPath: '/medico'
+      preLoaderRoute: typeof MedicoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patrocinios': {
+      id: '/patrocinios'
+      path: '/patrocinios'
+      fullPath: '/patrocinios'
+      preLoaderRoute: typeof PatrociniosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/perfil': {
       id: '/perfil'
       path: '/perfil'
@@ -258,13 +358,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendaRoute: AgendaRoute,
+  AssistenteRoute: AssistenteRoute,
   AuthRoute: AuthRoute,
   AvisosRoute: AvisosRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
+  DocumentosRoute: DocumentosRoute,
   ElencoRoute: ElencoRoute,
   EscalacaoRoute: EscalacaoRoute,
   EstatisticasRoute: EstatisticasRoute,
   FinanceiroRoute: FinanceiroRoute,
   JogosRoute: JogosRoute,
+  MedicoRoute: MedicoRoute,
+  PatrociniosRoute: PatrociniosRoute,
   PerfilRoute: PerfilRoute,
   TreinosRoute: TreinosRoute,
 }
