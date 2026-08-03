@@ -62,7 +62,7 @@ function AssistentePage() {
       .slice(0, 40)
       .map(
         (p) =>
-          `${p.shirt_number ?? "-"} ${p.full_name} (${p.position}, ${p.category}, overall ${overall(p)})`,
+          `${p.shirt_number ?? "-"} ${p.full_name} (${p.position}, ${p.categoria}, overall ${overall(p)})`,
       )
       .join("; ");
     const results = matches
@@ -70,7 +70,7 @@ function AssistentePage() {
       .map(
         (m) =>
           `${m.opponent} em ${m.match_date}${
-            m.our_score !== null ? ` — ${m.our_score}x${m.opponent_score}` : " (a jogar)"
+            m.goals_for !== null ? ` — ${m.goals_for}x${m.goals_against ?? 0}` : " (a jogar)"
           }`,
       )
       .join("; ");
