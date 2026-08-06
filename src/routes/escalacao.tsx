@@ -154,6 +154,32 @@ function Escalacao() {
                 Brabo E.C. x {current.opponent} · {current.formation}
               </div>
               <CardContent className="p-4">
+                <div className="mb-4 space-y-3">
+                  {isPresident && (
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                      <p className="min-w-0 truncate text-xs uppercase tracking-wide text-muted-foreground">
+                        Formação tática
+                      </p>
+                      <Select
+                        value={current.formation}
+                        onValueChange={(v) => setFormation.mutate(v)}
+                      >
+                        <SelectTrigger className="w-32 shrink-0">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(FORMATIONS).map((f) => (
+                            <SelectItem key={f.label} value={f.label}>
+                              {f.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+                  <TacticalPitch formation={current.formation} starters={starterPlayers} />
+                </div>
+
                 <div className="rounded-xl border border-border/60 bg-success/10 p-3">
                   <p className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
                     Titulares ({starters.length}/11)
