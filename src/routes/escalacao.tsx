@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { TacticalPitch } from "@/components/TacticalPitch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +18,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  FORMATIONS,
   formatDate,
   lineupsQuery,
   matchesQuery,
@@ -25,6 +27,7 @@ import {
   type Player,
 } from "@/lib/club";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/escalacao")({
   head: () => ({
@@ -98,6 +101,27 @@ function Escalacao() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const setFormation = useMutation({
+    mutationFn: async (formation: string) => {
+      if (!current) return;
+      const { error } = await supabase
+        .from("matches")
+        .update({ formation })
+        .eq("id", current.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Formação atualizada!");
+      qc.invalidateQueries({ queryKey: ["matches"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const starterPlayers = starters
+    .map((l) => byId.get(l.player_id))
+    .filter((p): p is Player => Boolean(p));
+
+
   return (
     <AppShell>
       <div className="space-y-5">
@@ -130,6 +154,32 @@ function Escalacao() {
                 Brabo E.C. x {current.opponent} · {current.formation}
               </div>
               <CardContent className="p-4">
+                <div className="mb-4 space-y-3">
+                  {isPresident && (
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                      <p className="min-w-0 truncate text-xs uppercase tracking-wide text-muted-foreground">
+                        Formação tática
+                      </p>
+                      <Select
+                        value={current.formation}
+                        onValueChange={(v) => setFormation.mutate(v)}
+                      >
+                        <SelectTrigger className="w-32 shrink-0">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(FORMATIONS).map((f) => (
+                            <SelectItem key={f.label} value={f.label}>
+                              {f.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+                  <TacticalPitch formation={current.formation} starters={starterPlayers} />
+                </div>
+
                 <div className="rounded-xl border border-border/60 bg-success/10 p-3">
                   <p className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
                     Titulares ({starters.length}/11)
