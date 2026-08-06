@@ -29,7 +29,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { CATEGORIAS } from "@/lib/brand";
-import { formatDate, trainingsQuery, type Training } from "@/lib/club";
+import {
+  attendanceQuery,
+  formatDate,
+  playersQuery,
+  trainingsQuery,
+  type Training,
+} from "@/lib/club";
+
 
 export const Route = createFileRoute("/treinos")({
   head: () => ({
