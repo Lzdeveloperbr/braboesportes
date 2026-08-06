@@ -54,6 +54,11 @@ const TIPOS = ["Técnico", "Tático", "Físico", "Finalização", "Bola parada"]
 function Treinos() {
   const { isPresident } = useAuth();
   const { data: trainings = [] } = useQuery(trainingsQuery);
+  const { data: attendance = [] } = useQuery(attendanceQuery);
+  const { data: players = [] } = useQuery(playersQuery);
+
+  const now = Date.now();
+  const upcoming = trainings.filter((t) => new Date(t.training_date).getTime() > now).length;
 
   return (
     <AppShell>
@@ -61,36 +66,63 @@ function Treinos() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display text-3xl tracking-wide">Treinos</h1>
-            <p className="text-sm text-muted-foreground">Planejamento da semana</p>
+            <p className="text-sm text-muted-foreground">
+              {trainings.length} sessões · {upcoming} agendadas
+            </p>
           </div>
           {isPresident && <NewTrainingDialog />}
         </div>
 
         <div className="space-y-3">
-          {trainings.map((t: Training) => (
-            <Card key={t.id} className="border-border/60 bg-card/80">
-              <CardContent className="p-4">
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <p className="text-lg font-semibold">{t.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatDate(t.training_date)} · {t.location ?? "Local a definir"}
-                    </p>
+          {trainings.map((t: Training) => {
+            const rows = attendance.filter((a) => a.training_id === t.id);
+            const presentes = rows.filter((a) => a.status === "presente").length;
+            const duvidas = rows.filter((a) => a.status === "duvida").length;
+            const ausentes = rows.filter((a) => a.status === "ausente").length;
+            const elenco = players.filter((p) => p.categoria === t.categoria).length;
+            const taxa = elenco ? Math.round((presentes / elenco) * 100) : 0;
+            return (
+              <Card key={t.id} className="border-border/60 bg-card/80">
+                <CardContent className="p-4">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-lg font-semibold">{t.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDate(t.training_date)} · {t.location ?? "Local a definir"}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 gap-2">
+                      <Badge variant="secondary">{t.training_type}</Badge>
+                      <Badge variant="outline">{t.categoria}</Badge>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Badge variant="secondary">{t.training_type}</Badge>
-                    <Badge variant="outline">{t.categoria}</Badge>
+                  {t.notes && <p className="mt-2 text-sm text-muted-foreground">{t.notes}</p>}
+
+                  <div className="mt-3 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>
+                        {presentes} presentes · {duvidas} dúvidas · {ausentes} ausentes
+                      </span>
+                      <span className="font-semibold text-foreground">{taxa}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className="h-full rounded-full bg-success transition-all"
+                        style={{ width: `${Math.min(taxa, 100)}%` }}
+                      />
+                    </div>
                   </div>
-                </div>
-                {t.notes && <p className="mt-2 text-sm text-muted-foreground">{t.notes}</p>}
-                <AttendanceControls training={t} />
-              </CardContent>
-            </Card>
-          ))}
+
+                  <AttendanceControls training={t} />
+                </CardContent>
+              </Card>
+            );
+          })}
           {trainings.length === 0 && (
             <p className="text-sm text-muted-foreground">Nenhum treino cadastrado.</p>
           )}
         </div>
+
       </div>
     </AppShell>
   );
