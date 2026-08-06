@@ -101,6 +101,27 @@ function Escalacao() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const setFormation = useMutation({
+    mutationFn: async (formation: string) => {
+      if (!current) return;
+      const { error } = await supabase
+        .from("matches")
+        .update({ formation })
+        .eq("id", current.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Formação atualizada!");
+      qc.invalidateQueries({ queryKey: ["matches"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const starterPlayers = starters
+    .map((l) => byId.get(l.player_id))
+    .filter((p): p is Player => Boolean(p));
+
+
   return (
     <AppShell>
       <div className="space-y-5">
