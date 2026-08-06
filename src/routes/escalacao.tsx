@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { TacticalPitch } from "@/components/TacticalPitch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +18,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  FORMATIONS,
   formatDate,
   lineupsQuery,
   matchesQuery,
@@ -25,6 +27,7 @@ import {
   type Player,
 } from "@/lib/club";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/escalacao")({
   head: () => ({
