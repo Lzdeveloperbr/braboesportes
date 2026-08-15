@@ -171,31 +171,36 @@ function Dashboard() {
           </Card>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <CalendarDays className="h-5 w-5 text-primary" /> Últimos resultados
+        <section className="grid gap-6 lg:grid-cols-2">
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center justify-between font-display text-xl tracking-wider">
+                <div className="flex items-center gap-2 text-muted-foreground/80">
+                  <CalendarDays className="h-5 w-5 text-primary" /> Histórico Recente
+                </div>
+                <Link to="/jogos" className="text-xs font-sans font-medium text-primary hover:underline">
+                  Ver todos
+                </Link>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-3 pt-6">
               {played.slice(0, 4).map((m) => {
                 const win = (m.goals_for ?? 0) > (m.goals_against ?? 0);
                 const draw = m.goals_for === m.goals_against;
                 return (
                   <div
                     key={m.id}
-                    className="flex items-center justify-between rounded-lg border border-border/50 bg-secondary/40 px-3 py-2"
+                    className="flex items-center justify-between rounded-xl border border-border/40 bg-secondary/20 p-4 transition-all hover:bg-secondary/30"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{m.opponent}</p>
-                      <p className="text-xs text-muted-foreground">{formatDate(m.match_date)}</p>
+                      <p className="truncate text-sm font-bold tracking-tight">{m.opponent}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60">{formatDate(m.match_date)}</p>
                     </div>
                     <span
-                      className={
-                        "font-display text-xl " +
-                        (win ? "text-success" : draw ? "text-accent" : "text-primary")
-                      }
+                      className={cn(
+                        "font-display text-2xl ",
+                        win ? "text-success" : draw ? "text-accent" : "text-primary"
+                      )}
                     >
                       {m.goals_for} - {m.goals_against}
                     </span>
@@ -203,46 +208,47 @@ function Dashboard() {
                 );
               })}
               {played.length === 0 && (
-                <p className="text-sm text-muted-foreground">Sem jogos disputados ainda.</p>
+                <div className="py-8 text-center text-sm font-medium text-muted-foreground/40 italic">Nenhum registro de partida.</div>
               )}
-              <Link to="/jogos" className="inline-block pt-1 text-sm text-primary hover:underline">
-                Ver todos os jogos
-              </Link>
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Trophy className="h-5 w-5 text-accent" /> Ranking dos atletas
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center justify-between font-display text-xl tracking-wider">
+                <div className="flex items-center gap-2 text-muted-foreground/80">
+                  <Trophy className="h-5 w-5 text-accent" /> Top Performances
+                </div>
+                <Link to="/elenco" className="text-xs font-sans font-medium text-primary hover:underline">
+                  Ver elenco
+                </Link>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-4 pt-6">
               {ranking.map((p, i) => (
-                <div key={p.id} className="flex items-center gap-3">
-                  <span className="w-5 font-display text-lg text-muted-foreground">{i + 1}</span>
+                <div key={p.id} className="group flex items-center gap-4 rounded-xl p-2 transition-all hover:bg-secondary/20">
+                  <span className="w-4 font-display text-lg text-muted-foreground/40 group-hover:text-accent transition-colors">{i + 1}</span>
                   <PlayerAvatar
                     path={p.photo_url}
                     name={p.full_name}
                     shirt={p.shirt_number}
-                    className="h-9 w-9 text-base"
+                    className="h-10 w-10 text-base shadow-sm ring-primary/10"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{p.full_name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {p.position} · {p.goals} gols · {p.assists} assist.
+                    <p className="truncate text-sm font-bold tracking-tight">{p.full_name}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                      {p.position} · {p.goals} Gols · {p.assists} Assist.
                     </p>
                   </div>
-                  <span className="font-display text-xl text-accent">{overall(p)}</span>
+                  <div className="flex flex-col items-end">
+                    <span className="font-display text-2xl text-accent">{overall(p)}</span>
+                    <span className="text-[9px] uppercase font-bold text-muted-foreground/40 leading-none">Rating</span>
+                  </div>
                 </div>
               ))}
               {ranking.length === 0 && (
-                <p className="text-sm text-muted-foreground">Nenhum atleta cadastrado ainda.</p>
+                <div className="py-8 text-center text-sm font-medium text-muted-foreground/40 italic">Sem dados de atletas.</div>
               )}
-
-              <Link to="/elenco" className="inline-block pt-1 text-sm text-primary hover:underline">
-                Ver elenco completo
-              </Link>
             </CardContent>
           </Card>
         </section>
