@@ -255,25 +255,33 @@ function Dashboard() {
         </section>
 
         <section>
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Megaphone className="h-5 w-5 text-primary" /> Avisos do clube
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center gap-2 font-display text-xl tracking-wider text-muted-foreground/80">
+                <Megaphone className="h-5 w-5 text-primary" /> Comunicados Oficiais
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="grid gap-4 pt-6 md:grid-cols-3">
               {(announcements.data ?? []).slice(0, 3).map((a) => (
-                <div key={a.id} className="rounded-lg border border-border/50 p-3">
-                  <div className="flex items-center gap-2">
-                    <p className="font-semibold">{a.title}</p>
-                    {a.pinned && <Badge className="bg-accent text-accent-foreground">Fixado</Badge>}
+                <div key={a.id} className="relative overflow-hidden rounded-xl border border-border/40 bg-secondary/20 p-5 transition-all hover:bg-secondary/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Notificação</span>
+                    {a.pinned && <Badge className="h-5 bg-accent text-accent-foreground text-[9px] uppercase font-bold tracking-tighter">Fixado</Badge>}
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{a.body}</p>
+                  <p className="text-sm font-bold tracking-tight mb-2">{a.title}</p>
+                  <p className="text-xs leading-relaxed text-muted-foreground/80 line-clamp-3">{a.body}</p>
+                  {/* Decorative element */}
+                  <div className="absolute -bottom-2 -right-2 opacity-5">
+                    <Megaphone className="h-12 w-12 text-primary rotate-12" />
+                  </div>
                 </div>
               ))}
               {(announcements.data ?? []).length === 0 && (
-                <p className="text-sm text-muted-foreground">Nenhum aviso publicado.</p>
+                <div className="col-span-full py-12 text-center text-sm font-medium text-muted-foreground/30 italic">Nenhum aviso no mural.</div>
               )}
+            </CardContent>
+          </Card>
+        </section>
             </CardContent>
           </Card>
         </section>
