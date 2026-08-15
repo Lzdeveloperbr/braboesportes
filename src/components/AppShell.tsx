@@ -87,14 +87,14 @@ export function AppShell({ children }: { children: ReactNode }) {
             to={item.to}
             onClick={onNavigate}
             className={cn(
-              "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200",
-              "hover:bg-secondary/70 hover:text-foreground",
+              "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all duration-300",
+              "hover:bg-primary/10 hover:text-foreground hover:shadow-sm",
               active &&
-                "bg-primary/15 text-primary shadow-[inset_2px_0_0_0_var(--color-primary)]",
+                "bg-primary/20 text-primary shadow-glow ring-1 ring-primary/20",
             )}
           >
-            <Icon className={cn("h-4 w-4 transition-transform group-hover:scale-110")} />
-            {item.label}
+            <Icon className={cn("h-4 w-4 transition-all duration-300 group-hover:scale-125 group-hover:text-primary")} />
+            <span className="tracking-wide">{item.label}</span>
           </Link>
         );
       })}

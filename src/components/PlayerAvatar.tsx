@@ -24,7 +24,7 @@ export function PlayerAvatar({ path, name, shirt, className }: Props) {
   return (
     <span
       className={cn(
-        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/15 font-display text-2xl text-primary ring-1 ring-border/60",
+        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary/10 font-display text-2xl text-primary ring-1 ring-primary/20 shadow-elevated transition-transform hover:scale-105",
         "h-12 w-12",
         className,
       )}

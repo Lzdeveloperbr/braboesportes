@@ -81,21 +81,31 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <div className="space-y-6">
-        <section>
-          <h1 className="font-display text-3xl tracking-wide">Painel do clube</h1>
-          <p className="text-sm text-muted-foreground">Temporada em andamento</p>
+      <div className="space-y-8 animate-stagger">
+        <section className="flex items-end justify-between">
+          <div>
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Painel Executivo</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">Temporada 2026 · Gestão Pro X</p>
+          </div>
+          <div className="hidden lg:block">
+            <Badge variant="outline" className="border-primary/20 bg-primary/5 px-3 py-1 text-primary">
+              Status: Operacional
+            </Badge>
+          </div>
         </section>
 
-        <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <StatCard label="Atletas" value={roster.length} icon={Users} />
-          <StatCard label="Vitórias" value={wins} hint={`${played.length} jogos`} icon={Trophy} />
-          <StatCard label="Treinos" value={trainings.data?.length ?? 0} icon={Dumbbell} />
-          <StatCard label="Presenças" value={presencas} icon={CheckCircle2} />
-          <StatCard label="Faltas" value={faltas} icon={UserX} />
-          <StatCard label="Gols" value={goals} icon={Goal} />
+        <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard label="Atletas Ativos" value={roster.length} icon={Users} />
+          <StatCard label="Taxa de Vitórias" value={`${Math.round((wins / (played.length || 1)) * 100)}%`} hint={`${wins}V / ${played.length}J`} icon={Trophy} />
+          <StatCard label="Sessões de Treino" value={trainings.data?.length ?? 0} icon={Dumbbell} />
+          <StatCard label="Presença Geral" value={`${Math.round((presencas / (presencas + faltas || 1)) * 100)}%`} icon={CheckCircle2} />
+        </section>
+
+        <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard label="Gols Marcados" value={goals} icon={Goal} />
           <StatCard label="Assistências" value={assists} icon={Handshake} />
-          <StatCard label="Cartões" value={cards} icon={RectangleVertical} />
+          <StatCard label="Indisciplina" value={cards} icon={RectangleVertical} />
+          <StatCard label="Faltas Registradas" value={faltas} icon={UserX} />
         </section>
 
 
