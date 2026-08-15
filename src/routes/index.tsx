@@ -109,53 +109,62 @@ function Dashboard() {
         </section>
 
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <Card className="overflow-hidden border-border/60 bg-card/80 shadow-elevated">
-            <div className="surface-primary px-5 py-2 text-xs font-semibold uppercase tracking-widest text-primary-foreground">
-              Próximo jogo
+        <section className="grid gap-6 lg:grid-cols-3">
+          <Card className="col-span-2 overflow-hidden border-border/40 bg-card/40 backdrop-blur-md shadow-elevated">
+            <div className="flex items-center justify-between border-b border-border/40 bg-primary/5 px-6 py-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Próximo Compromisso</span>
+              <Badge variant="outline" className="border-primary/30 text-primary">Matchday</Badge>
             </div>
-            <CardContent className="p-5">
+            <CardContent className="p-8">
               {nextMatch ? (
-                <>
-                  <p className="font-display text-3xl">
-                    Brabo E.C. <span className="text-muted-foreground">x</span> {nextMatch.opponent}
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {formatDate(nextMatch.match_date)} · {nextMatch.venue ?? "Local a definir"}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <Badge variant="secondary">{nextMatch.competition ?? "Amistoso"}</Badge>
-                    <Badge variant="outline">{nextMatch.home ? "Mando nosso" : "Fora de casa"}</Badge>
-                    <Badge variant="outline">{nextMatch.formation}</Badge>
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <div className="flex items-center gap-4">
+                      <p className="font-display text-4xl lg:text-5xl">
+                        Brabo E.C. <span className="text-muted-foreground/40 font-sans text-2xl font-light mx-2">VS</span> {nextMatch.opponent}
+                      </p>
+                    </div>
+                    <div className="mt-4 flex items-center gap-6 text-sm font-medium text-muted-foreground">
+                      <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-primary" /> {formatDate(nextMatch.match_date)}</span>
+                      <span className="flex items-center gap-2 uppercase tracking-wider">{nextMatch.venue ?? "Local a definir"}</span>
+                    </div>
                   </div>
-                </>
+                  <div className="flex flex-wrap gap-2 lg:flex-col lg:items-end">
+                    <Badge variant="secondary" className="bg-secondary/60 text-foreground px-4 py-1">{nextMatch.competition ?? "Amistoso"}</Badge>
+                    <Badge variant="outline" className="border-border/60 text-muted-foreground">{nextMatch.formation}</Badge>
+                  </div>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Nenhum jogo agendado.</p>
+                <div className="flex h-32 flex-col items-center justify-center text-muted-foreground">
+                  <Activity className="mb-2 h-8 w-8 opacity-20" />
+                  <p className="text-sm font-medium italic">Calendário sem jogos próximos.</p>
+                </div>
               )}
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/80 shadow-elevated">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Dumbbell className="h-5 w-5 text-primary" /> Próximo treino
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="border-b border-border/40 px-6 py-4">
+              <CardTitle className="flex items-center gap-2 font-display text-lg tracking-widest text-muted-foreground/80">
+                <Dumbbell className="h-4 w-4 text-primary" /> Próximo Treino
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               {nextTraining ? (
-                <>
-                  <p className="text-lg font-semibold">{nextTraining.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {formatDate(nextTraining.training_date)} ·{" "}
-                    {nextTraining.location ?? "Local a definir"}
-                  </p>
-                  <div className="mt-3 flex gap-2">
-                    <Badge variant="secondary">{nextTraining.training_type}</Badge>
-                    <Badge variant="outline">{nextTraining.categoria}</Badge>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xl font-bold tracking-tight">{nextTraining.title}</p>
+                    <p className="mt-1 text-sm font-medium text-muted-foreground/70">
+                      {formatDate(nextTraining.training_date)}
+                    </p>
                   </div>
-                </>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className="bg-primary/20 text-primary hover:bg-primary/30">{nextTraining.training_type}</Badge>
+                    <Badge variant="outline" className="border-accent/40 text-accent">{nextTraining.categoria}</Badge>
+                  </div>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Nenhum treino agendado.</p>
+                <p className="py-8 text-center text-sm font-medium text-muted-foreground/50 italic">Nenhum treino agendado.</p>
               )}
             </CardContent>
           </Card>
