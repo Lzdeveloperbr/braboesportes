@@ -220,29 +220,35 @@ function Perfil() {
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-border/50 p-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Frequência nos treinos</span>
-                    <span className="font-display text-xl text-accent">{frequencia}%</span>
+                <div className="rounded-xl border border-border/40 bg-secondary/10 p-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Frequência em Treinos</h3>
+                    <span className="font-display text-2xl text-accent">{frequencia}%</span>
                   </div>
-                  <div className="mt-2 h-2 overflow-hidden rounded-full bg-secondary">
+                  <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-secondary/40">
                     <div
-                      className="h-full rounded-full bg-primary transition-all duration-500"
+                      className="h-full rounded-full bg-primary shadow-glow transition-all duration-1000 ease-out"
                       style={{ width: `${frequencia}%` }}
                     />
                   </div>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    {presentes} presenças · {ausentes} faltas
-                  </p>
+                  <div className="mt-4 flex justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                    <span>{presentes} Presenças</span>
+                    <span>{ausentes} Faltas</span>
+                  </div>
                 </div>
-              </>
+              </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                {isPresident
-                  ? "Conta de administração — sem ficha de atleta vinculada."
-                  : "Peça ao presidente para vincular sua conta à sua ficha de atleta."}
-              </p>
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <ShieldCheck className="mb-4 h-12 w-12 text-primary opacity-20" />
+                <p className="max-w-xs text-sm font-medium leading-relaxed text-muted-foreground/60">
+                  {isPresident
+                    ? "Conta de administração de elite. Sem ficha de atleta vinculada a este perfil."
+                    : "Identidade de atleta não encontrada. Solicite o vínculo ao Presidente do clube."}
+                </p>
+              </div>
             )}
+          </CardContent>
+        </Card>
           </CardContent>
         </Card>
 
