@@ -246,86 +246,132 @@ function PlayerDialog({
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 font-display text-2xl">
-            <PlayerAvatar
-              path={player.photo_url}
-              name={player.full_name}
-              shirt={player.shirt_number}
-              className="h-14 w-14"
-            />
-            {player.full_name}
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="secondary">{player.position}</Badge>
-          <Badge variant="outline">Camisa {player.shirt_number ?? "-"}</Badge>
-          <Badge variant="outline">{player.categoria}</Badge>
-          <Badge variant="outline">Pé {player.dominant_foot}</Badge>
-          <Badge variant={player.status === "ativo" ? "default" : "outline"}>
-            {player.status === "ativo" ? "Ativo" : "Inativo"}
-          </Badge>
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-border/40 bg-card/90 backdrop-blur-xl p-0">
+        <div className="surface-pitch h-32 relative overflow-hidden">
+           {/* Abstract decorative element */}
+           <div className="absolute right-0 top-0 h-full w-1/3 bg-white/5 skew-x-12 transform translate-x-10" />
+           <div className="absolute inset-0 flex items-center justify-between px-8">
+              <div className="flex items-center gap-6">
+                <PlayerAvatar
+                  path={player.photo_url}
+                  name={player.full_name}
+                  shirt={player.shirt_number}
+                  className="h-24 w-24 rounded-2xl ring-4 ring-background shadow-glow"
+                />
+                <div>
+                  <h2 className="font-display text-4xl tracking-tight text-white">{player.full_name}</h2>
+                  <div className="flex gap-2 mt-1">
+                    <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/20 text-[9px] font-bold tracking-widest uppercase">{player.position}</Badge>
+                    <Badge variant="outline" className="border-white/20 text-white/80 text-[9px] font-bold tracking-widest uppercase">{player.categoria}</Badge>
+                  </div>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="font-display text-5xl text-accent shadow-glow">{overall(player)}</p>
+                <p className="text-[9px] font-black uppercase tracking-tighter text-white/40">Geral OVR</p>
+              </div>
+           </div>
         </div>
 
-        <div className="h-56">
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart data={data} outerRadius="72%">
-              <PolarGrid stroke="var(--border)" />
-              <PolarAngleAxis
-                dataKey="attr"
-                tick={{ fill: "var(--muted-foreground)", fontSize: 11 }}
-              />
-              <Radar dataKey="v" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.35} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 text-center">
-          {[
-            ["Jogos", player.matches_played],
-            ["Gols", player.goals],
-            ["Assist.", player.assists],
-            ["Amarelos", player.yellow_cards],
-            ["Vermelhos", player.red_cards],
-            ["Geral", overall(player)],
-          ].map(([label, value]) => (
-            <div key={label as string} className="rounded-lg border border-border/50 py-2">
-              <p className="font-display text-2xl">{value as number}</p>
-              <p className="text-xs text-muted-foreground">{label as string}</p>
+        <div className="p-8 space-y-8">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-2">
+            <div className="space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Análise de Atributos</h3>
+              <div className="h-64 rounded-2xl border border-border/40 bg-secondary/5 p-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={data} outerRadius="70%">
+                    <PolarGrid stroke="var(--border)" strokeOpacity={0.2} />
+                    <PolarAngleAxis
+                      dataKey="attr"
+                      tick={{ fill: "var(--muted-foreground)", fontSize: 10, fontWeight: 600 }}
+                    />
+                    <Radar dataKey="v" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.4} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          ))}
-        </div>
 
-        <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
-          <p>Idade: {age(player.birth_date) ?? "-"}</p>
-          <p>Altura: {player.height_cm ? `${player.height_cm} cm` : "-"}</p>
-          <p>Peso: {player.weight_kg ? `${player.weight_kg} kg` : "-"}</p>
-          <p>Telefone: {player.phone ?? "-"}</p>
-          <p className="truncate">E-mail: {player.email ?? "-"}</p>
-          <p>Entrada: {player.joined_on ? formatDay(player.joined_on) : "-"}</p>
-          <p>Frequência: {frequencia !== null ? `${frequencia}%` : "-"}</p>
-          {isPresident && <p>CPF: {player.cpf ?? "-"}</p>}
-        </div>
-
-        {isPresident && (
-          <div className="flex gap-2 pt-2">
-            <Button variant="secondary" className="flex-1" onClick={() => onEdit(player)}>
-              <Pencil className="mr-1 h-4 w-4" /> Editar
-            </Button>
-            <Button
-              variant="outline"
-              className="text-primary"
-              disabled={remove.isPending}
-              onClick={() => {
-                if (confirm(`Excluir ${player.full_name}?`)) remove.mutate(player.id);
-              }}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <div className="space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Resumo da Temporada</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  ["Partidas", player.matches_played],
+                  ["Gols", player.goals],
+                  ["Assistências", player.assists],
+                  ["Amarelos", player.yellow_cards],
+                  ["Vermelhos", player.red_cards],
+                  ["Presença", frequencia !== null ? `${frequencia}%` : "-"],
+                ].map(([label, value]) => (
+                  <div key={label as string} className="rounded-xl border border-border/40 bg-secondary/10 p-4 text-center transition-all hover:bg-secondary/20">
+                    <p className="font-display text-2xl text-foreground">{value as string | number}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60">{label as string}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        )}
+
+          <div className="grid gap-8 rounded-2xl border border-border/40 bg-secondary/5 p-6 sm:grid-cols-2">
+             <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Ficha Biométrica</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">Dominância</Label>
+                    <p className="text-sm font-bold text-foreground/80">{player.dominant_foot}</p>
+                  </div>
+                  <div>
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">Altura</Label>
+                    <p className="text-sm font-bold text-foreground/80">{player.height_cm ? `${player.height_cm} cm` : "-"}</p>
+                  </div>
+                  <div>
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">Peso</Label>
+                    <p className="text-sm font-bold text-foreground/80">{player.weight_kg ? `${player.weight_kg} kg` : "-"}</p>
+                  </div>
+                  <div>
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">Idade</Label>
+                    <p className="text-sm font-bold text-foreground/80">{age(player.birth_date) ?? "-"}</p>
+                  </div>
+                </div>
+             </div>
+             <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Informações de Contato</h3>
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">Telefone</Label>
+                    <p className="text-xs font-bold">{player.phone ?? "-"}</p>
+                  </div>
+                  <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                    <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">E-mail</Label>
+                    <p className="text-xs font-bold">{player.email ?? "-"}</p>
+                  </div>
+                  {isPresident && (
+                    <div className="flex justify-between items-center">
+                      <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">CPF</Label>
+                      <p className="text-xs font-bold">{player.cpf ?? "-"}</p>
+                    </div>
+                  )}
+                </div>
+             </div>
+          </div>
+
+          {isPresident && (
+            <div className="flex gap-4 pt-4">
+              <Button variant="secondary" className="flex-1 bg-secondary/80 hover:bg-secondary text-[10px] font-bold uppercase tracking-widest py-6" onClick={() => onEdit(player)}>
+                <Pencil className="mr-2 h-4 w-4" /> Editar Perfil
+              </Button>
+              <Button
+                variant="outline"
+                className="border-primary/40 text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-widest py-6 px-6"
+                disabled={remove.isPending}
+                onClick={() => {
+                  if (confirm(`Excluir ${player.full_name}?`)) remove.mutate(player.id);
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
