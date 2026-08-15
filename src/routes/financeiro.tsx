@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { CheckCircle2, Plus, Wallet } from "lucide-react";
+import { CheckCircle2, Plus, Wallet, AlertCircle, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
@@ -95,70 +96,91 @@ function Financeiro() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="space-y-8 animate-stagger">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl tracking-wide">Financeiro</h1>
-            <p className="text-sm text-muted-foreground">
-              {isPresident ? "Mensalidades de todo o clube" : "Suas mensalidades"}
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Gestão Financeira</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">
+              {isPresident ? "Controle executivo de receitas e mensalidades" : "Minhas obrigações financeiras"}
             </p>
           </div>
           {isPresident && <NewPaymentDialog />}
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          <StatCard label="Previsto" value={formatMoney(total)} icon={Wallet} />
-          <StatCard label="Recebido" value={formatMoney(recebido)} icon={CheckCircle2} />
-          <StatCard label="Em aberto" value={formatMoney(pendente)} icon={Wallet} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <StatCard label="Total Previsto" value={formatMoney(total)} icon={TrendingUp} className="bg-card/40 border-border/40" />
+          <StatCard label="Receita Confirmada" value={formatMoney(recebido)} icon={CheckCircle2} className="bg-card/40 border-border/40 text-accent" />
+          <StatCard label="Pendências Ativas" value={formatMoney(pendente)} icon={AlertCircle} className="bg-card/40 border-border/40 text-primary" />
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 p-1 bg-card/40 border border-border/40 rounded-full w-fit">
           {["todos", ...PAYMENT_STATUS].map((s) => (
             <Button
               key={s}
               size="sm"
-              variant={filter === s ? "default" : "outline"}
+              variant="ghost"
               onClick={() => setFilter(s)}
+              className={cn(
+                "rounded-full px-6 transition-all",
+                filter === s ? "bg-primary text-white shadow-glow" : "text-muted-foreground hover:text-foreground"
+              )}
             >
               {s === "todos" ? "Todos" : PAYMENT_LABEL[s]}
             </Button>
           ))}
         </div>
 
-        <Card className="border-border/60 bg-card/80">
-          <CardHeader className="pb-2">
-            <CardTitle className="font-display text-xl">Mensalidades</CardTitle>
+        <Card className="overflow-hidden border-border/40 bg-card/40 backdrop-blur-md">
+          <CardHeader className="pb-4 border-b border-border/40">
+            <CardTitle className="font-display text-xl tracking-wider text-muted-foreground/80">Lançamentos Recentes</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {list.map((p) => (
-              <div
-                key={p.id}
-                className="flex flex-wrap items-center gap-3 rounded-lg border border-border/50 bg-secondary/30 px-3 py-2"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{nameOf.get(p.player_id) ?? "Atleta"}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {monthLabel(p.reference_month)}
-                    {p.due_date ? ` · vence ${formatDay(p.due_date)}` : ""}
-                  </p>
-                </div>
-                <span className="font-display text-xl">{formatMoney(Number(p.amount))}</span>
-                <Badge
-                  variant={p.status === "pago" ? "default" : "outline"}
-                  className={p.status === "atrasado" ? "border-primary text-primary" : undefined}
+          <CardContent className="p-0">
+            <div className="divide-y divide-border/40">
+              {list.map((p) => (
+                <div
+                  key={p.id}
+                  className="group flex flex-wrap items-center gap-4 p-5 transition-all hover:bg-secondary/10"
                 >
-                  {PAYMENT_LABEL[p.status] ?? p.status}
-                </Badge>
-                {isPresident && p.status !== "pago" && (
-                  <Button size="sm" variant="secondary" onClick={() => markPaid.mutate(p)}>
-                    Dar baixa
-                  </Button>
-                )}
-              </div>
-            ))}
-            {list.length === 0 && (
-              <p className="text-sm text-muted-foreground">Nenhuma mensalidade registrada.</p>
-            )}
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/20 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                     <Wallet className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-bold tracking-tight text-foreground/90">{nameOf.get(p.player_id) ?? "Atleta"}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                      Ref: {monthLabel(p.reference_month)}
+                      {p.due_date ? ` · Vencimento: ${formatDay(p.due_date)}` : ""}
+                    </p>
+                  </div>
+                  <div className="text-right px-4">
+                    <p className="font-display text-2xl text-foreground">{formatMoney(Number(p.amount))}</p>
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        "mt-1 text-[8px] font-black uppercase tracking-widest px-2",
+                        p.status === "pago" ? "border-accent/40 text-accent bg-accent/5" : 
+                        p.status === "atrasado" ? "border-primary/40 text-primary bg-primary/5 shadow-glow-sm" : 
+                        "border-border/60 text-muted-foreground"
+                      )}
+                    >
+                      {PAYMENT_LABEL[p.status] ?? p.status}
+                    </Badge>
+                  </div>
+                  {isPresident && p.status !== "pago" && (
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-accent/20 text-accent hover:bg-accent/10 text-[9px] font-bold uppercase tracking-widest px-4"
+                      onClick={() => markPaid.mutate(p)}
+                    >
+                      Confirmar
+                    </Button>
+                  )}
+                </div>
+              ))}
+              {list.length === 0 && (
+                <div className="py-12 text-center text-sm font-medium text-muted-foreground/40 italic">Nenhum lançamento financeiro encontrado.</div>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
