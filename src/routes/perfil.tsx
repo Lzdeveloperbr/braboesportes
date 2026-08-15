@@ -112,32 +112,35 @@ function Perfil() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
-        <div>
-          <h1 className="font-display text-3xl tracking-wide">Meu perfil</h1>
-          <p className="text-sm text-muted-foreground">{user?.email}</p>
-        </div>
+      <div className="space-y-8 animate-stagger">
+        <section>
+          <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Meu Perfil</h1>
+          <p className="mt-1 text-sm font-medium text-muted-foreground/80 font-sans">{user?.email}</p>
+        </section>
 
-        <Card className="overflow-hidden border-border/60 bg-card/80 shadow-elevated">
-          <div className="surface-primary h-16" />
-          <CardContent className="-mt-10 space-y-4 p-5">
-            <div className="flex flex-wrap items-end gap-4">
+        <Card className="overflow-hidden border-border/40 bg-card/40 backdrop-blur-md shadow-elevated">
+          <div className="surface-primary h-24 relative overflow-hidden">
+            {/* Abstract decorative element */}
+            <div className="absolute right-0 top-0 h-full w-1/3 bg-white/5 skew-x-12 transform translate-x-10" />
+          </div>
+          <CardContent className="-mt-12 space-y-6 p-6 relative z-10">
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-end">
               <PlayerAvatar
                 path={player?.photo_url ?? null}
                 name={player?.full_name ?? user?.email ?? "?"}
                 shirt={player?.shirt_number}
-                className="h-24 w-24 text-4xl ring-4 ring-background"
+                className="h-32 w-32 text-5xl ring-4 ring-background shadow-glow rounded-2xl"
               />
-              <div className="min-w-0 flex-1">
-                <p className="font-display text-2xl">{player?.full_name ?? "Sem ficha de atleta"}</p>
-                <div className="mt-1 flex flex-wrap gap-2">
+              <div className="flex-1 text-center sm:text-left">
+                <p className="font-display text-3xl tracking-wide lg:text-4xl">{player?.full_name ?? "Perfil de Gestão"}</p>
+                <div className="mt-2 flex flex-wrap justify-center gap-2 sm:justify-start">
                   {roles.map((r) => (
-                    <Badge key={r} variant="outline" className="border-accent/50 text-accent">
+                    <Badge key={r} variant="outline" className="border-accent/40 bg-accent/5 text-accent uppercase text-[9px] font-bold tracking-[0.1em] px-3">
                       <ShieldCheck className="mr-1 h-3 w-3" /> {ROLE_LABEL[r]}
                     </Badge>
                   ))}
-                  {player && <Badge variant="secondary">{player.position}</Badge>}
-                  {player && <Badge variant="outline">{player.categoria}</Badge>}
+                  {player && <Badge variant="secondary" className="bg-primary/20 text-primary uppercase text-[9px] font-bold tracking-[0.1em] px-3 border-primary/20">{player.position}</Badge>}
+                  {player && <Badge variant="outline" className="border-border/60 text-muted-foreground uppercase text-[9px] font-bold tracking-[0.1em] px-3">{player.categoria}</Badge>}
                 </div>
               </div>
               {player && (
