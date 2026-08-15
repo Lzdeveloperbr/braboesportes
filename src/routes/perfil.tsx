@@ -144,7 +144,7 @@ function Perfil() {
                 </div>
               </div>
               {player && (
-                <>
+                <div className="flex w-full justify-center sm:w-auto">
                   <input
                     ref={fileRef}
                     type="file"
@@ -154,41 +154,70 @@ function Perfil() {
                   />
                   <Button
                     variant="outline"
+                    className="w-full border-primary/20 bg-primary/5 hover:bg-primary/10 sm:w-auto"
                     disabled={uploading}
                     onClick={() => fileRef.current?.click()}
                   >
-                    <Camera className="mr-1 h-4 w-4" />
-                    {uploading ? "Enviando..." : "Alterar foto"}
+                    <Camera className="mr-2 h-4 w-4 text-primary" />
+                    {uploading ? "Enviando..." : "Atualizar Foto"}
                   </Button>
-                </>
+                </div>
               )}
             </div>
 
             {player ? (
-              <>
-                <div className="grid grid-cols-3 gap-2 text-center sm:grid-cols-6">
+              <div className="space-y-8 pt-4">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                   {[
-                    ["Jogos", player.matches_played],
+                    ["Partidas", player.matches_played],
                     ["Gols", player.goals],
-                    ["Assist.", player.assists],
+                    ["Assistências", player.assists],
                     ["Amarelos", player.yellow_cards],
                     ["Vermelhos", player.red_cards],
-                    ["Geral", overall(player)],
+                    ["Rating", overall(player)],
                   ].map(([label, value]) => (
-                    <div key={label as string} className="rounded-lg border border-border/50 py-2">
-                      <p className="font-display text-2xl">{value as number}</p>
-                      <p className="text-xs text-muted-foreground">{label as string}</p>
+                    <div key={label as string} className="rounded-xl border border-border/40 bg-secondary/20 p-4 text-center transition-all hover:bg-secondary/30">
+                      <p className="font-display text-3xl text-primary">{value as number}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{label as string}</p>
                     </div>
                   ))}
                 </div>
 
-                <div className="grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
-                  <p>Idade: {age(player.birth_date) ?? "-"}</p>
-                  <p>Pé dominante: {player.dominant_foot}</p>
-                  <p>Altura: {player.height_cm ? `${player.height_cm} cm` : "-"}</p>
-                  <p>Peso: {player.weight_kg ? `${player.weight_kg} kg` : "-"}</p>
-                  <p>Entrada: {player.joined_on ? formatDay(player.joined_on) : "-"}</p>
-                  <p>Situação: {player.status === "ativo" ? "Ativo" : "Inativo"}</p>
+                <div className="grid gap-6 rounded-xl border border-border/40 bg-secondary/10 p-6 sm:grid-cols-2">
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Informações Biométricas</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Idade</Label>
+                        <p className="text-sm font-semibold">{age(player.birth_date) ?? "-"}</p>
+                      </div>
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Dominância</Label>
+                        <p className="text-sm font-semibold">{player.dominant_foot}</p>
+                      </div>
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Estatura</Label>
+                        <p className="text-sm font-semibold">{player.height_cm ? `${player.height_cm} cm` : "-"}</p>
+                      </div>
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Peso</Label>
+                        <p className="text-sm font-semibold">{player.weight_kg ? `${player.weight_kg} kg` : "-"}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Status no Clube</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Ingresso</Label>
+                        <p className="text-sm font-semibold">{player.joined_on ? formatDay(player.joined_on) : "-"}</p>
+                      </div>
+                      <div>
+                        <Label className="text-[10px] uppercase text-muted-foreground/60">Situação</Label>
+                        <p className="text-sm font-semibold capitalize">{player.status}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="rounded-lg border border-border/50 p-3">
