@@ -249,8 +249,6 @@ function Perfil() {
             )}
           </CardContent>
         </Card>
-          </CardContent>
-        </Card>
 
         <div className="grid gap-4 lg:grid-cols-2">
           <Card className="border-border/60 bg-card/80">
