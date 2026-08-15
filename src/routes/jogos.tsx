@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Trophy, MapPin, Calendar, Layout } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
@@ -59,34 +60,44 @@ function Jogos() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="space-y-8 animate-stagger">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl tracking-wide">Jogos</h1>
-            <p className="text-sm text-muted-foreground">Calendário e resultados</p>
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Confrontos</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">
+              Histórico de batalhas e próximos desafios
+            </p>
           </div>
           {isPresident && <NewMatchDialog />}
         </div>
 
-        <Tabs defaultValue="proximos">
-          <TabsList className="grid w-full max-w-sm grid-cols-2">
-            <TabsTrigger value="proximos">Próximos</TabsTrigger>
-            <TabsTrigger value="resultados">Resultados</TabsTrigger>
+        <Tabs defaultValue="proximos" className="w-full">
+          <TabsList className="bg-card/40 border border-border/40 p-1 rounded-full w-fit mb-6">
+            <TabsTrigger value="proximos" className="rounded-full px-8 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-glow">Próximos</TabsTrigger>
+            <TabsTrigger value="resultados" className="rounded-full px-8 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-glow">Resultados</TabsTrigger>
           </TabsList>
-          <TabsContent value="proximos" className="space-y-3 pt-4">
+          
+          <TabsContent value="proximos" className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 mt-0">
             {upcoming.map((m) => (
               <MatchCard key={m.id} match={m} />
             ))}
             {upcoming.length === 0 && (
-              <p className="text-sm text-muted-foreground">Nenhum jogo agendado.</p>
+              <div className="col-span-full py-12 text-center rounded-2xl border border-dashed border-border/40 bg-card/20">
+                <Calendar className="mx-auto h-12 w-12 text-muted-foreground/20 mb-3" />
+                <p className="text-sm font-medium text-muted-foreground/40 italic">Nenhum jogo agendado para o futuro próximo.</p>
+              </div>
             )}
           </TabsContent>
-          <TabsContent value="resultados" className="space-y-3 pt-4">
+          
+          <TabsContent value="resultados" className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 mt-0">
             {past.map((m) => (
               <MatchCard key={m.id} match={m} />
             ))}
             {past.length === 0 && (
-              <p className="text-sm text-muted-foreground">Nenhum jogo disputado.</p>
+              <div className="col-span-full py-12 text-center rounded-2xl border border-dashed border-border/40 bg-card/20">
+                <Trophy className="mx-auto h-12 w-12 text-muted-foreground/20 mb-3" />
+                <p className="text-sm font-medium text-muted-foreground/40 italic">O clube ainda não registrou resultados esta temporada.</p>
+              </div>
             )}
           </TabsContent>
         </Tabs>
@@ -101,33 +112,50 @@ function MatchCard({ match }: { match: Match }) {
   const draw = match.goals_for === match.goals_against;
 
   return (
-    <Card className="border-border/60 bg-card/80">
-      <CardContent className="flex items-center gap-4 p-4">
+    <Card className="group overflow-hidden border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-soft">
+      <CardContent className="flex items-center gap-5 p-5">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+           <Trophy className="h-7 w-7" />
+        </div>
         <div className="min-w-0 flex-1">
-          <p className="font-display text-2xl">
-            Brabo E.C. <span className="text-muted-foreground">x</span> {match.opponent}
+          <p className="font-display text-2xl tracking-tight text-foreground/90">
+            Brabo E.C. <span className="text-primary mx-1">vs</span> {match.opponent}
           </p>
-          <p className="text-xs text-muted-foreground">
-            {formatDate(match.match_date)} · {match.venue ?? "Local a definir"}
-          </p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Badge variant="secondary">{match.competition ?? "Amistoso"}</Badge>
-            <Badge variant="outline">{match.home ? "Casa" : "Fora"}</Badge>
-            <Badge variant="outline">{match.formation}</Badge>
-            <Badge variant="outline">{match.categoria}</Badge>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
+             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                <Calendar className="h-3 w-3" /> {formatDate(match.match_date)}
+             </p>
+             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                <MapPin className="h-3 w-3" /> {match.venue ?? "Indefinido"}
+             </p>
+             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                <Layout className="h-3 w-3" /> {match.formation}
+             </p>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/20 text-[9px] font-bold tracking-wider uppercase">{match.competition ?? "Amistoso"}</Badge>
+            <Badge variant="outline" className="border-border/60 text-muted-foreground/80 text-[9px] font-bold tracking-wider uppercase">{match.home ? "Mando de Campo" : "Visitante"}</Badge>
+            <Badge variant="outline" className="border-border/60 text-muted-foreground/80 text-[9px] font-bold tracking-wider uppercase">{match.categoria}</Badge>
           </div>
         </div>
         {finished ? (
-          <span
-            className={
-              "font-display text-3xl " +
-              (win ? "text-success" : draw ? "text-accent" : "text-primary")
-            }
-          >
-            {match.goals_for}-{match.goals_against}
-          </span>
+          <div className="flex flex-col items-end">
+            <span
+              className={cn(
+                "font-display text-4xl shadow-glow",
+                win ? "text-accent" : draw ? "text-muted-foreground/60" : "text-primary"
+              )}
+            >
+              {match.goals_for}-{match.goals_against}
+            </span>
+            <span className="text-[8px] font-black uppercase tracking-tighter text-muted-foreground/30 leading-none">
+              {win ? "Vitória" : draw ? "Empate" : "Derrota"}
+            </span>
+          </div>
         ) : (
-          <Badge className="surface-primary text-primary-foreground">Agendado</Badge>
+          <div className="flex flex-col items-end">
+            <Badge className="bg-accent/10 text-accent border-accent/20 text-[9px] font-black uppercase tracking-widest px-3 py-1">Próximo</Badge>
+          </div>
         )}
       </CardContent>
     </Card>

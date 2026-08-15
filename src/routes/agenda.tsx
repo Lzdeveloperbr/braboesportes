@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { CalendarDays, Dumbbell, MapPin, Trophy } from "lucide-react";
+import { CalendarDays, Dumbbell, MapPin, Trophy, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import { AppShell } from "@/components/AppShell";
 import { AttendanceControls } from "@/components/AttendanceControls";
@@ -67,27 +68,38 @@ function Agenda() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
-        <div>
-          <h1 className="font-display text-3xl tracking-wide">Agenda</h1>
-          <p className="text-sm text-muted-foreground">Treinos, jogos e campeonatos do clube</p>
-        </div>
-
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant={aba === "proximos" ? "default" : "outline"}
-            onClick={() => setAba("proximos")}
-          >
-            Próximos
-          </Button>
-          <Button
-            size="sm"
-            variant={aba === "anteriores" ? "default" : "outline"}
-            onClick={() => setAba("anteriores")}
-          >
-            Anteriores
-          </Button>
+      <div className="space-y-8 animate-stagger">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Agenda do Clube</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">
+              Treinos, confrontos e eventos oficiais
+            </p>
+          </div>
+          <div className="flex gap-2 bg-card/40 p-1 rounded-full border border-border/40">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setAba("proximos")}
+              className={cn(
+                "rounded-full px-6 transition-all",
+                aba === "proximos" ? "bg-primary text-white shadow-glow" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              Próximos
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setAba("anteriores")}
+              className={cn(
+                "rounded-full px-6 transition-all",
+                aba === "anteriores" ? "bg-primary text-white shadow-glow" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              Anteriores
+            </Button>
+          </div>
         </div>
 
         {lt || lm ? (
@@ -104,85 +116,98 @@ function Agenda() {
           </Card>
         ) : (
           [...grupos.entries()].map(([mes, itens]) => (
-            <section key={mes} className="space-y-3">
-              <h2 className="font-display text-xl capitalize tracking-wide text-muted-foreground">
+            <section key={mes} className="space-y-4">
+              <h2 className="font-display text-xl capitalize tracking-widest text-primary/80 pl-2">
                 {mes}
               </h2>
-              {itens.map((e) =>
-                e.kind === "treino" ? (
-                  <Card
-                    key={`t-${e.training.id}`}
-                    className="border-border/60 bg-card/80 transition-shadow hover:shadow-elevated"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/15 text-accent">
-                          <Dumbbell className="h-5 w-5" />
+              <div className="grid gap-4">
+                {itens.map((e) =>
+                  e.kind === "treino" ? (
+                    <Card
+                      key={`t-${e.training.id}`}
+                      className="group overflow-hidden border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:shadow-soft"
+                    >
+                      <CardContent className="p-0">
+                        <div className="flex flex-col sm:flex-row">
+                          <div className="flex items-center gap-4 p-5 flex-1">
+                            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-transform group-hover:scale-110">
+                              <Dumbbell className="h-6 w-6" />
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-bold tracking-tight text-foreground/90">{e.training.title}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                                {formatDate(e.training.training_date)}
+                              </p>
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                <Badge variant="secondary" className="bg-accent/20 text-accent border-accent/20 text-[9px] font-bold uppercase tracking-wider">{e.training.training_type}</Badge>
+                                <Badge variant="outline" className="border-border/60 text-muted-foreground/80 text-[9px] font-bold uppercase tracking-wider">{e.training.categoria}</Badge>
+                                {e.training.location && (
+                                  <Badge variant="outline" className="gap-1 border-border/60 text-muted-foreground/80 text-[9px] font-bold uppercase tracking-wider">
+                                    <MapPin className="h-3 w-3" /> {e.training.location}
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-secondary/10 p-5 sm:w-64 border-t sm:border-t-0 sm:border-l border-border/40">
+                             <AttendanceControls training={e.training} />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <Card
+                      key={`m-${e.match.id}`}
+                      className="group overflow-hidden border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-soft"
+                    >
+                      <CardContent className="flex items-center gap-4 p-5">
+                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+                          <Trophy className="h-6 w-6" />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="font-semibold">{e.training.title}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(e.training.training_date)}
+                          <p className="font-bold tracking-tight text-foreground/90">
+                            Brabo E.C. <span className="text-primary mx-1">vs</span> {e.match.opponent}
                           </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            <Badge variant="secondary">{e.training.training_type}</Badge>
-                            <Badge variant="outline">{e.training.categoria}</Badge>
-                            {e.training.location && (
-                              <Badge variant="outline" className="gap-1">
-                                <MapPin className="h-3 w-3" /> {e.training.location}
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                            {formatDate(e.match.match_date)}
+                          </p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/20 text-[9px] font-bold uppercase tracking-wider">{e.match.competition ?? "Amistoso"}</Badge>
+                            <Badge variant="outline" className="border-border/60 text-muted-foreground/80 text-[9px] font-bold uppercase tracking-wider">
+                              {e.match.home ? "Mando de Campo" : "Visitante"}
+                            </Badge>
+                            {e.match.venue && (
+                              <Badge variant="outline" className="gap-1 border-border/60 text-muted-foreground/80 text-[9px] font-bold uppercase tracking-wider">
+                                <MapPin className="h-3 w-3" /> {e.match.venue}
                               </Badge>
                             )}
                           </div>
                         </div>
-                      </div>
-                      <AttendanceControls training={e.training} />
-                    </CardContent>
-                  </Card>
-                ) : (
-                  <Card
-                    key={`m-${e.match.id}`}
-                    className="border-border/60 bg-card/80 transition-shadow hover:shadow-elevated"
-                  >
-                    <CardContent className="flex items-start gap-3 p-4">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                        <Trophy className="h-5 w-5" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="font-semibold">
-                          Brabo E.C. <span className="text-muted-foreground">x</span>{" "}
-                          {e.match.opponent}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDate(e.match.match_date)}
-                        </p>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          <Badge variant="secondary">{e.match.competition ?? "Amistoso"}</Badge>
-                          <Badge variant="outline">
-                            {e.match.home ? "Mando nosso" : "Fora de casa"}
-                          </Badge>
-                          {e.match.venue && (
-                            <Badge variant="outline" className="gap-1">
-                              <MapPin className="h-3 w-3" /> {e.match.venue}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                      {e.match.goals_for !== null && e.match.goals_against !== null && (
-                        <span className="font-display text-2xl">
-                          {e.match.goals_for} - {e.match.goals_against}
-                        </span>
-                      )}
-                    </CardContent>
-                  </Card>
-                ),
-              )}
+                        {e.match.goals_for !== null && e.match.goals_against !== null ? (
+                          <div className="flex flex-col items-end">
+                            <span className="font-display text-4xl text-accent shadow-glow">
+                              {e.match.goals_for} - {e.match.goals_against}
+                            </span>
+                            <span className="text-[8px] font-black uppercase tracking-tighter text-muted-foreground/30 leading-none">Placar Final</span>
+                          </div>
+                        ) : (
+                           <div className="hidden sm:block">
+                             <Button variant="outline" className="rounded-full border-primary/20 text-primary hover:bg-primary/5 text-[9px] font-bold uppercase tracking-widest">Detalhes</Button>
+                           </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ),
+                )}
+              </div>
             </section>
           ))
         )}
 
-        <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <CalendarDays className="h-4 w-4" /> Confirme sua presença nos treinos direto por aqui.
-        </p>
+        <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 p-4 text-[10px] font-bold uppercase tracking-widest text-primary/80">
+          <CheckCircle2 className="h-4 w-4" /> 
+          Lembrete: Mantenha sua confirmação de presença atualizada para facilitar o planejamento técnico.
+        </div>
       </div>
     </AppShell>
   );

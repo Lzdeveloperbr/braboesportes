@@ -14,9 +14,9 @@ export function TacticalPitch({ formation, starters, className }: Props) {
   return (
     <div
       className={cn(
-        "relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-border/60",
-        "bg-[radial-gradient(circle_at_50%_20%,color-mix(in_oklab,var(--color-success)_22%,transparent),transparent_70%)]",
-        "bg-success/10",
+        "relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-border/40",
+        "bg-[radial-gradient(circle_at_50%_10%,color-mix(in_oklab,var(--color-success)_15%,transparent),transparent_80%)]",
+        "bg-success/5 backdrop-blur-sm",
         className,
       )}
     >

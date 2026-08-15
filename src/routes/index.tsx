@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import {
+  Activity,
   CalendarDays,
   CheckCircle2,
   Dumbbell,
@@ -81,101 +83,125 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <div className="space-y-6">
-        <section>
-          <h1 className="font-display text-3xl tracking-wide">Painel do clube</h1>
-          <p className="text-sm text-muted-foreground">Temporada em andamento</p>
+      <div className="space-y-8 animate-stagger">
+        <section className="flex items-end justify-between">
+          <div>
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Painel Executivo</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">Temporada 2026 · Gestão Pro X</p>
+          </div>
+          <div className="hidden lg:block">
+            <Badge variant="outline" className="border-primary/20 bg-primary/5 px-3 py-1 text-primary">
+              Status: Operacional
+            </Badge>
+          </div>
         </section>
 
-        <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <StatCard label="Atletas" value={roster.length} icon={Users} />
-          <StatCard label="Vitórias" value={wins} hint={`${played.length} jogos`} icon={Trophy} />
-          <StatCard label="Treinos" value={trainings.data?.length ?? 0} icon={Dumbbell} />
-          <StatCard label="Presenças" value={presencas} icon={CheckCircle2} />
-          <StatCard label="Faltas" value={faltas} icon={UserX} />
-          <StatCard label="Gols" value={goals} icon={Goal} />
+        <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard label="Atletas Ativos" value={roster.length} icon={Users} />
+          <StatCard label="Taxa de Vitórias" value={`${Math.round((wins / (played.length || 1)) * 100)}%`} hint={`${wins}V / ${played.length}J`} icon={Trophy} />
+          <StatCard label="Sessões de Treino" value={trainings.data?.length ?? 0} icon={Dumbbell} />
+          <StatCard label="Presença Geral" value={`${Math.round((presencas / (presencas + faltas || 1)) * 100)}%`} icon={CheckCircle2} />
+        </section>
+
+        <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard label="Gols Marcados" value={goals} icon={Goal} />
           <StatCard label="Assistências" value={assists} icon={Handshake} />
-          <StatCard label="Cartões" value={cards} icon={RectangleVertical} />
+          <StatCard label="Indisciplina" value={cards} icon={RectangleVertical} />
+          <StatCard label="Faltas Registradas" value={faltas} icon={UserX} />
         </section>
 
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <Card className="overflow-hidden border-border/60 bg-card/80 shadow-elevated">
-            <div className="surface-primary px-5 py-2 text-xs font-semibold uppercase tracking-widest text-primary-foreground">
-              Próximo jogo
+        <section className="grid gap-6 lg:grid-cols-3">
+          <Card className="col-span-2 overflow-hidden border-border/40 bg-card/40 backdrop-blur-md shadow-elevated">
+            <div className="flex items-center justify-between border-b border-border/40 bg-primary/5 px-6 py-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Próximo Compromisso</span>
+              <Badge variant="outline" className="border-primary/30 text-primary">Matchday</Badge>
             </div>
-            <CardContent className="p-5">
+            <CardContent className="p-8">
               {nextMatch ? (
-                <>
-                  <p className="font-display text-3xl">
-                    Brabo E.C. <span className="text-muted-foreground">x</span> {nextMatch.opponent}
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {formatDate(nextMatch.match_date)} · {nextMatch.venue ?? "Local a definir"}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <Badge variant="secondary">{nextMatch.competition ?? "Amistoso"}</Badge>
-                    <Badge variant="outline">{nextMatch.home ? "Mando nosso" : "Fora de casa"}</Badge>
-                    <Badge variant="outline">{nextMatch.formation}</Badge>
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <div className="flex items-center gap-4">
+                      <p className="font-display text-4xl lg:text-5xl">
+                        Brabo E.C. <span className="text-muted-foreground/40 font-sans text-2xl font-light mx-2">VS</span> {nextMatch.opponent}
+                      </p>
+                    </div>
+                    <div className="mt-4 flex items-center gap-6 text-sm font-medium text-muted-foreground">
+                      <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-primary" /> {formatDate(nextMatch.match_date)}</span>
+                      <span className="flex items-center gap-2 uppercase tracking-wider">{nextMatch.venue ?? "Local a definir"}</span>
+                    </div>
                   </div>
-                </>
+                  <div className="flex flex-wrap gap-2 lg:flex-col lg:items-end">
+                    <Badge variant="secondary" className="bg-secondary/60 text-foreground px-4 py-1">{nextMatch.competition ?? "Amistoso"}</Badge>
+                    <Badge variant="outline" className="border-border/60 text-muted-foreground">{nextMatch.formation}</Badge>
+                  </div>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Nenhum jogo agendado.</p>
+                <div className="flex h-32 flex-col items-center justify-center text-muted-foreground">
+                  <Activity className="mb-2 h-8 w-8 opacity-20" />
+                  <p className="text-sm font-medium italic">Calendário sem jogos próximos.</p>
+                </div>
               )}
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/80 shadow-elevated">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Dumbbell className="h-5 w-5 text-primary" /> Próximo treino
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="border-b border-border/40 px-6 py-4">
+              <CardTitle className="flex items-center gap-2 font-display text-lg tracking-widest text-muted-foreground/80">
+                <Dumbbell className="h-4 w-4 text-primary" /> Próximo Treino
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               {nextTraining ? (
-                <>
-                  <p className="text-lg font-semibold">{nextTraining.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {formatDate(nextTraining.training_date)} ·{" "}
-                    {nextTraining.location ?? "Local a definir"}
-                  </p>
-                  <div className="mt-3 flex gap-2">
-                    <Badge variant="secondary">{nextTraining.training_type}</Badge>
-                    <Badge variant="outline">{nextTraining.categoria}</Badge>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xl font-bold tracking-tight">{nextTraining.title}</p>
+                    <p className="mt-1 text-sm font-medium text-muted-foreground/70">
+                      {formatDate(nextTraining.training_date)}
+                    </p>
                   </div>
-                </>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className="bg-primary/20 text-primary hover:bg-primary/30">{nextTraining.training_type}</Badge>
+                    <Badge variant="outline" className="border-accent/40 text-accent">{nextTraining.categoria}</Badge>
+                  </div>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Nenhum treino agendado.</p>
+                <p className="py-8 text-center text-sm font-medium text-muted-foreground/50 italic">Nenhum treino agendado.</p>
               )}
             </CardContent>
           </Card>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <CalendarDays className="h-5 w-5 text-primary" /> Últimos resultados
+        <section className="grid gap-6 lg:grid-cols-2">
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center justify-between font-display text-xl tracking-wider">
+                <div className="flex items-center gap-2 text-muted-foreground/80">
+                  <CalendarDays className="h-5 w-5 text-primary" /> Histórico Recente
+                </div>
+                <Link to="/jogos" className="text-xs font-sans font-medium text-primary hover:underline">
+                  Ver todos
+                </Link>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-3 pt-6">
               {played.slice(0, 4).map((m) => {
                 const win = (m.goals_for ?? 0) > (m.goals_against ?? 0);
                 const draw = m.goals_for === m.goals_against;
                 return (
                   <div
                     key={m.id}
-                    className="flex items-center justify-between rounded-lg border border-border/50 bg-secondary/40 px-3 py-2"
+                    className="flex items-center justify-between rounded-xl border border-border/40 bg-secondary/20 p-4 transition-all hover:bg-secondary/30"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{m.opponent}</p>
-                      <p className="text-xs text-muted-foreground">{formatDate(m.match_date)}</p>
+                      <p className="truncate text-sm font-bold tracking-tight">{m.opponent}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60">{formatDate(m.match_date)}</p>
                     </div>
                     <span
-                      className={
-                        "font-display text-xl " +
-                        (win ? "text-success" : draw ? "text-accent" : "text-primary")
-                      }
+                      className={cn(
+                        "font-display text-2xl ",
+                        win ? "text-success" : draw ? "text-accent" : "text-primary"
+                      )}
                     >
                       {m.goals_for} - {m.goals_against}
                     </span>
@@ -183,69 +209,75 @@ function Dashboard() {
                 );
               })}
               {played.length === 0 && (
-                <p className="text-sm text-muted-foreground">Sem jogos disputados ainda.</p>
+                <div className="py-8 text-center text-sm font-medium text-muted-foreground/40 italic">Nenhum registro de partida.</div>
               )}
-              <Link to="/jogos" className="inline-block pt-1 text-sm text-primary hover:underline">
-                Ver todos os jogos
-              </Link>
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Trophy className="h-5 w-5 text-accent" /> Ranking dos atletas
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center justify-between font-display text-xl tracking-wider">
+                <div className="flex items-center gap-2 text-muted-foreground/80">
+                  <Trophy className="h-5 w-5 text-accent" /> Top Performances
+                </div>
+                <Link to="/elenco" className="text-xs font-sans font-medium text-primary hover:underline">
+                  Ver elenco
+                </Link>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-4 pt-6">
               {ranking.map((p, i) => (
-                <div key={p.id} className="flex items-center gap-3">
-                  <span className="w-5 font-display text-lg text-muted-foreground">{i + 1}</span>
+                <div key={p.id} className="group flex items-center gap-4 rounded-xl p-2 transition-all hover:bg-secondary/20">
+                  <span className="w-4 font-display text-lg text-muted-foreground/40 group-hover:text-accent transition-colors">{i + 1}</span>
                   <PlayerAvatar
                     path={p.photo_url}
                     name={p.full_name}
                     shirt={p.shirt_number}
-                    className="h-9 w-9 text-base"
+                    className="h-10 w-10 text-base shadow-sm ring-primary/10"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{p.full_name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {p.position} · {p.goals} gols · {p.assists} assist.
+                    <p className="truncate text-sm font-bold tracking-tight">{p.full_name}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                      {p.position} · {p.goals} Gols · {p.assists} Assist.
                     </p>
                   </div>
-                  <span className="font-display text-xl text-accent">{overall(p)}</span>
+                  <div className="flex flex-col items-end">
+                    <span className="font-display text-2xl text-accent">{overall(p)}</span>
+                    <span className="text-[9px] uppercase font-bold text-muted-foreground/40 leading-none">Rating</span>
+                  </div>
                 </div>
               ))}
               {ranking.length === 0 && (
-                <p className="text-sm text-muted-foreground">Nenhum atleta cadastrado ainda.</p>
+                <div className="py-8 text-center text-sm font-medium text-muted-foreground/40 italic">Sem dados de atletas.</div>
               )}
-
-              <Link to="/elenco" className="inline-block pt-1 text-sm text-primary hover:underline">
-                Ver elenco completo
-              </Link>
             </CardContent>
           </Card>
         </section>
 
         <section>
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <Megaphone className="h-5 w-5 text-primary" /> Avisos do clube
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center gap-2 font-display text-xl tracking-wider text-muted-foreground/80">
+                <Megaphone className="h-5 w-5 text-primary" /> Comunicados Oficiais
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="grid gap-4 pt-6 md:grid-cols-3">
               {(announcements.data ?? []).slice(0, 3).map((a) => (
-                <div key={a.id} className="rounded-lg border border-border/50 p-3">
-                  <div className="flex items-center gap-2">
-                    <p className="font-semibold">{a.title}</p>
-                    {a.pinned && <Badge className="bg-accent text-accent-foreground">Fixado</Badge>}
+                <div key={a.id} className="relative overflow-hidden rounded-xl border border-border/40 bg-secondary/20 p-5 transition-all hover:bg-secondary/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Notificação</span>
+                    {a.pinned && <Badge className="h-5 bg-accent text-accent-foreground text-[9px] uppercase font-bold tracking-tighter">Fixado</Badge>}
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{a.body}</p>
+                  <p className="text-sm font-bold tracking-tight mb-2">{a.title}</p>
+                  <p className="text-xs leading-relaxed text-muted-foreground/80 line-clamp-3">{a.body}</p>
+                  {/* Decorative element */}
+                  <div className="absolute -bottom-2 -right-2 opacity-5">
+                    <Megaphone className="h-12 w-12 text-primary rotate-12" />
+                  </div>
                 </div>
               ))}
               {(announcements.data ?? []).length === 0 && (
-                <p className="text-sm text-muted-foreground">Nenhum aviso publicado.</p>
+                <div className="col-span-full py-12 text-center text-sm font-medium text-muted-foreground/30 italic">Nenhum aviso no mural.</div>
               )}
             </CardContent>
           </Card>
