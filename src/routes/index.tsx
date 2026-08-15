@@ -282,9 +282,6 @@ function Dashboard() {
             </CardContent>
           </Card>
         </section>
-            </CardContent>
-          </Card>
-        </section>
       </div>
     </AppShell>
   );
