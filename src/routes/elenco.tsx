@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { Camera, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -98,27 +99,27 @@ function Elenco() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="space-y-8 animate-stagger">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl tracking-wide">Elenco</h1>
-            <p className="text-sm text-muted-foreground">
-              {list.length} {list.length === 1 ? "atleta" : "atletas"}
+            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Elenco Oficial</h1>
+            <p className="mt-1 text-sm font-medium text-muted-foreground/80">
+              {list.length} {list.length === 1 ? "Atleta Registrado" : "Atletas Registrados"}
             </p>
           </div>
           {isPresident && (
-            <Button onClick={() => setEditing(null)} className="transition-transform hover:scale-[1.02]">
-              <Plus className="mr-1 h-4 w-4" /> Novo atleta
+            <Button onClick={() => setEditing(null)} className="bg-primary hover:bg-primary/90 text-white shadow-glow transition-all active:scale-[0.98]">
+              <Plus className="mr-2 h-4 w-4" /> Novo Atleta
             </Button>
           )}
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <Input
-            placeholder="Buscar atleta..."
+            placeholder="Buscar por nome..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="sm:max-w-xs"
+            className="border-border/40 bg-card/40 backdrop-blur-sm sm:max-w-xs"
           />
           <div className="flex flex-wrap gap-2">
             {FILTROS.map((c) => (
@@ -127,6 +128,10 @@ function Elenco() {
                 size="sm"
                 variant={categoria === c ? "default" : "outline"}
                 onClick={() => setCategoria(c)}
+                className={cn(
+                  "rounded-full px-4 transition-all",
+                  categoria === c ? "shadow-glow" : "border-border/40 bg-card/20 hover:bg-card/40"
+                )}
               >
                 {c}
               </Button>
@@ -148,25 +153,33 @@ function Elenco() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {list.map((p) => (
-              <button key={p.id} className="text-left" onClick={() => setSelected(p)}>
-                <Card className="h-full border-border/60 bg-card/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-elevated">
-                  <CardContent className="flex items-center gap-3 p-4">
-                    <PlayerAvatar path={p.photo_url} name={p.full_name} shirt={p.shirt_number} />
+              <button key={p.id} className="group text-left" onClick={() => setSelected(p)}>
+                <Card className="h-full border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-soft">
+                  <CardContent className="flex items-center gap-4 p-5">
+                    <PlayerAvatar 
+                      path={p.photo_url} 
+                      name={p.full_name} 
+                      shirt={p.shirt_number} 
+                      className="rounded-xl shadow-sm ring-primary/5 transition-transform group-hover:scale-105"
+                    />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-semibold">{p.full_name}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="truncate font-bold tracking-tight text-foreground/90">{p.full_name}</p>
+                      <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">
                         {p.position} · {p.categoria}
-                        {age(p.birth_date) ? ` · ${age(p.birth_date)} anos` : ""}
+                        {age(p.birth_date) ? ` · ${age(p.birth_date)} ANOS` : ""}
                       </p>
                       {p.status === "inativo" && (
-                        <Badge variant="outline" className="mt-1 border-muted text-muted-foreground">
+                        <Badge variant="outline" className="mt-2 border-muted/30 text-muted-foreground/50 text-[9px] uppercase font-bold tracking-tighter">
                           Inativo
                         </Badge>
                       )}
                     </div>
-                    <span className="font-display text-2xl text-accent">{overall(p)}</span>
+                    <div className="flex flex-col items-end">
+                      <span className="font-display text-3xl text-accent transition-colors group-hover:text-primary">{overall(p)}</span>
+                      <span className="text-[8px] font-black uppercase tracking-tighter text-muted-foreground/30 leading-none">Rating</span>
+                    </div>
                   </CardContent>
                 </Card>
               </button>
