@@ -250,57 +250,63 @@ function Perfil() {
           </CardContent>
         </Card>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="font-display text-xl">Próximos eventos</CardTitle>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="font-display text-xl tracking-wider text-muted-foreground/80">
+                <CalendarDays className="mr-2 h-5 w-5 inline text-primary" /> Próximos Eventos
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-3 pt-6">
               {proximos.map((e) => (
                 <div
                   key={e.id}
-                  className="flex items-center justify-between rounded-lg border border-border/50 px-3 py-2"
+                  className="flex items-center justify-between rounded-xl border border-border/40 bg-secondary/20 p-4 transition-all hover:bg-secondary/30"
                 >
-                  <p className="truncate text-sm">{e.label}</p>
-                  <span className="text-xs text-muted-foreground">{formatDate(e.date)}</span>
+                  <p className="truncate text-sm font-bold tracking-tight">{e.label}</p>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{formatDate(e.date)}</span>
                 </div>
               ))}
               {proximos.length === 0 && (
-                <p className="text-sm text-muted-foreground">Nada agendado no momento.</p>
+                <div className="py-8 text-center text-sm font-medium text-muted-foreground/40 italic">Nada agendado para você.</div>
               )}
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 bg-card/80">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 font-display text-xl">
-                <KeyRound className="h-5 w-5 text-primary" /> Alterar senha
+          <Card className="border-border/40 bg-card/40 backdrop-blur-md">
+            <CardHeader className="pb-4 border-b border-border/40">
+              <CardTitle className="flex items-center gap-2 font-display text-xl tracking-wider text-muted-foreground/80">
+                <KeyRound className="h-5 w-5 text-primary" /> Segurança da Conta
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <form className="space-y-3" onSubmit={changePassword}>
-                <div className="space-y-1">
-                  <Label htmlFor="nova">Nova senha</Label>
+            <CardContent className="pt-6">
+              <form className="space-y-5" onSubmit={changePassword}>
+                <div className="space-y-2">
+                  <Label htmlFor="nova" className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">Nova Senha</Label>
                   <Input
                     id="nova"
                     type="password"
                     minLength={6}
+                    className="border-border/40 bg-secondary/20 transition-all focus:ring-primary/20"
+                    placeholder="••••••••"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="nova2">Confirmar senha</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="nova2" className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">Confirmar Senha</Label>
                   <Input
                     id="nova2"
                     type="password"
                     minLength={6}
+                    className="border-border/40 bg-secondary/20 transition-all focus:ring-primary/20"
+                    placeholder="••••••••"
                     value={senha2}
                     onChange={(e) => setSenha2(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Salvar nova senha
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-[10px] py-6 shadow-glow transition-all active:scale-[0.98]">
+                  Salvar Alterações
                 </Button>
               </form>
             </CardContent>
