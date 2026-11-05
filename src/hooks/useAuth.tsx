@@ -11,6 +11,8 @@ type AuthState = {
   user: User | null;
   roles: AppRole[];
   role: AppRole;
+  /** Superadministrador da plataforma (todos os clubes). */
+  isSuperAdmin: boolean;
   /** Presidente: controle total. */
   isPresident: boolean;
   /** Presidente ou administrador: gestão do clube. */
@@ -61,10 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   const value = useMemo<AuthState>(() => {
-    const isPresident = roles.includes("presidente");
-    const isAdmin = isPresident || roles.includes("admin");
-    const isStaff = isAdmin || roles.includes("comissao") || roles.includes("treinador");
+    const isSuperAdmin = roles.includes("superadmin");
+    const isPresident = isSuperAdmin || roles.includes("presidente");
+    const isAdmin = isPresident || roles.includes("admin") || roles.includes("diretor");
+    const isStaff =
+      isAdmin ||
+      roles.includes("comissao") ||
+      roles.includes("treinador") ||
+      roles.includes("auxiliar");
     return {
+      isSuperAdmin,
       session,
       user: session?.user ?? null,
       roles,

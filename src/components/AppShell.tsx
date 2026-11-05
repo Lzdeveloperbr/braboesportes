@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   BarChart3,
+  Building2,
   CalendarDays,
   ClipboardList,
   Dumbbell,
@@ -28,7 +29,7 @@ import { BRAND } from "@/lib/brand";
 import { ROLE_LABEL } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 
-type Access = "all" | "staff" | "admin" | "president";
+type Access = "all" | "staff" | "admin" | "president" | "super";
 
 const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] = [
   { to: "/", label: "Painel", icon: LayoutDashboard, access: "all" },
@@ -46,12 +47,13 @@ const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] =
   { to: "/avisos", label: "Avisos", icon: Megaphone, access: "all" },
   { to: "/configuracoes", label: "Configurações", icon: Settings, access: "admin" },
   { to: "/perfil", label: "Perfil", icon: UserCircle2, access: "all" },
+  { to: "/plataforma", label: "Plataforma", icon: Building2, access: "super" },
 ];
 
 const MOBILE_MAIN = ["/", "/agenda", "/elenco", "/estatisticas", "/perfil"];
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { user, role, loading, signOut, isStaff, isAdmin, isPresident } = useAuth();
+  const { user, role, loading, signOut, isStaff, isAdmin, isPresident, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,7 +74,8 @@ export function AppShell({ children }: { children: ReactNode }) {
     access === "all" ||
     (access === "staff" && isStaff) ||
     (access === "admin" && isAdmin) ||
-    (access === "president" && isPresident);
+    (access === "president" && isPresident) ||
+    (access === "super" && isSuperAdmin);
 
   const items = NAV.filter((i) => can(i.access));
 

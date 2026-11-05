@@ -187,6 +187,26 @@ export const auditQuery = {
   },
 };
 
+export type Club = Tables<"clubs">;
+
+export const clubsQuery = {
+  queryKey: ["clubs"],
+  queryFn: async (): Promise<Club[]> => {
+    const { data, error } = await supabase.from("clubs").select("*").order("created_at");
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+export const clubMembersQuery = {
+  queryKey: ["club_members"],
+  queryFn: async () => {
+    const { data, error } = await supabase.from("club_members").select("club_id");
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
 export function overall(p: Player) {
   return Math.round(
     (p.speed + p.technique + p.finishing + p.passing + p.defending + p.physical) / 6,

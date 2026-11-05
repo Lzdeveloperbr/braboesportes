@@ -24,6 +24,7 @@ import { Route as JogosRouteImport } from './routes/jogos'
 import { Route as MedicoRouteImport } from './routes/medico'
 import { Route as PatrociniosRouteImport } from './routes/patrocinios'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PlataformaRouteImport } from './routes/plataforma'
 import { Route as TreinosRouteImport } from './routes/treinos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -101,6 +102,11 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlataformaRoute = PlataformaRouteImport.update({
+  id: '/plataforma',
+  path: '/plataforma',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TreinosRoute = TreinosRouteImport.update({
   id: '/treinos',
   path: '/treinos',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
+  '/plataforma': typeof PlataformaRoute
   '/treinos': typeof TreinosRoute
 }
 export interface FileRoutesByTo {
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
+  '/plataforma': typeof PlataformaRoute
   '/treinos': typeof TreinosRoute
 }
 export interface FileRoutesById {
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
   '/perfil': typeof PerfilRoute
+  '/plataforma': typeof PlataformaRoute
   '/treinos': typeof TreinosRoute
 }
 export interface FileRouteTypes {
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/medico'
     | '/patrocinios'
     | '/perfil'
+    | '/plataforma'
     | '/treinos'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/medico'
     | '/patrocinios'
     | '/perfil'
+    | '/plataforma'
     | '/treinos'
   id:
     | '__root__'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/medico'
     | '/patrocinios'
     | '/perfil'
+    | '/plataforma'
     | '/treinos'
   fileRoutesById: FileRoutesById
 }
@@ -235,6 +247,7 @@ export interface RootRouteChildren {
   MedicoRoute: typeof MedicoRoute
   PatrociniosRoute: typeof PatrociniosRoute
   PerfilRoute: typeof PerfilRoute
+  PlataformaRoute: typeof PlataformaRoute
   TreinosRoute: typeof TreinosRoute
 }
 
@@ -345,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plataforma': {
+      id: '/plataforma'
+      path: '/plataforma'
+      fullPath: '/plataforma'
+      preLoaderRoute: typeof PlataformaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/treinos': {
       id: '/treinos'
       path: '/treinos'
@@ -371,6 +391,7 @@ const rootRouteChildren: RootRouteChildren = {
   MedicoRoute: MedicoRoute,
   PatrociniosRoute: PatrociniosRoute,
   PerfilRoute: PerfilRoute,
+  PlataformaRoute: PlataformaRoute,
   TreinosRoute: TreinosRoute,
 }
 export const routeTree = rootRouteImport
