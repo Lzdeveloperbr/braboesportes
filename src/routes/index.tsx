@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
+import { useAuth } from "@/hooks/useAuth";
 import { BRAND } from "@/lib/brand";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { StatCard } from "@/components/StatCard";
@@ -61,13 +62,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Dashboard() {
+  const { isAdmin, isStaff } = useAuth();
   const players = useQuery(playersQuery);
   const matches = useQuery(matchesQuery);
   const trainings = useQuery(trainingsQuery);
   const announcements = useQuery(announcementsQuery);
   const attendance = useQuery(attendanceQuery);
-  const payments = useQuery(paymentsQuery);
-  const injuries = useQuery(injuriesQuery);
+  const payments = useQuery({ ...paymentsQuery, enabled: isAdmin });
+  const injuries = useQuery({ ...injuriesQuery, enabled: isStaff });
 
   const now = Date.now();
   const all = matches.data ?? [];
@@ -171,7 +173,7 @@ function Dashboard() {
 
 
         <section className="grid gap-4 md:grid-cols-3" aria-label="Pendências da operação">
-          <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-gradient-to-br from-red-950/35 to-card/70 p-5 transition hover:-translate-y-0.5 hover:border-primary/35">
+          {isAdmin && <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-gradient-to-br from-red-950/35 to-card/70 p-5 transition hover:-translate-y-0.5 hover:border-primary/35">
             <div className="flex items-center justify-between gap-3">
               <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Financeiro em aberto</span>
               <Wallet className="h-4 w-4 text-primary" />
@@ -179,8 +181,8 @@ function Dashboard() {
             <p className="mt-3 font-display text-3xl text-white">{openPayments.length}</p>
             <p className="mt-1 text-xs text-muted-foreground">{formatMoney(outstandingAmount)} em cobranças não pagas</p>
             <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary">Abrir financeiro <ArrowUpRight className="h-3 w-3" /></p>
-          </Link>
-          <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-amber-400/30">
+          </Link>}
+          {isAdmin && <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-amber-400/30">
             <div className="flex items-center justify-between gap-3">
               <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Mensalidades vencidas</span>
               <AlertTriangle className="h-4 w-4 text-amber-400" />
@@ -188,8 +190,8 @@ function Dashboard() {
             <p className="mt-3 font-display text-3xl text-white">{overduePayments.length}</p>
             <p className="mt-1 text-xs text-muted-foreground">Cobranças com vencimento anterior a hoje</p>
             <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-300">Conferir cobranças <ArrowUpRight className="h-3 w-3" /></p>
-          </Link>
-          <Link to="/medico" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-emerald-400/30">
+          </Link>}
+          {isStaff && <Link to="/medico" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-emerald-400/30">
             <div className="flex items-center justify-between gap-3">
               <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Departamento médico</span>
               <HeartPulse className="h-4 w-4 text-emerald-400" />
@@ -197,7 +199,7 @@ function Dashboard() {
             <p className="mt-3 font-display text-3xl text-white">{activeInjuries.length}</p>
             <p className="mt-1 text-xs text-muted-foreground">Registros em acompanhamento</p>
             <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300">Ver acompanhamento <ArrowUpRight className="h-3 w-3" /></p>
-          </Link>
+          </Link>}
         </section>
 
         <section className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
