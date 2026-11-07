@@ -11,6 +11,8 @@
 ## Execução iniciada em 2026-11-07
 - [x] Painel operacional com pendências financeiras, cobranças vencidas e acompanhamentos médicos calculados a partir das tabelas existentes.
 - [x] Indicadores com links diretos para os módulos responsáveis.
+- [x] Central de relatórios com exportação CSV de avaliações técnicas, presenças e estatísticas individuais.
+- [x] Exportação e resumo financeiro restritos ao perfil administrativo; consultas da central limitadas conforme perfil.
 - [x] Central de competições com agrupamento automático por torneio, calendário, resultados e estatísticas reais do Brabo.
 - [x] Navegação e tipos da rota Academia normalizados; nova rota Competições registrada no menu e no roteador.
 - [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
@@ -26,7 +28,8 @@
 - [ ] Planejamento semanal de treinos, justificativas de ausência e avaliações por atleta.
 - [ ] Competições, tabela de classificação, artilharia e premiações.
 - [ ] Central de mensagens, enquetes e notificações por e-mail.
-- [ ] Relatórios financeiros exportáveis, comprovantes e alertas de vencimento.
+- [x] Relatórios financeiros exportáveis e resumo de receitas/despesas com acesso administrativo.
+- [ ] Comprovantes anexados aos lançamentos e alertas automáticos de vencimento.
 - [ ] Conteúdo e marketing: galeria, página pública do clube e artes compartilháveis.
 - [ ] Integração de placares/calendários externos somente após definir fornecedor, credenciais e limites de uso.
 - [ ] Planos e cobrança SaaS após escolher provedor e validar requisitos legais/financeiros.
