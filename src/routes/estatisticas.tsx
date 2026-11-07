@@ -95,7 +95,7 @@ function Estatisticas() {
           yellow: sum("yellow_cards"),
           red: sum("red_cards"),
           mvp: mine.filter((s) => s.mvp).length,
-          rating: games ? Number((sum("rating") / games).toFixed(1)) : 0,
+          rating: games ? Number((sum("rating") / games).toFixed(1)) : null,
         };
       })
       .sort((a, b) => b.goals - a.goals || b.assists - a.assists);
@@ -166,7 +166,7 @@ function Estatisticas() {
             <CardContent className="space-y-2">
               {rows
                 .filter((r) => r.games > 0)
-                .sort((a, b) => b.rating - a.rating)
+                .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
                 .slice(0, 6)
                 .map((r, i) => (
                   <div
@@ -185,7 +185,7 @@ function Estatisticas() {
                         <Trophy className="mr-1 h-3 w-3" /> {r.mvp}
                       </Badge>
                     )}
-                    <span className="font-display text-xl">{r.rating.toFixed(1)}</span>
+                    <span className="font-display text-xl">{r.rating !== null ? r.rating.toFixed(1) : "—"}</span>
                   </div>
                 ))}
               {rows.every((r) => r.games === 0) && (
