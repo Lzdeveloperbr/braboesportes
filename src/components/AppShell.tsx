@@ -91,13 +91,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all duration-300",
-              "hover:bg-primary/10 hover:text-foreground hover:shadow-sm",
+              "group relative flex items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-[13px] font-semibold text-white/55 transition-all duration-200",
+              "hover:border-white/[0.06] hover:bg-white/[0.045] hover:text-white",
               active &&
-                "bg-primary/20 text-primary shadow-glow ring-1 ring-primary/20",
+                "border-primary/20 bg-primary/[0.13] text-white shadow-[inset_3px_0_0_0_var(--primary),0_8px_24px_-18px_var(--primary)]",
             )}
           >
-            <Icon className={cn("h-4 w-4 transition-all duration-300 group-hover:scale-125 group-hover:text-primary")} />
+            <Icon className={cn("h-[17px] w-[17px] text-white/45 transition-colors group-hover:text-primary")} />
             <span className="tracking-wide">{item.label}</span>
           </Link>
         );
@@ -109,18 +109,18 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen surface-pitch">
       <a href="#main-content" className="sr-only z-[100] rounded-md bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Pular para o conteúdo</a>
       {/* Sidebar desktop */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border/60 bg-background/80 backdrop-blur-xl lg:flex">
-        <div className="flex items-center gap-3 px-5 py-5">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[272px] flex-col border-r border-white/[0.07] bg-[oklch(0.085_0.005_260/0.97)] shadow-[18px_0_55px_-35px_rgba(0,0,0,0.9)] backdrop-blur-2xl lg:flex">
+        <div className="flex items-center gap-3 border-b border-white/[0.07] px-5 py-6">
           <img src={BRAND.crest} alt="Escudo do Brabo Esporte Clube" className="h-11 w-11" />
           <div className="min-w-0">
-            <p className="font-display text-xl leading-none tracking-wide">Brabo E.C.</p>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Pro X</p>
+            <p className="font-display text-2xl leading-none tracking-wide text-white">BRABO E.C.</p>
+            <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.28em] text-primary">CENTRO DE PERFORMANCE</p>
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-3 pb-4">
+        <div className="flex-1 overflow-y-auto px-3 py-5 pb-4">
           <NavLinks />
         </div>
-        <div className="border-t border-border/60 p-3">
+        <div className="border-t border-white/[0.07] bg-black/20 p-4">
           <div className="mb-2 min-w-0 px-2">
             <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             <Badge variant="outline" className="mt-1 border-accent/50 text-accent">
@@ -135,7 +135,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="lg:pl-64">
         {/* Topbar */}
-        <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur-xl">
+        <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[oklch(0.105_0.006_260/0.88)] shadow-[0_8px_30px_-24px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
           <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
@@ -181,7 +181,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-6 pb-24 outline-none lg:pb-10">{children}</main>
+        <main id="main-content" tabIndex={-1} className="mx-auto max-w-[1440px] px-4 py-6 pb-28 outline-none sm:px-6 lg:px-8 lg:py-8 lg:pb-12">{children}</main>
       </div>
 
       {/* Bottom nav mobile */}
@@ -198,7 +198,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   to={item.to}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex flex-1 flex-col items-center gap-1 py-2 text-[11px] text-muted-foreground transition-colors",
+                    "flex flex-1 flex-col items-center gap-1.5 py-2.5 text-[10px] font-semibold text-white/45 transition-colors",
                     active && "text-primary",
                   )}
                 >
