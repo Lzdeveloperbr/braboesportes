@@ -13,6 +13,7 @@
 - [x] Indicadores com links diretos para os módulos responsáveis.
 - [x] Central de relatórios com exportação CSV de avaliações técnicas, presenças e estatísticas individuais.
 - [x] Exportação e resumo financeiro restritos ao perfil administrativo; consultas da central limitadas conforme perfil.
+- [x] Comparativo técnico de até três atletas com gráfico radar e prioridade para a avaliação mais recente.
 - [x] Central de competições com agrupamento automático por torneio, calendário, resultados e estatísticas reais do Brabo.
 - [x] Navegação e tipos da rota Academia normalizados; nova rota Competições registrada no menu e no roteador.
 - [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
@@ -26,6 +27,7 @@
 - [ ] Eventos de partida como fonte única para gols, assistências, cartões, substituições e relatórios.
 - [ ] Convocação digital com confirmação de presença e notificações internas.
 - [ ] Planejamento semanal de treinos, justificativas de ausência e avaliações por atleta.
+- [ ] Cadastro de atletas observados externos, relatórios de scouting e histórico de captação.
 - [ ] Competições, tabela de classificação, artilharia e premiações.
 - [ ] Central de mensagens, enquetes e notificações por e-mail.
 - [x] Relatórios financeiros exportáveis e resumo de receitas/despesas com acesso administrativo.
