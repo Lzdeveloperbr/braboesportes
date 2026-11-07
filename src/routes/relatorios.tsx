@@ -16,7 +16,12 @@ import {
   matchStatsQuery,
   playersQuery,
   trainingsQuery,
+  type Player,
+  type Training,
 } from "@/lib/club";
+
+const EMPTY_PLAYERS: Player[] = [];
+const EMPTY_TRAININGS: Training[] = [];
 
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
@@ -53,10 +58,10 @@ function Relatorios() {
   const statsQueryResult = useQuery({ ...matchStatsQuery, enabled: isStaff });
   const financeQueryResult = useQuery({ ...financeQuery, enabled: isStaff && isAdmin });
 
-  const players = playersQueryResult.data ?? [];
+  const players = playersQueryResult.data ?? EMPTY_PLAYERS;
   const evaluations = evaluationsQueryResult.data ?? [];
   const attendance = attendanceQueryResult.data ?? [];
-  const trainings = trainingsQueryResult.data ?? [];
+  const trainings = trainingsQueryResult.data ?? EMPTY_TRAININGS;
   const stats = statsQueryResult.data ?? [];
   const finance = financeQueryResult.data ?? [];
 
