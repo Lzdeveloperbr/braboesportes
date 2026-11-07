@@ -8,6 +8,12 @@
 - [x] Shell da aplicação com idioma pt-BR, data no fuso de São Paulo e link para pular ao conteúdo.
 - [x] Documentação de produto, stack, configuração e segurança atualizada.
 
+## Execução iniciada em 2026-11-07
+- [x] Painel operacional com pendências financeiras, cobranças vencidas e acompanhamentos médicos calculados a partir das tabelas existentes.
+- [x] Indicadores com links diretos para os módulos responsáveis.
+- [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
+- [ ] Executar lint/build e validar as telas no preview conectado ao Lovable.
+
 ## Próximas etapas de produto
 - [ ] Confirmar e testar a implantação da base multi-clube no banco Supabase de produção; validar isolamento RLS por clube antes de liberar novos clubes.
 - [ ] Temporadas, categorias/equipes, dirigentes e histórico de transferências.
