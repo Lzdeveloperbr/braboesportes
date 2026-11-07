@@ -61,7 +61,7 @@ export const Route = createFileRoute("/financeiro")({
 });
 
 function Financeiro() {
-  const { isPresident } = useAuth();
+  const { isAdmin } = useAuth();
   const qc = useQueryClient();
   const { data: payments = [] } = useQuery(paymentsQuery);
   const { data: players = [] } = useQuery(playersQuery);
@@ -101,10 +101,10 @@ function Financeiro() {
           <div>
             <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Gestão Financeira</h1>
             <p className="mt-1 text-sm font-medium text-muted-foreground/80">
-              {isPresident ? "Controle executivo de receitas e mensalidades" : "Minhas obrigações financeiras"}
+              {isAdmin ? "Controle executivo de receitas e mensalidades" : "Minhas obrigações financeiras"}
             </p>
           </div>
-          {isPresident && <NewPaymentDialog />}
+          {isAdmin && <NewPaymentDialog />}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -165,7 +165,7 @@ function Financeiro() {
                       {PAYMENT_LABEL[p.status] ?? p.status}
                     </Badge>
                   </div>
-                  {isPresident && p.status !== "pago" && (
+                  {isAdmin && p.status !== "pago" && (
                     <Button 
                       size="sm" 
                       variant="outline" 
