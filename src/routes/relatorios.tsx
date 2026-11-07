@@ -33,7 +33,7 @@ function downloadCsv(filename: string, rows: (string | number | null | undefined
     const text = String(value ?? "");
     return `"${text.replace(/"/g, '""')}"`;
   }).join(";")).join("\r\n");
-  const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
