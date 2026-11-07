@@ -205,3 +205,44 @@
   font-size: 1.875rem;
   line-height: 1;
 }
+
+
+/* Polimento de produto: acessibilidade, toque e acabamento responsivo. */
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { min-width: 320px; line-height: 1.5; }
+  ::selection { background: oklch(0.51 0.17 22 / 0.35); color: white; }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer utilities {
+  .surface-panel {
+    background: linear-gradient(145deg, oklch(0.23 0.035 262 / 0.92), oklch(0.18 0.025 262 / 0.96));
+    border: 1px solid oklch(0.97 0.003 285 / 0.09);
+    box-shadow: 0 16px 42px -28px oklch(0 0 0 / 0.8);
+  }
+  .text-eyebrow {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.42 0.04 262) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
