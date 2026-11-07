@@ -65,6 +65,14 @@ function Treinos() {
   const { data: players = [] } = useQuery(playersQuery);
 
   const now = Date.now();
+  const orderedTrainings = trainings.slice().sort((a, b) => {
+    const aTime = new Date(a.training_date).getTime();
+    const bTime = new Date(b.training_date).getTime();
+    const aUpcoming = aTime > now;
+    const bUpcoming = bTime > now;
+    if (aUpcoming !== bUpcoming) return aUpcoming ? -1 : 1;
+    return aUpcoming ? aTime - bTime : bTime - aTime;
+  });
   const upcoming = trainings.filter((t) => new Date(t.training_date).getTime() > now).length;
 
   return (
@@ -81,13 +89,15 @@ function Treinos() {
         </div>
 
         <div className="space-y-3">
-          {trainings.map((t: Training) => {
+          {orderedTrainings.map((t: Training) => {
             const rows = attendance.filter((a) => a.training_id === t.id);
             const presentes = rows.filter((a) => a.status === "presente").length;
             const duvidas = rows.filter((a) => a.status === "duvida").length;
             const ausentes = rows.filter((a) => a.status === "ausente").length;
             const elenco = players.filter((p) => p.categoria === t.categoria).length;
-            const taxa = elenco ? Math.round((presentes / elenco) * 100) : 0;
+            const confirmados = presentes + ausentes;
+            const pendentes = Math.max(elenco - rows.length, 0);
+            const taxa = confirmados ? Math.round((presentes / confirmados) * 100) : null;
             return (
               <Card key={t.id} className="border-border/60 bg-card/80">
                 <CardContent className="p-4">
@@ -108,14 +118,14 @@ function Treinos() {
                   <div className="mt-3 space-y-1.5">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>
-                        {presentes} presentes · {duvidas} dúvidas · {ausentes} ausentes
+                        {presentes} presentes · {ausentes} ausentes · {duvidas} em dúvida · {pendentes} sem resposta
                       </span>
-                      <span className="font-semibold text-foreground">{taxa}%</span>
+                      <span className="font-semibold text-foreground">{taxa === null ? "—" : `${taxa}%`}</span>
                     </div>
                     <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
                       <div
                         className="h-full rounded-full bg-success transition-all"
-                        style={{ width: `${Math.min(taxa, 100)}%` }}
+                        style={{ width: `${Math.min(taxa ?? 0, 100)}%` }}
                       />
                     </div>
                   </div>
