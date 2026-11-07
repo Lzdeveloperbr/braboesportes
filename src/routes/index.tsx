@@ -106,7 +106,7 @@ function Dashboard() {
   return (
     <AppShell>
       <div className="space-y-8 animate-stagger">
-        <section className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(115deg,#10141d_0%,#21151a_58%,#641d2b_100%)] px-6 py-7 shadow-elevated sm:px-8 lg:px-10 lg:py-9">
+        <section className="relative isolate overflow-hidden rounded-[28px] border border-white/[0.09] bg-[radial-gradient(ellipse_at_90%_0%,rgba(220,38,38,0.25),transparent_38%),linear-gradient(125deg,#090b0f_0%,#15171c_58%,#351014_100%)] px-6 py-7 shadow-[0_28px_80px_-38px_rgba(0,0,0,0.95)] sm:px-8 lg:px-10 lg:py-10">
           <div className="absolute -right-12 -top-16 -z-10 h-64 w-64 rounded-full bg-primary/25 blur-3xl" />
           <div className="absolute -bottom-24 left-1/3 -z-10 h-52 w-52 rounded-full bg-rose-500/10 blur-3xl" />
           <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
@@ -117,7 +117,7 @@ function Dashboard() {
                   <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-200">Centro de comando</span>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Temporada 2026</span>
                 </div>
-                <h1 className="font-display text-4xl leading-none tracking-wide text-white sm:text-5xl lg:text-6xl">BRABO ESPORTE CLUBE</h1>
+                <h1 className="font-display text-4xl leading-[0.92] tracking-[0.035em] text-white sm:text-5xl lg:text-7xl">BRABO ESPORTE CLUBE</h1>
                 <p className="mt-2 max-w-xl text-sm text-white/65">Gestão de alto desempenho. Elenco, comissão e diretoria trabalhando com o mesmo objetivo.</p>
                 <p className="mt-3 flex items-center gap-2 text-[11px] font-medium capitalize text-white/45"><CalendarClock className="h-3.5 w-3.5" /> {new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "long", day: "2-digit", month: "long" })}</p>
               </div>
