@@ -162,7 +162,11 @@ export function AppShell({ children }: { children: ReactNode }) {
               </p>
               <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             </div>
-            <div className="hidden text-right md:block">\n              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Brabo Esporte Clube</p>\n              <p className="text-[11px] capitalize text-muted-foreground/70">{new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "short", day: "2-digit", month: "short" })}</p>\n            </div>\n            <Badge variant="outline" className="hidden border-accent/50 text-accent sm:inline-flex">
+            <div className="hidden text-right md:block">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Brabo Esporte Clube</p>
+              <p className="text-[11px] capitalize text-muted-foreground/70">{new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "short", day: "2-digit", month: "short" })}</p>
+            </div>
+            <Badge variant="outline" className="hidden border-accent/50 text-accent sm:inline-flex">
               {ROLE_LABEL[role]}
             </Badge>
             <Button
