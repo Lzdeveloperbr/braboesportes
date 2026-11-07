@@ -51,7 +51,7 @@ export const Route = createFileRoute("/escalacao")({
 });
 
 function Escalacao() {
-  const { isPresident } = useAuth();
+  const { isStaff } = useAuth();
   const qc = useQueryClient();
   const { data: matches = [] } = useQuery(matchesQuery);
   const { data: players = [] } = useQuery(playersQuery);
@@ -128,7 +128,7 @@ function Escalacao() {
         <div>
           <h1 className="font-display text-3xl tracking-wide">Escalação</h1>
           <p className="text-sm text-muted-foreground">
-            {isPresident ? "Monte o time para cada partida" : "Time escalado pelo clube"}
+            {isStaff ? "Monte o time para cada partida" : "Time escalado pelo clube"}
           </p>
         </div>
 
@@ -155,7 +155,7 @@ function Escalacao() {
               </div>
               <CardContent className="p-4">
                 <div className="mb-4 space-y-3">
-                  {isPresident && (
+                  {isStaff && (
                     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                       <p className="min-w-0 truncate text-xs uppercase tracking-wide text-muted-foreground">
                         Formação tática
@@ -200,7 +200,7 @@ function Escalacao() {
                             <p className="truncate text-sm font-medium">{p.full_name}</p>
                             <p className="text-xs text-muted-foreground">{p.position}</p>
                           </div>
-                          {isPresident && (
+                          {isStaff && (
                             <Button
                               size="sm"
                               variant="ghost"
@@ -261,7 +261,7 @@ function Escalacao() {
                           {p.position} · {p.categoria} · geral {overall(p)}
                         </p>
                       </div>
-                      {isPresident ? (
+                      {isStaff ? (
                         <div className="flex gap-1">
                           <Button
                             size="sm"
