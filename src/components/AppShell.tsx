@@ -3,7 +3,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   BarChart3,
-  Dumbbell,
   Building2,
   CalendarDays,
   ClipboardList,
