@@ -234,7 +234,7 @@ function Estatisticas() {
                     <TableCell className="text-center">{r.tackles}</TableCell>
                     <TableCell className="text-center">{r.yellow}</TableCell>
                     <TableCell className="text-center">{r.red}</TableCell>
-                    <TableCell className="text-center">{r.rating.toFixed(1)}</TableCell>
+                    <TableCell className="text-center">{typeof r.rating === "number" ? r.rating.toFixed(1) : "—"}</TableCell>
                   </TableRow>
                 ))}
                 {rows.length === 0 && (
