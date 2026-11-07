@@ -40,7 +40,7 @@ function useSetAttendance() {
 }
 
 export function AttendanceControls({ training }: { training: Training }) {
-  const { isPresident } = useAuth();
+  const { isStaff } = useAuth();
   const myPlayer = useMyPlayer();
   const { data: attendance = [] } = useQuery(attendanceQuery);
   const setAttendance = useSetAttendance();
@@ -80,7 +80,7 @@ export function AttendanceControls({ training }: { training: Training }) {
         </div>
       )}
 
-      {isPresident && <AttendanceSheet training={training} />}
+      {isStaff && <AttendanceSheet training={training} />}
     </div>
   );
 }
