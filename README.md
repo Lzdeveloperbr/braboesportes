@@ -1,672 +1,86 @@
-# Brabo FC Manager
+# Brabo Esporte Clube — Gestão Pro
 
-Eu consigo criar a estrutura completa do projeto para você, mas aqui no chat eu não consigo pegar o site inteiro sozinho, baixar a logo e entregar um aplicativo já publicado. O melhor caminho é usar uma IA de desenvolvimento (Bolt, Lovable, Cursor ou FlutterFlow) e mandar um prompt completo + a logo do Brabo Esporte Clube.
+Plataforma web de gestão esportiva para clubes de futebol, com experiência responsiva para diretoria, comissão técnica, atletas e responsáveis.
 
+## Visão do produto
 
+O Brabo centraliza a operação do clube em um único ambiente: gestão de elenco, calendário, partidas, treinos, escalações, desempenho, departamento médico, finanças, patrocínios, documentos e comunicação.
 
-Use este prompt completo:
+## Módulos
 
+- **Painel executivo:** indicadores do elenco, aproveitamento, próximos compromissos, últimos resultados, ranking e atalhos operacionais.
+- **Elenco:** cadastro e ficha de atletas, dados esportivos, fotos, categorias e histórico.
+- **Jogos:** calendário, adversários, placares e registros de partidas.
+- **Treinos e agenda:** planejamento de sessões, categorias e controle de presença.
+- **Escalação:** organização tática e formações.
+- **Estatísticas:** desempenho individual e coletivo.
+- **Departamento médico:** acompanhamento de lesões e retorno.
+- **Financeiro e patrocínios:** receitas, despesas, mensalidades e parceiros.
+- **Documentos e avisos:** arquivos privados e comunicados do clube.
+- **Assistente IA:** apoio à rotina administrativa e esportiva.
+- **Plataforma:** administração global, conforme permissões atribuídas.
 
+## Perfis de acesso
 
-Você é um desenvolvedor full stack especialista em aplicativos esportivos profissionais.
+O sistema contempla os papéis de superadministrador, presidente, administrador, diretor, comissão técnica, treinador, auxiliar, jogador e responsável. A visibilidade dos módulos e as operações permitidas devem respeitar as políticas de autorização do banco de dados.
 
+## Stack
 
+- React 19 + TypeScript
+- TanStack Start / TanStack Router
+- Vite
+- Tailwind CSS v4
+- shadcn/ui e Radix UI
+- TanStack Query
+- Supabase (Auth, Postgres, Storage e Row Level Security)
+- Recharts para visualização de indicadores
 
-Crie do zero o aplicativo oficial do Brabo Esporte Clube, um sistema completo de gerenciamento de clube de futebol.
+## Desenvolvimento local
 
+Requisitos: Node.js compatível com Vite 8 e npm.
 
-
-IMPORTANTE:
-
-
-
-- Use a logo oficial do Brabo Esporte Clube que será enviada como identidade visual.
-
-- Crie um design premium inspirado nos aplicativos de clubes profissionais.
-
-- O aplicativo deve funcionar em Android, iOS e Web.
-
-- Criar sistema totalmente funcional, não apenas telas.
-
-
-
-NOME DO APP:
-
-Brabo Esporte Clube
-
-
-
-OBJETIVO:
-
-Criar uma plataforma para o presidente administrar o clube e para jogadores acompanharem sua rotina esportiva.
-
-
-
-========================
-
-
-
-PERFIS DE ACESSO
-
-
-
-Criar 4 tipos de usuários:
-
-
-
-1. PRESIDENTE / ADMINISTRADOR
-
-   Controle total:
-
-
-
-- Dashboard geral
-
-- Cadastro de jogadores
-
-- Comissão técnica
-
-- Financeiro
-
-- Jogos
-
-- Treinos
-
-- Notícias
-
-- Documentos
-
-- Estatísticas
-
-
-
-2. TREINADOR
-
-
-
-Permitir:
-
-
-
-- Criar treinos
-
-- Fazer escalações
-
-- Avaliar atletas
-
-- Registrar presença
-
-- Criar estratégias
-
-- Analisar desempenho
-
-
-
-3. JOGADOR
-
-
-
-Permitir:
-
-
-
-- Ver calendário
-
-- Ver convocação
-
-- Ver estatísticas
-
-- Receber mensagens
-
-- Ver avaliações
-
-- Acompanhar evolução
-
-
-
-4. RESPONSÁVEL
-
-
-
-Para categorias de base:
-
-
-
-- Acompanhar filho
-
-- Ver treinos
-
-- Comunicados
-
-- Documentos
-
-
-
-========================
-
-
-
-TELA PRINCIPAL
-
-
-
-Criar dashboard profissional:
-
-
-
-- Logo do clube
-
-- Próximo jogo
-
-- Próximo treino
-
-- Últimos resultados
-
-- Ranking dos atletas
-
-- Notícias
-
-- Avisos
-
-- Estatísticas do campeonato
-
-
-
-========================
-
-
-
-MÓDULO DE JOGADORES
-
-
-
-Criar cadastro completo:
-
-
-
-Perfil:
-
-
-
-- Foto
-
-- Nome
-
-- Data nascimento
-
-- Idade automática
-
-- Telefone
-
-- Endereço
-
-- Documentos
-
-
-
-Características:
-
-
-
-- Posição
-
-- Altura
-
-- Peso
-
-- Pé dominante
-
-- Número camisa
-
-
-
-Desempenho:
-
-
-
-- Velocidade
-
-- Técnica
-
-- Finalização
-
-- Passe
-
-- Defesa
-
-- Físico
-
-- Nota geral
-
-
-
-Histórico:
-
-
-
-- Jogos
-
-- Gols
-
-- Assistências
-
-- Cartões
-
-- Lesões
-
-- Evolução
-
-
-
-Criar gráfico de evolução do atleta.
-
-
-
-========================
-
-
-
-TREINAMENTOS
-
-
-
-Criar calendário:
-
-
-
-- Criar treino
-
-- Data
-
-- Horário
-
-- Campo
-
-- Categoria
-
-- Tipo de treino
-
-
-
-Tipos:
-
-
-
-- Técnico
-
-- Tático
-
-- Físico
-
-- Finalização
-
-- Bola parada
-
-
-
-Funções:
-
-
-
-- Lista de presença
-
-- Observações do treinador
-
-- Fotos e vídeos
-
-- Planejamento semanal
-
-
-
-========================
-
-
-
-JOGOS
-
-
-
-Sistema completo:
-
-
-
-Cadastro:
-
-
-
-- Adversário
-
-- Campeonato
-
-- Data
-
-- Local
-
-- Horário
-
-
-
-Durante jogo:
-
-
-
-- Escalação
-
-- Formação tática
-
-- Gols
-
-- Assistências
-
-- Cartões
-
-- Substituições
-
-
-
-Criar relatório pós-jogo automático.
-
-
-
-========================
-
-
-
-ESCALAÇÃO TÁTICA
-
-
-
-Criar campo visual:
-
-
-
-Formações:
-
-
-
-- 4-3-3
-
-- 4-4-2
-
-- 3-5-2
-
-- 4-2-3-1
-
-
-
-Sistema arrastar e soltar jogadores.
-
-
-
-Salvar escalações.
-
-
-
-========================
-
-
-
-FINANCEIRO
-
-
-
-Área administrativa:
-
-
-
-Controle:
-
-
-
-- Mensalidades
-
-- Patrocínios
-
-- Despesas
-
-- Receitas
-
-- Materiais
-
-- Transporte
-
-- Alimentação
-
-
-
-Criar:
-
-
-
-- Gráficos
-
-- Relatórios
-
-- Controle mensal
-
-
-
-========================
-
-
-
-COMUNICAÇÃO
-
-
-
-Criar:
-
-
-
-- Chat interno
-
-- Grupo do time
-
-- Avisos
-
-- Notificações push
-
-
-
-========================
-
-
-
-DOCUMENTOS
-
-
-
-Criar armazenamento:
-
-
-
-- Contratos
-
-- RG
-
-- CPF
-
-- Exames
-
-- Autorizações
-
-
-
-========================
-
-
-
-MARKETING
-
-
-
-Criar área:
-
-
-
-- Notícias do clube
-
-- Galeria de fotos
-
-- Vídeos
-
-- Patrocinadores
-
-- Loja oficial
-
-
-
-========================
-
-
-
-BANCO DE DADOS
-
-
-
-Utilizar:
-
-
-
-- Supabase ou Firebase
-
-
-
-Criar:
-
-
-
-- Login seguro
-
-- Banco de usuários
-
-- Banco de jogadores
-
-- Banco financeiro
-
-- Backup automático
-
-
-
-========================
-
-
-
-TECNOLOGIA
-
-
-
-Desenvolver usando:
-
-
-
-Frontend:
-
-Flutter ou React Native
-
-
-
-Backend:
-
-Supabase
-
-
-
-Recursos:
-
-
-
-- Responsivo
-
-- Modo escuro
-
-- Notificações
-
-- Upload de imagens
-
-- Sistema rápido
-
-
-
-========================
-
-
-
-EXTRAS PROFISSIONAIS
-
-
-
-Adicionar:
-
-
-
-- Ranking dos jogadores
-
-- Melhor jogador do mês
-
-- Metas individuais
-
-- Controle de evolução
-
-- Scanner de documentos
-
-- IA para análise de desempenho
-
-- Relatório automático para treinadores
-
-
-
-O resultado final deve parecer um aplicativo criado para um clube profissional de futebol, com interface moderna, rápida e completa.Depois disso, a IA vai gerar a base do app. Para ficar 100% igual ao Brabo Esporte Clube, envie junto:
-
-
-
-1. Logo do clube em PNG
-
-
-
-
-
-2. Cores oficiais
-
-
-
-
-
-3. Fotos dos jogadores
-
-
-
-
-
-4. Lista das categorias (Sub-15, Sub-17, Adulto etc.)
-
-
-
-
-
-
-
-Aí ele vira um sistema real de gestão do seu time.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://braboesportes.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/90df5ae0-ec0d-4168-861c-cf8c1aafc842).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+```bash
+git clone https://github.com/Lzdeveloperbr/braboesportes.git
+cd braboesportes
+npm install
 npm run dev
 ```
+
+## Comandos
+
+```bash
+npm run dev       # ambiente local
+npm run build     # build de produção
+npm run build:dev # build em modo desenvolvimento
+npm run preview   # prévia do build
+npm run lint      # análise estática
+```
+
+## Configuração do Supabase
+
+O projeto precisa de uma instância Supabase conectada pelo Lovable ou configurada no ambiente.
+
+Variáveis utilizadas pelo cliente:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Variáveis utilizadas exclusivamente no servidor:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+**Segurança:** nunca exponha a service role key no navegador, em commits, prints ou arquivos públicos. Mantenha credenciais em secrets do ambiente. Toda nova tabela com dados de clube deve receber políticas RLS restritivas e isolamento por `club_id`, conforme `AGENTS.md`.
+
+## Fluxo de contribuição
+
+1. Faça alterações em uma branch de trabalho quando possível.
+2. Preserve migrations e histórico já publicados: o projeto sincroniza com Lovable.
+3. Rode `npm run lint` e `npm run build` antes de publicar.
+4. Não inclua credenciais, dados pessoais reais de atletas ou documentos privados em commits.
+5. Para integrações externas (placares ao vivo, calendário de competições ou pagamentos), valide o provedor, limites, licenças e secrets antes de ativar.
+
+## Projeto no Lovable
+
+O repositório está conectado ao Lovable. Commits na branch principal são sincronizados com o editor.
+
+- Editor: https://lovable.dev/projects/90df5ae0-ec0d-4168-861c-cf8c1aafc842
+- Aplicação: https://braboesportes.lovable.app
