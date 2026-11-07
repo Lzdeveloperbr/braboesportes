@@ -185,7 +185,7 @@ function Estatisticas() {
                         <Trophy className="mr-1 h-3 w-3" /> {r.mvp}
                       </Badge>
                     )}
-                    <span className="font-display text-xl">{r.rating !== null ? r.rating.toFixed(1) : "—"}</span>
+                    <span className="font-display text-xl">{typeof r.rating === "number" ? r.rating.toFixed(1) : "—"}</span>
                   </div>
                 ))}
               {rows.every((r) => r.games === 0) && (
