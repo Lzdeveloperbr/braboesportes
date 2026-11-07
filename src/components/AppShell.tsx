@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   BarChart3,
+  Dumbbell,
   Building2,
   CalendarDays,
   ClipboardList,
@@ -37,6 +38,7 @@ const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] =
   { to: "/elenco", label: "Elenco", icon: Users, access: "all" },
   { to: "/jogos", label: "Jogos", icon: Activity, access: "all" },
   { to: "/treinos", label: "Treinos", icon: Dumbbell, access: "all" },
+  { to: "/academia", label: "Academia", icon: Dumbbell, access: "all" },
   { to: "/estatisticas", label: "Estatísticas", icon: BarChart3, access: "all" },
   { to: "/escalacao", label: "Escalação", icon: ClipboardList, access: "staff" },
   { to: "/medico", label: "Dep. Médico", icon: HeartPulse, access: "all" },
@@ -50,7 +52,7 @@ const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] =
   { to: "/plataforma", label: "Plataforma", icon: Building2, access: "super" },
 ];
 
-const MOBILE_MAIN = ["/", "/jogos", "/elenco", "/estatisticas", "/perfil"];
+const MOBILE_MAIN = ["/", "/jogos", "/elenco", "/academia", "/perfil"];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, role, loading, signOut, isStaff, isAdmin, isPresident, isSuperAdmin } = useAuth();
