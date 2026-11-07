@@ -127,14 +127,12 @@ const TreinosRoute = TreinosRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/agenda': typeof AgendaRoute
   '/academia': typeof AcademiaRoute
+  '/agenda': typeof AgendaRoute
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
   '/configuracoes': typeof ConfiguracoesRoute
-  '/competicoes': typeof CompeticoesRoute
-  '/competicoes': typeof CompeticoesRoute
   '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
@@ -156,6 +154,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
@@ -177,6 +176,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
@@ -200,8 +200,6 @@ export interface FileRouteTypes {
     | '/avisos'
     | '/configuracoes'
     | '/competicoes'
-    | '/competicoes'
-    | '/competicoes'
     | '/documentos'
     | '/elenco'
     | '/escalacao'
@@ -222,6 +220,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/avisos'
     | '/configuracoes'
+    | '/competicoes'
     | '/documentos'
     | '/elenco'
     | '/escalacao'
@@ -242,6 +241,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/avisos'
     | '/configuracoes'
+    | '/competicoes'
     | '/documentos'
     | '/elenco'
     | '/escalacao'
