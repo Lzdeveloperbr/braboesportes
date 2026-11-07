@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import {
   Activity,
+  AlertTriangle,
   ArrowUpRight,
   CalendarClock,
   CalendarDays,
@@ -32,6 +33,9 @@ import {
   attendanceQuery,
   formatDate,
   matchesQuery,
+  paymentsQuery,
+  injuriesQuery,
+  formatMoney,
   overall,
   playersQuery,
   trainingsQuery,
@@ -62,6 +66,8 @@ function Dashboard() {
   const trainings = useQuery(trainingsQuery);
   const announcements = useQuery(announcementsQuery);
   const attendance = useQuery(attendanceQuery);
+  const payments = useQuery(paymentsQuery);
+  const injuries = useQuery(injuriesQuery);
 
   const now = Date.now();
   const all = matches.data ?? [];
@@ -102,6 +108,10 @@ function Dashboard() {
   const attendanceRate = attendanceTotal
     ? Math.round((presencas / attendanceTotal) * 100)
     : null;
+  const openPayments = (payments.data ?? []).filter((payment) => payment.status !== "pago");
+  const overduePayments = openPayments.filter((payment) => payment.due_date && new Date(`${payment.due_date}T23:59:59`).getTime() < now);
+  const outstandingAmount = openPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+  const activeInjuries = (injuries.data ?? []).filter((injury) => injury.status === "em_tratamento");
 
   return (
     <AppShell>
@@ -159,6 +169,36 @@ function Dashboard() {
           <StatCard label="Faltas Registradas" value={faltas} icon={UserX} />
         </section>
 
+
+        <section className="grid gap-4 md:grid-cols-3" aria-label="Pendências da operação">
+          <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-gradient-to-br from-red-950/35 to-card/70 p-5 transition hover:-translate-y-0.5 hover:border-primary/35">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Financeiro em aberto</span>
+              <Wallet className="h-4 w-4 text-primary" />
+            </div>
+            <p className="mt-3 font-display text-3xl text-white">{openPayments.length}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{formatMoney(outstandingAmount)} em cobranças não pagas</p>
+            <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary">Abrir financeiro <ArrowUpRight className="h-3 w-3" /></p>
+          </Link>
+          <Link to="/financeiro" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-amber-400/30">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Mensalidades vencidas</span>
+              <AlertTriangle className="h-4 w-4 text-amber-400" />
+            </div>
+            <p className="mt-3 font-display text-3xl text-white">{overduePayments.length}</p>
+            <p className="mt-1 text-xs text-muted-foreground">Cobranças com vencimento anterior a hoje</p>
+            <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-300">Conferir cobranças <ArrowUpRight className="h-3 w-3" /></p>
+          </Link>
+          <Link to="/medico" className="group rounded-2xl border border-white/10 bg-card/60 p-5 transition hover:-translate-y-0.5 hover:border-emerald-400/30">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[10px] font-black uppercase tracking-[.18em] text-muted-foreground">Departamento médico</span>
+              <HeartPulse className="h-4 w-4 text-emerald-400" />
+            </div>
+            <p className="mt-3 font-display text-3xl text-white">{activeInjuries.length}</p>
+            <p className="mt-1 text-xs text-muted-foreground">Registros em acompanhamento</p>
+            <p className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300">Ver acompanhamento <ArrowUpRight className="h-3 w-3" /></p>
+          </Link>
+        </section>
 
         <section className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
           <Card className="border-border/40 bg-card/50">
