@@ -81,12 +81,17 @@ function Dashboard() {
     .slice(0, 5);
 
   const wins = played.filter((m) => (m.goals_for ?? 0) > (m.goals_against ?? 0)).length;
+  const winRate = played.length ? Math.round((wins / played.length) * 100) : null;
   const goals = roster.reduce((s, p) => s + p.goals, 0);
   const assists = roster.reduce((s, p) => s + p.assists, 0);
   const cards = roster.reduce((s, p) => s + p.yellow_cards + p.red_cards, 0);
   const rows = attendance.data ?? [];
   const presencas = rows.filter((a) => a.status === "presente").length;
   const faltas = rows.filter((a) => a.status === "ausente").length;
+  const attendanceTotal = presencas + faltas;
+  const attendanceRate = attendanceTotal
+    ? Math.round((presencas / attendanceTotal) * 100)
+    : null;
 
   return (
     <AppShell>
@@ -115,7 +120,7 @@ function Dashboard() {
           <div className="mt-7 grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
             <div><p className="font-display text-3xl leading-none text-white">{roster.length.toString().padStart(2, "0")}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Atletas no elenco</p></div>
             <div><p className="font-display text-3xl leading-none text-white">{played.length.toString().padStart(2, "0")}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Jogos registrados</p></div>
-            <div><p className="font-display text-3xl leading-none text-white">{Math.round((wins / (played.length || 1)) * 100)}%</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Aproveitamento em vitórias</p></div>
+            <div><p className="font-display text-3xl leading-none text-white">{winRate === null ? "—" : `${winRate}%`}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Aproveitamento em vitórias</p></div>
           </div>
         </section>
         <section className="flex items-end justify-between">
@@ -132,9 +137,9 @@ function Dashboard() {
 
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard label="Atletas Ativos" value={roster.length} icon={Users} />
-          <StatCard label="Taxa de Vitórias" value={`${Math.round((wins / (played.length || 1)) * 100)}%`} hint={`${wins}V / ${played.length}J`} icon={Trophy} />
+          <StatCard label="Taxa de Vitórias" value={`${winRate === null ? "—" : `${winRate}%`}`} hint={`${wins}V / ${played.length}J`} icon={Trophy} />
           <StatCard label="Sessões de Treino" value={trainings.data?.length ?? 0} icon={Dumbbell} />
-          <StatCard label="Presença Geral" value={`${Math.round((presencas / (presencas + faltas || 1)) * 100)}%`} icon={CheckCircle2} />
+          <StatCard label="Presença Geral" value={`${attendanceRate === null ? "—" : `${attendanceRate}%`}`} icon={CheckCircle2} />
         </section>
 
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
