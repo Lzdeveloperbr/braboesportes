@@ -20,6 +20,10 @@ O Brabo centraliza a operação do clube em um único ambiente: gestão de elenc
 - **Assistente IA:** apoio à rotina administrativa e esportiva.
 - **Plataforma:** administração global, conforme permissões atribuídas.
 
+## Plano de evolução
+
+O backlog organizado com **1.000 melhorias** está em [`docs/PLANO-1000-MELHORIAS-BRABO.md`](docs/PLANO-1000-MELHORIAS-BRABO.md). Ele reúne 25 frentes de produto, critérios de aceite e uma ordem sugerida de execução. É um plano de trabalho, não uma lista de funcionalidades já entregues.
+
 ## Perfis de acesso
 
 O sistema contempla os papéis de superadministrador, presidente, administrador, diretor, comissão técnica, treinador, auxiliar, jogador e responsável. A visibilidade dos módulos e as operações permitidas devem respeitar as políticas de autorização do banco de dados.
