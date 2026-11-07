@@ -43,6 +43,7 @@ function Agenda() {
   const { data: trainings = [], isLoading: lt } = useQuery(trainingsQuery);
   const { data: matches = [], isLoading: lm } = useQuery(matchesQuery);
   const [aba, setAba] = useState<"proximos" | "anteriores">("proximos");
+  const [tipo, setTipo] = useState<"todos" | "treino" | "jogo">("todos");
 
   const now = Date.now();
   const eventos: Evento[] = [
@@ -54,6 +55,7 @@ function Agenda() {
     .filter((e) =>
       aba === "proximos" ? new Date(e.date).getTime() >= now : new Date(e.date).getTime() < now,
     )
+    .filter((e) => tipo === "todos" || e.kind === tipo)
     .sort((a, b) =>
       aba === "proximos"
         ? new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -100,6 +102,26 @@ function Agenda() {
               Anteriores
             </Button>
           </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-xs font-semibold text-muted-foreground">Exibir:</span>
+          {([
+            ["todos", "Todos"],
+            ["treino", "Treinos"],
+            ["jogo", "Jogos"],
+          ] as const).map(([value, label]) => (
+            <Button
+              key={value}
+              size="sm"
+              variant={tipo === value ? "default" : "outline"}
+              onClick={() => setTipo(value)}
+              className="rounded-full px-4"
+            >
+              {label}
+            </Button>
+          ))}
+          <span className="ml-auto text-xs text-muted-foreground">{lista.length} {lista.length === 1 ? "evento" : "eventos"}</span>
         </div>
 
         {lt || lm ? (
