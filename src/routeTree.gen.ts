@@ -123,8 +123,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
   '/academia': typeof AcademiaRoute
-  '/academia': typeof AcademiaRoute
-  '/academia': typeof AcademiaRoute
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
@@ -143,6 +141,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academia': typeof AcademiaRoute
   '/agenda': typeof AgendaRoute
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
@@ -163,6 +162,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academia': typeof AcademiaRoute
   '/agenda': typeof AgendaRoute
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
@@ -184,6 +184,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/academia'
     | '/agenda'
     | '/assistente'
     | '/auth'
@@ -203,6 +204,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/academia'
     | '/agenda'
     | '/assistente'
     | '/auth'
@@ -222,6 +224,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/academia'
     | '/agenda'
     | '/assistente'
     | '/auth'
