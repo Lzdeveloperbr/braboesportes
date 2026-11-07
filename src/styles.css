@@ -310,3 +310,32 @@
     text-transform: uppercase;
   }
 }
+
+
+/* Acabamento global Brabo Pro: superfícies, tabelas e campos */
+@layer components {
+  main .rounded-xl.border.bg-card {
+    border-color: oklch(0.96 0.004 260 / 0.075);
+    background-image: linear-gradient(145deg, oklch(0.18 0.008 260 / 0.96), oklch(0.13 0.006 260 / 0.98));
+    box-shadow: 0 18px 48px -34px oklch(0 0 0 / 0.95);
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+  main .rounded-xl.border.bg-card:hover {
+    border-color: oklch(0.56 0.22 27 / 0.24);
+    box-shadow: 0 22px 54px -34px oklch(0 0 0 / 0.95);
+  }
+  main table thead tr {
+    background: oklch(0.96 0.004 260 / 0.025);
+  }
+  main table th {
+    color: oklch(0.72 0.008 260);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  main input, main textarea, main [role="combobox"] {
+    border-color: oklch(0.96 0.004 260 / 0.12);
+    background-color: oklch(0.10 0.006 260 / 0.72);
+  }
+}
