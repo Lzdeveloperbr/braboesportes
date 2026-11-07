@@ -246,3 +246,67 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* BRABO PRO — identidade visual de clube de elite */
+:root {
+  --background: oklch(0.105 0.006 260);
+  --foreground: oklch(0.96 0.004 260);
+  --card: oklch(0.155 0.008 260);
+  --card-foreground: oklch(0.96 0.004 260);
+  --popover: oklch(0.145 0.008 260);
+  --popover-foreground: oklch(0.96 0.004 260);
+  --primary: oklch(0.56 0.22 27);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.205 0.008 260);
+  --secondary-foreground: oklch(0.94 0.004 260);
+  --muted: oklch(0.19 0.006 260);
+  --muted-foreground: oklch(0.68 0.008 260);
+  --accent: oklch(0.91 0.008 260);
+  --accent-foreground: oklch(0.13 0.006 260);
+  --border: oklch(0.27 0.006 260);
+  --input: oklch(0.27 0.006 260);
+  --ring: oklch(0.56 0.22 27);
+  --sidebar: oklch(0.085 0.005 260);
+  --sidebar-foreground: oklch(0.94 0.004 260);
+  --sidebar-primary: oklch(0.56 0.22 27);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.18 0.006 260);
+  --sidebar-accent-foreground: oklch(0.96 0.004 260);
+  --sidebar-border: oklch(0.22 0.006 260);
+  --sidebar-ring: oklch(0.56 0.22 27);
+  --gradient-pitch: radial-gradient(ellipse at 80% 0%, oklch(0.23 0.035 27 / 0.22), transparent 42%), linear-gradient(160deg, oklch(0.12 0.006 260), oklch(0.085 0.004 260));
+  --gradient-primary: linear-gradient(120deg, oklch(0.25 0.018 260), oklch(0.56 0.22 27));
+  --shadow-elevated: 0 24px 60px -24px oklch(0 0 0 / 0.82);
+  --shadow-soft: 0 14px 36px -22px oklch(0 0 0 / 0.78);
+  --shadow-glow: 0 0 26px -12px oklch(0.56 0.22 27 / 0.55);
+  --glass-bg: oklch(0.15 0.008 260 / 0.82);
+  --glass-border: oklch(0.96 0.004 260 / 0.09);
+}
+
+@layer base {
+  body {
+    background-image: radial-gradient(ellipse at 50% -18%, oklch(0.23 0.025 260 / 0.3), transparent 55%);
+    background-attachment: fixed;
+  }
+  button, a, input, textarea, select {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: 180ms;
+    transition-timing-function: ease;
+  }
+}
+
+@layer utilities {
+  .surface-panel {
+    background: linear-gradient(145deg, oklch(0.18 0.008 260 / 0.98), oklch(0.13 0.006 260 / 0.98));
+    border: 1px solid oklch(0.96 0.004 260 / 0.08);
+    box-shadow: 0 18px 48px -30px oklch(0 0 0 / 0.9);
+  }
+  .text-eyebrow {
+    color: oklch(0.72 0.01 260);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+}
