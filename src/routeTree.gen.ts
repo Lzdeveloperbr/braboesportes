@@ -134,6 +134,8 @@ export interface FileRoutesByFullPath {
   '/avisos': typeof AvisosRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/competicoes': typeof CompeticoesRoute
+  '/competicoes': typeof CompeticoesRoute
+  '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
@@ -197,6 +199,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/avisos'
     | '/configuracoes'
+    | '/competicoes'
+    | '/competicoes'
+    | '/competicoes'
     | '/documentos'
     | '/elenco'
     | '/escalacao'
@@ -321,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/configuracoes'
       fullPath: '/configuracoes'
       preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/competicoes': {
+      id: '/competicoes'
+      path: '/competicoes'
+      fullPath: '/competicoes'
+      preLoaderRoute: typeof CompeticoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/competicoes': {
