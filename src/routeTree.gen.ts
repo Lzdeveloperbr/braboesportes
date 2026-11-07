@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AcademiaRouteImport } from './routes/academia'
 import { Route as AssistenteRouteImport } from './routes/assistente'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisosRouteImport } from './routes/avisos'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const AgendaRoute = AgendaRouteImport.update({
   id: '/agenda',
   path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademiaRoute = AcademiaRouteImport.update({
+  id: '/academia',
+  path: '/academia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistenteRoute = AssistenteRouteImport.update({
@@ -116,6 +122,9 @@ const TreinosRoute = TreinosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/academia': typeof AcademiaRoute
+  '/academia': typeof AcademiaRoute
+  '/academia': typeof AcademiaRoute
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendaRoute: typeof AgendaRoute
+  AcademiaRoute: typeof AcademiaRoute
   AssistenteRoute: typeof AssistenteRoute
   AuthRoute: typeof AuthRoute
   AvisosRoute: typeof AvisosRoute
@@ -265,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/agenda'
       fullPath: '/agenda'
       preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academia': {
+      id: '/academia'
+      path: '/academia'
+      fullPath: '/academia'
+      preLoaderRoute: typeof AcademiaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistente': {
@@ -378,6 +395,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendaRoute: AgendaRoute,
+  AcademiaRoute: AcademiaRoute,
   AssistenteRoute: AssistenteRoute,
   AuthRoute: AuthRoute,
   AvisosRoute: AvisosRoute,
