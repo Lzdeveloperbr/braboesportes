@@ -9,7 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
-import { evaluationsQuery, playersQuery } from "@/lib/club";
+import { evaluationsQuery, playersQuery, type Evaluation, type Player } from "@/lib/club";
+
+const EMPTY_PLAYERS: Player[] = [];
+const EMPTY_EVALUATIONS: Evaluation[] = [];
 
 export const Route = createFileRoute("/comparativo")({
   head: () => ({
@@ -35,8 +38,8 @@ function Comparativo() {
   const { isStaff } = useAuth();
   const playersQueryResult = useQuery({ ...playersQuery, enabled: isStaff });
   const evaluationsQueryResult = useQuery({ ...evaluationsQuery, enabled: isStaff });
-  const players = playersQueryResult.data ?? [];
-  const evaluations = evaluationsQueryResult.data ?? [];
+  const players = playersQueryResult.data ?? EMPTY_PLAYERS;
+  const evaluations = evaluationsQueryResult.data ?? EMPTY_EVALUATIONS;
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [third, setThird] = useState("");
