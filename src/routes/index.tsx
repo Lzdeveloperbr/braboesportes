@@ -104,7 +104,7 @@ function Dashboard() {
                 </div>
                 <h1 className="font-display text-4xl leading-none tracking-wide text-white sm:text-5xl lg:text-6xl">BRABO ESPORTE CLUBE</h1>
                 <p className="mt-2 max-w-xl text-sm text-white/65">Gestão de alto desempenho. Elenco, comissão e diretoria trabalhando com o mesmo objetivo.</p>
-                <p className="mt-3 flex items-center gap-2 text-[11px] font-medium capitalize text-white/45"><CalendarClock className="h-3.5 w-3.5" /> {new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" })}</p>
+                <p className="mt-3 flex items-center gap-2 text-[11px] font-medium capitalize text-white/45"><CalendarClock className="h-3.5 w-3.5" /> {new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "long", day: "2-digit", month: "long" })}</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
@@ -120,7 +120,7 @@ function Dashboard() {
         </section>
         <section className="flex items-end justify-between">
           <div>
-            <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Painel Executivo</h1>
+            <h2 className="font-display text-3xl tracking-tight lg:text-4xl">Visão executiva</h2>
             <p className="mt-1 text-sm font-medium text-muted-foreground/80">Temporada 2026 · Gestão Pro X</p>
           </div>
           <div className="hidden lg:block">
