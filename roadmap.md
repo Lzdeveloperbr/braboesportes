@@ -11,12 +11,16 @@
 ## Execução iniciada em 2026-11-07
 - [x] Painel operacional com pendências financeiras, cobranças vencidas e acompanhamentos médicos calculados a partir das tabelas existentes.
 - [x] Indicadores com links diretos para os módulos responsáveis.
+- [x] Central de competições com agrupamento automático por torneio, calendário, resultados e estatísticas reais do Brabo.
+- [x] Navegação e tipos da rota Academia normalizados; nova rota Competições registrada no menu e no roteador.
 - [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
 - [ ] Executar lint/build e validar as telas no preview conectado ao Lovable.
 
 ## Próximas etapas de produto
 - [ ] Confirmar e testar a implantação da base multi-clube no banco Supabase de produção; validar isolamento RLS por clube antes de liberar novos clubes.
 - [ ] Temporadas, categorias/equipes, dirigentes e histórico de transferências.
+- [ ] Classificação oficial por campeonato: requer cadastro/importação dos resultados de todas as equipes, não apenas do Brabo.
+- [ ] Convocações digitais com confirmação por atleta/responsável e trilha de auditoria.
 - [ ] Eventos de partida como fonte única para gols, assistências, cartões, substituições e relatórios.
 - [ ] Convocação digital com confirmação de presença e notificações internas.
 - [ ] Planejamento semanal de treinos, justificativas de ausência e avaliações por atleta.
