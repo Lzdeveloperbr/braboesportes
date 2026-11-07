@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisosRouteImport } from './routes/avisos'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CompeticoesRouteImport } from './routes/competicoes'
+import { Route as ComparativoRouteImport } from './routes/comparativo'
 import { Route as DocumentosRouteImport } from './routes/documentos'
 import { Route as ElencoRouteImport } from './routes/elenco'
 import { Route as EscalacaoRouteImport } from './routes/escalacao'
@@ -68,6 +69,11 @@ const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
 const CompeticoesRoute = CompeticoesRouteImport.update({
   id: '/competicoes',
   path: '/competicoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComparativoRoute = ComparativoRouteImport.update({
+  id: '/comparativo',
+  path: '/comparativo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentosRoute = DocumentosRouteImport.update({
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/comparativo': typeof ComparativoRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/comparativo': typeof ComparativoRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
@@ -183,6 +191,7 @@ export interface FileRoutesById {
   '/assistente': typeof AssistenteRoute
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
+  '/comparativo': typeof ComparativoRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/comparativo'
     | '/configuracoes'
     | '/competicoes'
     | '/documentos'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/comparativo'
     | '/configuracoes'
     | '/competicoes'
     | '/documentos'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/assistente'
     | '/auth'
     | '/avisos'
+    | '/comparativo'
     | '/configuracoes'
     | '/competicoes'
     | '/documentos'
@@ -276,6 +288,7 @@ export interface RootRouteChildren {
   AvisosRoute: typeof AvisosRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   CompeticoesRoute: typeof CompeticoesRoute
+  ComparativoRoute: typeof ComparativoRoute
   DocumentosRoute: typeof DocumentosRoute
   ElencoRoute: typeof ElencoRoute
   EscalacaoRoute: typeof EscalacaoRoute
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/competicoes'
       fullPath: '/competicoes'
       preLoaderRoute: typeof CompeticoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comparativo': {
+      id: '/comparativo'
+      path: '/comparativo'
+      fullPath: '/comparativo'
+      preLoaderRoute: typeof ComparativoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documentos': {
@@ -444,6 +464,7 @@ const rootRouteChildren: RootRouteChildren = {
   AvisosRoute: AvisosRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   CompeticoesRoute: CompeticoesRoute,
+  ComparativoRoute: ComparativoRoute,
   DocumentosRoute: DocumentosRoute,
   ElencoRoute: ElencoRoute,
   EscalacaoRoute: EscalacaoRoute,
