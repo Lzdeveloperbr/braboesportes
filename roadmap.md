@@ -22,7 +22,7 @@
 - [x] Central de competições com agrupamento automático por torneio, calendário, resultados e estatísticas reais do Brabo.
 - [x] Navegação e tipos da rota Academia normalizados; nova rota Competições registrada no menu e no roteador.
 - [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
-- [ ] Confirmar execução verde do pipeline GitHub Actions e corrigir eventuais falhas de lint, tipos ou build.
+- [x] Pipeline GitHub Actions verde: ESLint, TypeScript e build de produção executados com sucesso.
 - [ ] Aplicar a nova migração em ambiente de homologação e validar permissões com contas de cada perfil.
 - [ ] Validar as telas no preview conectado ao Lovable.
 
