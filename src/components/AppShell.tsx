@@ -133,7 +133,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <div className="lg:pl-64">
+      <div className="lg:pl-[272px]">
         {/* Topbar */}
         <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[oklch(0.105_0.006_260/0.88)] shadow-[0_8px_30px_-24px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
           <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
@@ -185,7 +185,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       {/* Bottom nav mobile */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border/60 bg-background/95 backdrop-blur-xl lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-white/[0.09] bg-[oklch(0.085_0.005_260/0.97)] shadow-[0_-12px_35px_-25px_rgba(0,0,0,0.95)] backdrop-blur-2xl lg:hidden">
         <div className="flex">
           {items
             .filter((i) => MOBILE_MAIN.includes(i.to))
@@ -209,7 +209,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             })}
           <button
             onClick={() => setMenuOpen(true)}
-            className="flex flex-1 flex-col items-center gap-1 py-2 text-[11px] text-muted-foreground"
+            className="flex flex-1 flex-col items-center gap-1.5 py-2.5 text-[10px] font-semibold text-white/45 transition-colors hover:text-primary"
           >
             <Menu className="h-5 w-5" />
             Mais
