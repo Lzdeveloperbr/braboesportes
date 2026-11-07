@@ -16,11 +16,14 @@
 - [x] Comparativo técnico de até três atletas com gráfico radar e prioridade para a avaliação mais recente.
 - [x] Permissões de menu alinhadas aos módulos médico, documentos e estatísticas.
 - [x] Gestão de treinos, chamadas e escalações habilitada para a comissão técnica; gestão financeira alinhada a perfis administrativos.
+- [x] Helpers de autorização do banco alinhados aos perfis admin, diretor, comissão, treinador e auxiliar.
+- [x] Leitura dos registros médicos restrita à comissão autorizada por RLS.
 - [x] Pipeline GitHub Actions para lint, TypeScript e build de produção.
 - [x] Central de competições com agrupamento automático por torneio, calendário, resultados e estatísticas reais do Brabo.
 - [x] Navegação e tipos da rota Academia normalizados; nova rota Competições registrada no menu e no roteador.
 - [x] Correção da tipagem gerada da rota Academia para evitar entradas duplicadas e garantir navegação tipada.
-- [ ] Confirmar execução verde do pipeline GitHub Actions e corrigir eventuais falhas.
+- [ ] Confirmar execução verde do pipeline GitHub Actions e corrigir eventuais falhas de lint, tipos ou build.
+- [ ] Aplicar a nova migração em ambiente de homologação e validar permissões com contas de cada perfil.
 - [ ] Validar as telas no preview conectado ao Lovable.
 
 ## Próximas etapas de produto
