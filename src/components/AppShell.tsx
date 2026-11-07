@@ -111,11 +111,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       <a href="#main-content" className="sr-only z-[100] rounded-md bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Pular para o conteúdo</a>
       {/* Sidebar desktop */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[272px] flex-col border-r border-white/[0.07] bg-[oklch(0.085_0.005_260/0.97)] shadow-[18px_0_55px_-35px_rgba(0,0,0,0.9)] backdrop-blur-2xl lg:flex">
-        <div className="flex items-center gap-3 border-b border-white/[0.07] px-5 py-6">
+        <div className="relative flex items-center gap-3 overflow-hidden border-b border-white/[0.07] px-5 py-6 before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent">
           <img src={BRAND.crest} alt="Escudo do Brabo Esporte Clube" className="h-11 w-11" />
           <div className="min-w-0">
             <p className="font-display text-2xl leading-none tracking-wide text-white">BRABO E.C.</p>
-            <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.28em] text-primary">CENTRO DE PERFORMANCE</p>
+            <p className="mt-1 text-[9px] font-black uppercase tracking-[0.24em] text-primary">RAÇA • TRABALHO • GLÓRIA</p>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto px-3 py-5 pb-4">
@@ -137,7 +137,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="lg:pl-[272px]">
         {/* Topbar */}
         <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[oklch(0.105_0.006_260/0.88)] shadow-[0_8px_30px_-24px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
-          <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+          <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu">
@@ -146,9 +146,9 @@ export function AppShell({ children }: { children: ReactNode }) {
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0">
                 <SheetTitle className="sr-only">Menu</SheetTitle>
-                <div className="flex items-center gap-3 px-5 py-5">
+                <div className="flex items-center gap-3 border-b border-white/10 bg-black/20 px-5 py-5">
                   <img src={BRAND.crest} alt="" className="h-10 w-10" />
-                  <p className="font-display text-xl tracking-wide">Brabo E.C.</p>
+                  <div><p className="font-display text-xl tracking-wide">BRABO E.C.</p><p className="text-[9px] font-black uppercase tracking-[.2em] text-primary">RAÇA • TRABALHO • GLÓRIA</p></div>
                 </div>
                 <div className="px-3 pb-6">
                   <NavLinks onNavigate={() => setMenuOpen(false)} />
