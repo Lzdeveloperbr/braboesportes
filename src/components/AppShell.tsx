@@ -50,7 +50,7 @@ const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] =
   { to: "/plataforma", label: "Plataforma", icon: Building2, access: "super" },
 ];
 
-const MOBILE_MAIN = ["/", "/agenda", "/elenco", "/estatisticas", "/perfil"];
+const MOBILE_MAIN = ["/", "/jogos", "/elenco", "/estatisticas", "/perfil"];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, role, loading, signOut, isStaff, isAdmin, isPresident, isSuperAdmin } = useAuth();
@@ -192,6 +192,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Link
                   key={item.to}
                   to={item.to}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex flex-1 flex-col items-center gap-1 py-2 text-[11px] text-muted-foreground transition-colors",
                     active && "text-primary",
