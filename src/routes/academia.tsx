@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Activity, ArrowUpRight, Brain, Clock3, Dumbbell, Flame, HeartPulse, ShieldCheck, Sparkles, Timer, Trophy, Zap } from "lucide-react";
+import { Activity, Brain, Clock3, Dumbbell, Flame, HeartPulse, ShieldCheck, Sparkles, Timer, Trophy, Zap } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
