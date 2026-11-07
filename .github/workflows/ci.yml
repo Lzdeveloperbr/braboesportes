@@ -38,5 +38,8 @@ jobs:
       - name: Run ESLint
         run: bun run lint
 
+      - name: Check TypeScript
+        run: bunx tsc --noEmit
+
       - name: Build production app
         run: bun run build
