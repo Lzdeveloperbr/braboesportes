@@ -46,12 +46,12 @@ function downloadCsv(filename: string, rows: (string | number | null | undefined
 
 function Relatorios() {
   const { isStaff, isAdmin } = useAuth();
-  const playersQueryResult = useQuery(playersQuery);
-  const evaluationsQueryResult = useQuery(evaluationsQuery);
-  const attendanceQueryResult = useQuery(attendanceQuery);
-  const trainingsQueryResult = useQuery(trainingsQuery);
-  const statsQueryResult = useQuery(matchStatsQuery);
-  const financeQueryResult = useQuery({ ...financeQuery, enabled: isAdmin });
+  const playersQueryResult = useQuery({ ...playersQuery, enabled: isStaff });
+  const evaluationsQueryResult = useQuery({ ...evaluationsQuery, enabled: isStaff });
+  const attendanceQueryResult = useQuery({ ...attendanceQuery, enabled: isStaff });
+  const trainingsQueryResult = useQuery({ ...trainingsQuery, enabled: isStaff });
+  const statsQueryResult = useQuery({ ...matchStatsQuery, enabled: isStaff });
+  const financeQueryResult = useQuery({ ...financeQuery, enabled: isStaff && isAdmin });
 
   const players = playersQueryResult.data ?? [];
   const evaluations = evaluationsQueryResult.data ?? [];
