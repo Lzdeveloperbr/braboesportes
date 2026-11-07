@@ -339,3 +339,155 @@
     background-color: oklch(0.10 0.006 260 / 0.72);
   }
 }
+
+
+/* BRABO E.C. — acabamento de identidade de clube */
+:root {
+  --brabo-red: oklch(0.57 0.23 27);
+  --brabo-red-deep: oklch(0.31 0.15 27);
+  --brabo-white: oklch(0.97 0.003 260);
+  --brabo-ink: oklch(0.075 0.004 260);
+  --brabo-line: oklch(0.96 0.004 260 / 0.095);
+}
+
+@layer base {
+  body {
+    background-color: var(--brabo-ink);
+    background-image:
+      radial-gradient(ellipse at 12% 0%, oklch(0.28 0.09 27 / 0.13), transparent 34%),
+      radial-gradient(ellipse at 92% 12%, oklch(0.22 0.018 260 / 0.2), transparent 38%),
+      linear-gradient(180deg, oklch(0.09 0.005 260), oklch(0.075 0.004 260));
+    background-attachment: fixed;
+  }
+
+  h1 {
+    text-wrap: balance;
+  }
+
+  h2, h3 {
+    text-wrap: balance;
+  }
+
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline-color: var(--brabo-red);
+  }
+}
+
+@layer components {
+  /* Painel principal com profundidade e leitura mais editorial */
+  #main-content {
+    isolation: isolate;
+  }
+
+  #main-content > * {
+    animation: brabo-enter 420ms cubic-bezier(.2,.75,.25,1) both;
+  }
+
+  #main-content .surface-panel,
+  #main-content .rounded-xl.border.bg-card,
+  #main-content [data-slot="card"] {
+    border-color: var(--brabo-line);
+    box-shadow: 0 18px 55px -38px oklch(0 0 0 / .95), inset 0 1px 0 oklch(1 0 0 / .025);
+  }
+
+  #main-content .surface-panel:hover,
+  #main-content [data-slot="card"]:hover {
+    border-color: oklch(0.57 0.23 27 / .25);
+  }
+
+  #main-content table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  #main-content table thead th {
+    background: oklch(1 0 0 / .025);
+    padding-top: .85rem;
+    padding-bottom: .85rem;
+  }
+
+  #main-content table tbody tr {
+    transition: background-color 160ms ease;
+  }
+
+  #main-content table tbody tr:hover {
+    background: oklch(1 0 0 / .025);
+  }
+
+  #main-content input,
+  #main-content textarea,
+  #main-content [role="combobox"] {
+    border-radius: .75rem;
+    min-height: 2.65rem;
+  }
+
+  /* Sidebar e navegação */
+  aside nav a[aria-current="page"] {
+    background: linear-gradient(100deg, oklch(0.57 0.23 27 / .2), oklch(0.57 0.23 27 / .055));
+    border-color: oklch(0.57 0.23 27 / .28);
+  }
+
+  aside nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    right: .65rem;
+    width: .35rem;
+    height: .35rem;
+    border-radius: 999px;
+    background: var(--brabo-red);
+    box-shadow: 0 0 12px oklch(0.57 0.23 27 / .8);
+  }
+
+  aside img,
+  header img {
+    filter: drop-shadow(0 5px 14px oklch(0.57 0.23 27 / .18));
+  }
+
+  header {
+    border-bottom-color: oklch(1 0 0 / .09);
+  }
+
+  /* Navegação inferior mobile com área segura */
+  nav.fixed.inset-x-0.bottom-0 {
+    padding-bottom: env(safe-area-inset-bottom);
+    background-image: linear-gradient(180deg, oklch(0.105 0.005 260 / .96), oklch(0.065 0.004 260 / .99));
+  }
+
+  nav.fixed.inset-x-0.bottom-0 a[aria-current="page"] {
+    color: var(--brabo-white);
+  }
+
+  nav.fixed.inset-x-0.bottom-0 a[aria-current="page"] svg {
+    filter: drop-shadow(0 0 8px oklch(0.57 0.23 27 / .65));
+  }
+}
+
+@keyframes brabo-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  #main-content {
+    padding-top: 1.15rem;
+  }
+
+  #main-content h1 {
+    font-size: clamp(2.15rem, 11vw, 3.5rem);
+    line-height: .94;
+  }
+
+  #main-content h2 {
+    line-height: 1;
+  }
+
+  #main-content .rounded-2xl {
+    border-radius: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main-content > * {
+    animation: none;
+  }
+}
