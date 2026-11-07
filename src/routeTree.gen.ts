@@ -16,6 +16,7 @@ import { Route as AssistenteRouteImport } from './routes/assistente'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisosRouteImport } from './routes/avisos'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as CompeticoesRouteImport } from './routes/competicoes'
 import { Route as DocumentosRouteImport } from './routes/documentos'
 import { Route as ElencoRouteImport } from './routes/elenco'
 import { Route as EscalacaoRouteImport } from './routes/escalacao'
@@ -61,6 +62,11 @@ const AvisosRoute = AvisosRouteImport.update({
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompeticoesRoute = CompeticoesRouteImport.update({
+  id: '/competicoes',
+  path: '/competicoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentosRoute = DocumentosRouteImport.update({
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/avisos': typeof AvisosRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/competicoes': typeof CompeticoesRoute
   '/documentos': typeof DocumentosRoute
   '/elenco': typeof ElencoRoute
   '/escalacao': typeof EscalacaoRoute
@@ -251,6 +258,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   AvisosRoute: typeof AvisosRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
+  CompeticoesRoute: typeof CompeticoesRoute
   DocumentosRoute: typeof DocumentosRoute
   ElencoRoute: typeof ElencoRoute
   EscalacaoRoute: typeof EscalacaoRoute
@@ -313,6 +321,13 @@ declare module '@tanstack/react-router' {
       path: '/configuracoes'
       fullPath: '/configuracoes'
       preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/competicoes': {
+      id: '/competicoes'
+      path: '/competicoes'
+      fullPath: '/competicoes'
+      preLoaderRoute: typeof CompeticoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documentos': {
@@ -403,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   AvisosRoute: AvisosRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
+  CompeticoesRoute: CompeticoesRoute,
   DocumentosRoute: DocumentosRoute,
   ElencoRoute: ElencoRoute,
   EscalacaoRoute: EscalacaoRoute,
