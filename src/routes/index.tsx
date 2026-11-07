@@ -137,9 +137,9 @@ function Dashboard() {
 
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard label="Atletas Ativos" value={roster.length} icon={Users} />
-          <StatCard label="Taxa de Vitórias" value={`${winRate === null ? "—" : `${winRate}%`}`} hint={`${wins}V / ${played.length}J`} icon={Trophy} />
+          <StatCard label="Taxa de Vitórias" value={winRate === null ? "—" : `${winRate}%`} hint={played.length ? `${wins}V / ${played.length}J` : "Sem jogos finalizados"} icon={Trophy} />
           <StatCard label="Sessões de Treino" value={trainings.data?.length ?? 0} icon={Dumbbell} />
-          <StatCard label="Presença Geral" value={`${attendanceRate === null ? "—" : `${attendanceRate}%`}`} icon={CheckCircle2} />
+          <StatCard label="Presença Geral" value={attendanceRate === null ? "—" : `${attendanceRate}%`} icon={CheckCircle2} />
         </section>
 
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
