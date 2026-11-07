@@ -52,11 +52,14 @@ function Jogos() {
   const { isPresident } = useAuth();
   const { data: matches = [] } = useQuery(matchesQuery);
   const now = Date.now();
-  const upcoming = matches.filter((m) => new Date(m.match_date).getTime() > now);
-  const past = matches
-    .filter((m) => new Date(m.match_date).getTime() <= now)
+  const upcoming = matches
+    .filter((m) => m.goals_for === null && m.goals_against === null && new Date(m.match_date).getTime() > now)
     .slice()
-    .reverse();
+    .sort((a, b) => new Date(a.match_date).getTime() - new Date(b.match_date).getTime());
+  const past = matches
+    .filter((m) => m.goals_for !== null && m.goals_against !== null)
+    .slice()
+    .sort((a, b) => new Date(b.match_date).getTime() - new Date(a.match_date).getTime());
 
   return (
     <AppShell>
@@ -154,7 +157,7 @@ function MatchCard({ match }: { match: Match }) {
           </div>
         ) : (
           <div className="flex flex-col items-end">
-            <Badge className="bg-accent/10 text-accent border-accent/20 text-[9px] font-black uppercase tracking-widest px-3 py-1">Próximo</Badge>
+            <Badge className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1", new Date(match.match_date).getTime() > Date.now() ? "bg-accent/10 text-accent border-accent/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20")}>{new Date(match.match_date).getTime() > Date.now() ? "Próximo" : "Pendente"}</Badge>
           </div>
         )}
       </CardContent>
