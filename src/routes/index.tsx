@@ -81,7 +81,17 @@ function Dashboard() {
     .slice(0, 5);
 
   const wins = played.filter((m) => (m.goals_for ?? 0) > (m.goals_against ?? 0)).length;
+  const draws = played.filter((m) => m.goals_for === m.goals_against).length;
+  const losses = played.length - wins - draws;
+  const goalsFor = played.reduce((total, match) => total + (match.goals_for ?? 0), 0);
+  const goalsAgainst = played.reduce((total, match) => total + (match.goals_against ?? 0), 0);
+  const goalDifference = goalsFor - goalsAgainst;
   const winRate = played.length ? Math.round((wins / played.length) * 100) : null;
+  const recentForm = played.slice(0, 5).map((match) => {
+    if ((match.goals_for ?? 0) > (match.goals_against ?? 0)) return "V";
+    if (match.goals_for === match.goals_against) return "E";
+    return "D";
+  });
   const goals = roster.reduce((s, p) => s + p.goals, 0);
   const assists = roster.reduce((s, p) => s + p.assists, 0);
   const cards = roster.reduce((s, p) => s + p.yellow_cards + p.red_cards, 0);
@@ -149,6 +159,36 @@ function Dashboard() {
           <StatCard label="Faltas Registradas" value={faltas} icon={UserX} />
         </section>
 
+
+        <section className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
+          <Card className="border-border/40 bg-card/50">
+            <CardHeader className="border-b border-border/40 pb-3">
+              <CardTitle className="font-display text-xl tracking-wider">Desempenho da equipe</CardTitle>
+              <p className="text-xs text-muted-foreground">Resumo baseado nos resultados registrados</p>
+            </CardHeader>
+            <CardContent className="grid grid-cols-3 gap-3 p-4 sm:gap-5">
+              <div><p className="font-display text-3xl text-success">{wins}</p><p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Vitórias</p></div>
+              <div><p className="font-display text-3xl text-amber-400">{draws}</p><p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Empates</p></div>
+              <div><p className="font-display text-3xl text-primary">{losses}</p><p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Derrotas</p></div>
+              <div className="col-span-3 grid grid-cols-3 gap-3 border-t border-border/40 pt-3">
+                <div><p className="text-lg font-bold">{goalsFor}</p><p className="text-[9px] uppercase tracking-wider text-muted-foreground">Gols pró</p></div>
+                <div><p className="text-lg font-bold">{goalsAgainst}</p><p className="text-[9px] uppercase tracking-wider text-muted-foreground">Gols contra</p></div>
+                <div><p className={cn("text-lg font-bold", goalDifference > 0 ? "text-success" : goalDifference < 0 ? "text-primary" : "text-foreground")}>{goalDifference > 0 ? "+" : ""}{goalDifference}</p><p className="text-[9px] uppercase tracking-wider text-muted-foreground">Saldo</p></div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-border/40 bg-card/50">
+            <CardHeader className="border-b border-border/40 pb-3">
+              <CardTitle className="font-display text-xl tracking-wider">Últimos 5 jogos</CardTitle>
+              <p className="text-xs text-muted-foreground">Forma recente do Brabo</p>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center gap-2 p-5">
+              {recentForm.length ? recentForm.slice().reverse().map((result, index) => (
+                <span key={index} className={cn("flex h-10 w-10 items-center justify-center rounded-full text-sm font-black", result === "V" ? "bg-success/15 text-success" : result === "E" ? "bg-amber-500/15 text-amber-400" : "bg-primary/15 text-primary")}>{result}</span>
+              )) : <p className="py-3 text-center text-xs text-muted-foreground">Registre resultados para acompanhar a sequência.</p>}
+            </CardContent>
+          </Card>
+        </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="overflow-hidden border-border/40 bg-card/60">
