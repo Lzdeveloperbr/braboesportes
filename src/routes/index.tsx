@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import {
   Activity,
+  ArrowUpRight,
+  CalendarClock,
   CalendarDays,
   CheckCircle2,
   Dumbbell,
@@ -12,10 +14,12 @@ import {
   RectangleVertical,
   Trophy,
   UserX,
+  Zap,
   Users,
 } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
+import { BRAND } from "@/lib/brand";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { StatCard } from "@/components/StatCard";
 import { Badge } from "@/components/ui/badge";
@@ -84,6 +88,33 @@ function Dashboard() {
   return (
     <AppShell>
       <div className="space-y-8 animate-stagger">
+        <section className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(115deg,#10141d_0%,#21151a_58%,#641d2b_100%)] px-6 py-7 shadow-elevated sm:px-8 lg:px-10 lg:py-9">
+          <div className="absolute -right-12 -top-16 -z-10 h-64 w-64 rounded-full bg-primary/25 blur-3xl" />
+          <div className="absolute -bottom-24 left-1/3 -z-10 h-52 w-52 rounded-full bg-rose-500/10 blur-3xl" />
+          <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-start gap-4">
+              <img src={BRAND.crest} alt="Escudo do Brabo Esporte Clube" className="h-16 w-16 shrink-0 drop-shadow-xl sm:h-20 sm:w-20" />
+              <div className="min-w-0">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-200">Centro de comando</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Temporada 2026</span>
+                </div>
+                <h1 className="font-display text-4xl leading-none tracking-wide text-white sm:text-5xl lg:text-6xl">BRABO ESPORTE CLUBE</h1>
+                <p className="mt-2 max-w-xl text-sm text-white/65">Gestão de alto desempenho. Elenco, comissão e diretoria trabalhando com o mesmo objetivo.</p>
+                <p className="mt-3 flex items-center gap-2 text-[11px] font-medium capitalize text-white/45"><CalendarClock className="h-3.5 w-3.5" /> {new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" })}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+              <Link to="/jogos" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-xs font-bold text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-white/90"><Activity className="h-4 w-4" /> Central de jogos <ArrowUpRight className="h-3.5 w-3.5" /></Link>
+              <Link to="/treinos" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/10"><Dumbbell className="h-4 w-4" /> Planejar treino</Link>
+            </div>
+          </div>
+          <div className="mt-7 grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
+            <div><p className="font-display text-3xl leading-none text-white">{roster.length.toString().padStart(2, "0")}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Atletas no elenco</p></div>
+            <div><p className="font-display text-3xl leading-none text-white">{played.length.toString().padStart(2, "0")}</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Jogos registrados</p></div>
+            <div><p className="font-display text-3xl leading-none text-white">{Math.round((wins / (played.length || 1)) * 100)}%</p><p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/45">Aproveitamento em vitórias</p></div>
+          </div>
+        </section>
         <section className="flex items-end justify-between">
           <div>
             <h1 className="font-display text-4xl tracking-tight lg:text-5xl">Painel Executivo</h1>
@@ -110,6 +141,39 @@ function Dashboard() {
           <StatCard label="Faltas Registradas" value={faltas} icon={UserX} />
         </section>
 
+
+        <section className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <Card className="overflow-hidden border-border/40 bg-card/60">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-border/40 pb-4">
+              <div><CardTitle className="font-display text-xl tracking-wider">Momento do time</CardTitle><p className="mt-1 text-xs text-muted-foreground">Últimos resultados registrados</p></div>
+              <Link to="/estatisticas" className="text-xs font-semibold text-primary hover:underline">Análise completa</Link>
+            </CardHeader>
+            <CardContent className="p-5">
+              <div className="flex flex-wrap items-center gap-2">
+                {played.slice(0, 5).reverse().map((m) => {
+                  const win = (m.goals_for ?? 0) > (m.goals_against ?? 0);
+                  const draw = m.goals_for === m.goals_against;
+                  return <div key={m.id} className="min-w-[88px] flex-1 rounded-xl border border-border/50 bg-secondary/30 px-3 py-3 text-center"><span className={cn("mx-auto flex h-8 w-8 items-center justify-center rounded-full font-display text-lg", win ? "bg-emerald-500/15 text-emerald-400" : draw ? "bg-amber-500/15 text-amber-400" : "bg-primary/15 text-primary")}>{win ? "V" : draw ? "E" : "D"}</span><p className="mt-2 font-display text-xl">{m.goals_for}–{m.goals_against}</p><p className="mt-0.5 truncate text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{m.opponent}</p></div>;
+                })}
+                {played.length === 0 && <p className="w-full py-5 text-center text-sm text-muted-foreground">Registre os jogos para acompanhar a evolução do time.</p>}
+              </div>
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground"><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-400" /> Vitória</span><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-amber-400" /> Empate</span><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /> Derrota</span></div>
+            </CardContent>
+          </Card>
+          <Card className="border-border/40 bg-card/60">
+            <CardHeader className="border-b border-border/40 pb-4"><CardTitle className="flex items-center gap-2 font-display text-xl tracking-wider"><Zap className="h-4 w-4 text-accent" /> Acesso rápido</CardTitle><p className="text-xs text-muted-foreground">Atalhos para a rotina da diretoria</p></CardHeader>
+            <CardContent className="grid grid-cols-2 gap-2 p-4">
+              {[
+                { to: "/elenco", label: "Gerenciar elenco", icon: Users },
+                { to: "/escalacao", label: "Montar escalação", icon: ClipboardList },
+                { to: "/agenda", label: "Ver agenda", icon: CalendarDays },
+                { to: "/financeiro", label: "Financeiro", icon: Wallet },
+                { to: "/medico", label: "Departamento médico", icon: HeartPulse },
+                { to: "/avisos", label: "Comunicados", icon: Megaphone },
+              ].map((item) => { const Icon = item.icon; return <Link key={item.to} to={item.to} className="group flex min-h-[76px] flex-col justify-between rounded-xl border border-border/40 bg-secondary/20 p-3 transition hover:border-primary/40 hover:bg-primary/5"><Icon className="h-4 w-4 text-primary transition group-hover:scale-110" /><span className="flex items-center justify-between gap-1 text-[11px] font-semibold leading-tight">{item.label}<ArrowUpRight className="h-3 w-3 shrink-0 text-muted-foreground transition group-hover:text-primary" /></span></Link>; })}
+            </CardContent>
+          </Card>
+        </section>
 
         <section className="grid gap-6 lg:grid-cols-3">
           <Card className="col-span-2 overflow-hidden border-border/40 bg-card/40 backdrop-blur-md shadow-elevated">
