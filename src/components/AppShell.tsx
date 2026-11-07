@@ -160,7 +160,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </p>
               <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             </div>
-            <Badge variant="outline" className="hidden border-accent/50 text-accent sm:inline-flex">
+            <div className="hidden text-right md:block">\n              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Brabo Esporte Clube</p>\n              <p className="text-[11px] capitalize text-muted-foreground/70">{new Date().toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" })}</p>\n            </div>\n            <Badge variant="outline" className="hidden border-accent/50 text-accent sm:inline-flex">
               {ROLE_LABEL[role]}
             </Badge>
             <Button
@@ -175,7 +175,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="mx-auto max-w-6xl px-4 py-6 pb-24 lg:pb-10">{children}</main>
+        <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-6 pb-24 outline-none lg:pb-10">{children}</main>
       </div>
 
       {/* Bottom nav mobile */}
