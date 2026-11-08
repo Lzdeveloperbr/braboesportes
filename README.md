@@ -20,6 +20,14 @@ O Brabo centraliza a operação do clube em um único ambiente: gestão de elenc
 - **Assistente IA:** apoio à rotina administrativa e esportiva.
 - **Plataforma:** administração global, conforme permissões atribuídas.
 
+## Central de gestão
+
+A área administrativa do clube fica disponível em `/gestao` após autenticação. O presidente pode autorizar contas já cadastradas como **Administrador** ou **Diretor**, compartilhar o link e revogar acessos. A atribuição de permissões é feita por funções seguras no banco, e as alterações ficam registradas na auditoria.
+
+A migration `20261108001000_owner_managed_access.sql` cria as funções de autorização e consulta de gestores. A migration `20261108002000_lock_role_changes_to_club_owner.sql` restringe alterações diretas de papéis ao dono do clube. Aplique as migrations pendentes no projeto Supabase antes de usar o gerenciamento de gestores.
+
+Link: https://braboesportes.lovable.app/gestao
+
 ## Plano de evolução
 
 O backlog organizado com **1.000 melhorias** está em [`docs/PLANO-1000-MELHORIAS-BRABO.md`](docs/PLANO-1000-MELHORIAS-BRABO.md). Ele reúne 25 frentes de produto, critérios de aceite e uma ordem sugerida de execução. É um plano de trabalho, não uma lista de funcionalidades já entregues.
