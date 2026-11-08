@@ -36,7 +36,7 @@ export const Route = createFileRoute("/configuracoes")({
 });
 
 function ConfigPage() {
-  const { isPresident } = useAuth();
+  const { isAdmin, isPresident } = useAuth();
   const qc = useQueryClient();
   const { data: settings } = useQuery(clubSettingsQuery);
   const { data: audit = [] } = useQuery({ ...auditQuery, enabled: isPresident });
@@ -102,7 +102,7 @@ function ConfigPage() {
       <Input
         type={type}
         value={form[key]}
-        disabled={!isPresident}
+        disabled={!isAdmin}
         className="border-border/40 bg-secondary/10 transition-all focus:ring-primary/20"
         onChange={(e) => setForm({ ...form, [key]: e.target.value })}
       />
