@@ -86,7 +86,7 @@ const EMPTY = {
 type FormState = typeof EMPTY;
 
 function Elenco() {
-  const { isPresident } = useAuth();
+  const { isAdmin } = useAuth();
   const { data: players = [], isLoading } = useQuery(playersQuery);
   const [categoria, setCategoria] = useState<string>("Todas");
   const [busca, setBusca] = useState("");
@@ -107,7 +107,7 @@ function Elenco() {
               {list.length} {list.length === 1 ? "Atleta Registrado" : "Atletas Registrados"}
             </p>
           </div>
-          {isPresident && (
+          {isAdmin && (
             <Button onClick={() => setEditing(null)} className="bg-primary hover:bg-primary/90 text-white shadow-glow transition-all active:scale-[0.98]">
               <Plus className="mr-2 h-4 w-4" /> Novo Atleta
             </Button>
@@ -149,7 +149,7 @@ function Elenco() {
           <Card className="border-dashed border-border/60 bg-card/50">
             <CardContent className="p-10 text-center text-sm text-muted-foreground">
               Nenhum atleta cadastrado ainda.
-              {isPresident && " Use o botão “Novo atleta” para começar."}
+              {isAdmin && " Use o botão “Novo atleta” para começar."}
             </CardContent>
           </Card>
         ) : (
@@ -212,7 +212,7 @@ function PlayerDialog({
   onClose: () => void;
   onEdit: (p: Player) => void;
 }) {
-  const { isPresident } = useAuth();
+  const { isAdmin } = useAuth();
   const qc = useQueryClient();
   const { data: attendance = [] } = useQuery(attendanceQuery);
 
@@ -344,7 +344,7 @@ function PlayerDialog({
                     <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">E-mail</Label>
                     <p className="text-xs font-bold">{player.email ?? "-"}</p>
                   </div>
-                  {isPresident && (
+                  {isAdmin && (
                     <div className="flex justify-between items-center">
                       <Label className="text-[9px] uppercase font-bold tracking-widest text-muted-foreground/60">CPF</Label>
                       <p className="text-xs font-bold">{player.cpf ?? "-"}</p>
@@ -354,7 +354,7 @@ function PlayerDialog({
              </div>
           </div>
 
-          {isPresident && (
+          {isAdmin && (
             <div className="flex gap-4 pt-4">
               <Button variant="secondary" className="flex-1 bg-secondary/80 hover:bg-secondary text-[10px] font-bold uppercase tracking-widest py-6" onClick={() => onEdit(player)}>
                 <Pencil className="mr-2 h-4 w-4" /> Editar Perfil
