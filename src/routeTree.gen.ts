@@ -23,6 +23,7 @@ import { Route as ElencoRouteImport } from './routes/elenco'
 import { Route as EscalacaoRouteImport } from './routes/escalacao'
 import { Route as EstatisticasRouteImport } from './routes/estatisticas'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
+import { Route as GestaoRouteImport } from './routes/gestao'
 import { Route as JogosRouteImport } from './routes/jogos'
 import { Route as MedicoRouteImport } from './routes/medico'
 import { Route as PatrociniosRouteImport } from './routes/patrocinios'
@@ -96,6 +97,11 @@ const EstatisticasRoute = EstatisticasRouteImport.update({
   path: '/estatisticas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GestaoRoute = GestaoRouteImport.update({
+  id: '/gestao',
+  path: '/gestao',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceiroRoute = FinanceiroRouteImport.update({
   id: '/financeiro',
   path: '/financeiro',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
+  '/gestao': typeof GestaoRoute
   '/jogos': typeof JogosRoute
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
+  '/gestao': typeof GestaoRoute
   '/jogos': typeof JogosRoute
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
@@ -199,6 +207,7 @@ export interface FileRoutesById {
   '/escalacao': typeof EscalacaoRoute
   '/estatisticas': typeof EstatisticasRoute
   '/financeiro': typeof FinanceiroRoute
+  '/gestao': typeof GestaoRoute
   '/jogos': typeof JogosRoute
   '/medico': typeof MedicoRoute
   '/patrocinios': typeof PatrociniosRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
+    | '/gestao'
     | '/jogos'
     | '/medico'
     | '/patrocinios'
@@ -247,6 +257,7 @@ export interface FileRouteTypes {
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
+    | '/gestao'
     | '/jogos'
     | '/medico'
     | '/patrocinios'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/escalacao'
     | '/estatisticas'
     | '/financeiro'
+    | '/gestao'
     | '/jogos'
     | '/medico'
     | '/patrocinios'
@@ -294,6 +306,7 @@ export interface RootRouteChildren {
   EscalacaoRoute: typeof EscalacaoRoute
   EstatisticasRoute: typeof EstatisticasRoute
   FinanceiroRoute: typeof FinanceiroRoute
+  GestaoRoute: typeof GestaoRoute
   JogosRoute: typeof JogosRoute
   MedicoRoute: typeof MedicoRoute
   PatrociniosRoute: typeof PatrociniosRoute
@@ -403,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EstatisticasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gestao': {
+      id: '/gestao'
+      path: '/gestao'
+      fullPath: '/gestao'
+      preLoaderRoute: typeof GestaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/financeiro': {
       id: '/financeiro'
       path: '/financeiro'
@@ -470,6 +490,7 @@ const rootRouteChildren: RootRouteChildren = {
   EscalacaoRoute: EscalacaoRoute,
   EstatisticasRoute: EstatisticasRoute,
   FinanceiroRoute: FinanceiroRoute,
+  GestaoRoute: GestaoRoute,
   JogosRoute: JogosRoute,
   MedicoRoute: MedicoRoute,
   PatrociniosRoute: PatrociniosRoute,
