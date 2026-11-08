@@ -1074,6 +1074,8 @@ export type Database = {
     }
     Functions: {
       current_club_id: { Args: never; Returns: string }
+      list_club_managers: { Args: never; Returns: { user_id: string; email: string; role: string }[] }
+      set_club_manager: { Args: { _email: string; _role: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
