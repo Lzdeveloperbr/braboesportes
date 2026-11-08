@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   Activity,
   BarChart3,
@@ -26,6 +28,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const Route = createFileRoute("/gestao")({
   head: () => ({
@@ -61,6 +67,33 @@ const sections = [
 function Gestao() {
   const { isAdmin, isPresident, isSuperAdmin } = useAuth();
   const canManage = isAdmin || isSuperAdmin;
+  const qc = useQueryClient();
+  const [managerEmail, setManagerEmail] = useState("");
+  const [managerRole, setManagerRole] = useState<"admin" | "diretor">("admin");
+  const managersQuery = useQuery({
+    queryKey: ["club-managers"],
+    enabled: isPresident,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("list_club_managers");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const managerMutation = useMutation({
+    mutationFn: async (input: { email: string; role: "admin" | "diretor" | "remover" }) => {
+      const { error } = await supabase.rpc("set_club_manager", {
+        _email: input.email.trim(),
+        _role: input.role,
+      });
+      if (error) throw error;
+    },
+    onSuccess: (_data, input) => {
+      toast.success(input.role === "remover" ? "Acesso administrativo removido." : "Gestor autorizado com sucesso.");
+      setManagerEmail("");
+      qc.invalidateQueries({ queryKey: ["club-managers"] });
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
   const accessUrl = typeof window !== "undefined" ? `${window.location.origin}/gestao` : "https://braboesportes.lovable.app/gestao";
 
   async function copyAccessLink() {
@@ -129,6 +162,72 @@ function Gestao() {
             <Button variant="outline" onClick={copyAccessLink}><Copy className="mr-2 h-4 w-4" /> Copiar</Button>
           </CardContent>
         </Card>
+
+        {isPresident && (
+          <Card className="surface-panel">
+            <CardContent className="space-y-5 p-5">
+              <div>
+                <h2 className="font-display text-2xl tracking-wide">Acessos dos gestores</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  O dono do clube pode autorizar contas já cadastradas para administrar o Brabo.
+                  A pessoa precisa criar a conta primeiro em Entrar / Criar conta.
+                </p>
+              </div>
+              <form
+                className="grid gap-3 md:grid-cols-[minmax(0,1fr)_190px_auto]"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (!managerEmail.trim()) return toast.error("Informe o e-mail da conta cadastrada.");
+                  managerMutation.mutate({ email: managerEmail, role: managerRole });
+                }}
+              >
+                <div className="space-y-1.5">
+                  <Label htmlFor="manager-email">E-mail da conta</Label>
+                  <Input id="manager-email" type="email" required value={managerEmail} onChange={(event) => setManagerEmail(event.target.value)} placeholder="gestor@email.com" />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Permissão</Label>
+                  <Select value={managerRole} onValueChange={(value) => setManagerRole(value as "admin" | "diretor")}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">Administrador — acesso total</SelectItem>
+                      <SelectItem value="diretor">Diretor — gestão do clube</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-end">
+                  <Button type="submit" disabled={managerMutation.isPending} className="w-full">
+                    {managerMutation.isPending ? "Salvando..." : "Autorizar gestor"}
+                  </Button>
+                </div>
+              </form>
+              <div className="space-y-2">
+                <p className="text-sm font-semibold">Gestores autorizados</p>
+                {managersQuery.isLoading ? (
+                  <p className="text-sm text-muted-foreground">Carregando acessos...</p>
+                ) : managersQuery.error ? (
+                  <p className="text-sm text-destructive">Não foi possível carregar a lista. Confira se a migração de acessos foi aplicada no Supabase.</p>
+                ) : managersQuery.data?.length ? (
+                  <div className="divide-y divide-border rounded-xl border border-border/60">
+                    {managersQuery.data.map((manager) => (
+                      <div key={manager.user_id + "-" + manager.role} className="flex flex-wrap items-center justify-between gap-3 p-3">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium">{manager.email}</p>
+                          <Badge variant="outline" className="mt-1">{manager.role === "admin" ? "Administrador" : "Diretor"}</Badge>
+                        </div>
+                        <Button type="button" variant="outline" size="sm" disabled={managerMutation.isPending} onClick={() => managerMutation.mutate({ email: manager.email, role: "remover" })}>
+                          Remover acesso
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="rounded-xl border border-dashed border-border p-4 text-sm text-muted-foreground">Nenhum gestor adicional cadastrado.</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {groups.map((group) => (
           <section key={group} className="space-y-3">
