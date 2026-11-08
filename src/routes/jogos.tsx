@@ -49,7 +49,7 @@ export const Route = createFileRoute("/jogos")({
 });
 
 function Jogos() {
-  const { isPresident } = useAuth();
+  const { isAdmin } = useAuth();
   const { data: matches = [] } = useQuery(matchesQuery);
   const now = Date.now();
   const upcoming = matches
@@ -71,7 +71,7 @@ function Jogos() {
               Histórico de batalhas e próximos desafios
             </p>
           </div>
-          {isPresident && <NewMatchDialog />}
+          {isAdmin && <NewMatchDialog />}
         </div>
 
         <Tabs defaultValue="proximos" className="w-full">
