@@ -36,6 +36,7 @@ type Access = "all" | "staff" | "admin" | "president" | "super";
 
 const NAV: { to: string; label: string; icon: typeof Users; access: Access }[] = [
   { to: "/", label: "Painel", icon: LayoutDashboard, access: "all" },
+  { to: "/gestao", label: "Gestão do Clube", icon: Building2, access: "admin" },
   { to: "/agenda", label: "Agenda", icon: CalendarDays, access: "all" },
   { to: "/elenco", label: "Elenco", icon: Users, access: "all" },
   { to: "/jogos", label: "Jogos", icon: Activity, access: "all" },
